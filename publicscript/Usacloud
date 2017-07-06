@@ -17,8 +17,8 @@
 #  tk1v "tk1v"
 # @sacloud-select-end
 # @sacloud-apikey required permission=create AK "APIキー"
-# jq install
-yum install -y yum-utils
+# jq and bash-completion install
+yum install -y yum-utils bash-completion
 yum-config-manager --enable epel
 yum install -y jq
 # usacloud install
