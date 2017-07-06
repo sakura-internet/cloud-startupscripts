@@ -8,12 +8,12 @@
 
 # 提供中スタートアップスクリプト一覧
 
-* [アプリケーション](#アプリケーション)
-* {開発ツール・開発環境・ミドルウェア](#開発ツール・開発環境・ミドルウェア)
-* [さくらのクラウド開発ツール・設定支援](#さくらのクラウド開発ツール・設定支援)
-* [システム管理・運用](#システム管理・運用)
+* [アプリケーション](#application)
+* [開発ツール・開発環境・ミドルウェア](#development)
+* [さくらのクラウド開発ツール・設定支援](#sacloud)
+* [システム管理・運用](#admin)
 
-## アプリケーション
+## <a name="application">アプリケーション</a>
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
@@ -29,10 +29,7 @@
 | 分析基盤 | [kibana](./publicscript/Kibana) | 分析基盤としてElasticsearchとKibana、ログ収集のFluentdを一括しセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloudkibanaelasticsearchstartupscript)をご参照ください。<br />※CentOS7系のみで動作します |
 
 
-
-
-
-## 開発ツール・開発環境・ミドルウェア
+## <a name="development">開発ツール・開発環境・ミドルウェア</a>
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
@@ -44,7 +41,7 @@
 | プロジェクト管理 | [Redmine](./publicscript/Redmine) | プロジェクト管理ソフトウェアのRedmineをインストールし、起動時に動作する状態に設定します。 |
 
 
-## さくらのクラウド開発ツール・設定支援
+## <a name="sacloud">さくらのクラウド開発ツール・設定支援</a>
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
@@ -53,9 +50,7 @@
 | CLI | [Terraform for さくらのクラウド](./publicscript/Terraform%20for%20%E3%81%95%E3%81%8F%E3%82%89%E3%81%AE%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89) | インフラ構築や構成変更をコードで管理する“Infrastructure as Code“を実現するための、オープンソースのコマンドラインツール「Terraform」およびさくらのクラウドを利用するためのプラグインを一括でインストールします。詳細は「[Terraform for さくらのクラウド](https://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/)」をご確認ください。<br />※CentOS7系のみで動作します |
 
 
-
-## システム管理・運用
-
+## <a name="admin">システム管理・運用</a>
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
