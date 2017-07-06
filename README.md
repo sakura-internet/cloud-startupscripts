@@ -20,7 +20,7 @@
 | オンラインストレージ | [ownCloud](./publicscript/owncloud) | ownCloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「http://サーバIPアドレス/owncloud/」にアクセスすることでownCloudの設定が行えます。<br />※ownCloudのスタートアップスクリプトでインストールされるPHPのバージョンはownCloudの推奨バージョンより低くなっているため、5.3.8以降のバージョンにアップデートすることを推奨します。 |
 | ECプラットフォーム | [Magento](./publicscript/Magento) | 越境ECプラットフォームであるMagentoをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/magento/)を参照ください。<br />※Ubuntu 16系のみで動作します |
 | SNS | [Mastodon](./publicscript/Mastodon) | Twitterライクな投稿ができる分散型ソーシャルネットワーク「Mastodon」のインスタンス（サーバ）をセットアップします。<br />※CentOS7系のみで動作します |
-| 科学計算 | [Jupyter Notebook](./publicscript/Jupyter%20tNotebook) | データサイエンス環境としてAnacondaとウェブブラウザ上から手軽にプログラムを実行できるJupyter Notebookを一括でセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloud-startup-script-jupyter-notebook)をご参照ください。<br />※CentOS7系のみで動作します |
+| 科学計算 | [Jupyter Notebook](./publicscript/Jupyter%20Notebook) | データサイエンス環境としてAnacondaとウェブブラウザ上から手軽にプログラムを実行できるJupyter Notebookを一括でセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloud-startup-script-jupyter-notebook)をご参照ください。<br />※CentOS7系のみで動作します |
 | 分析基盤 | [kibana](./publicscript/Kibana) | 分析基盤としてElasticsearchとKibana、ログ収集のFluentdを一括しセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloudkibanaelasticsearchstartupscript)をご参照ください。<br />※CentOS7系のみで動作します |
 
 
@@ -56,7 +56,7 @@
 | --- | --- | :--- |
 | パッケージ管理 | [yum update](./publicscript/yum%20update) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS6系またはScientific Linux6系のみで動作します |
 | パッケージ管理 | [apt-get update/upgrade](./publicscript/apt-get%20update_upgrade) | サーバ作成後の初回起動時のみ、コマンド”apt-get update”および”apt-get upgrade”を実行します。実行完了後、サーバが再起動されます。<br />※DebianまたはUbuntuのみで動作します |
-| 監視 | [zabbix-server](./publicscript/zabbix-serrver) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します | 
+| 監視 | [zabbix-server](./publicscript/zabbix-server) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します | 
 | 監視 | [zabbix-agent](./publicscript/zabbix-agent) | zabbix-serverに対応するエージェントzabbix-agentをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-agent/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [hatohol-server](./publicscript/hatohol-server) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
 | セキュリティ | [Vuls](./publicscript/Vuls) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。<br />OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。<br />また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
