@@ -36,7 +36,7 @@
 | 開発支援 | [Git Clone](./publicscript/Git%20Clone) | 指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。<br />拡張子が .yml のものは Ansible Playbook として解釈されます。 |
 | メッセージキュー管理 | [RabbitMQ](./publicscript/RabbitMQ) | メッセージキュー管理システムであるRabbitMQをインストールします。 |
 | 開発言語・フレームワーク | [LAMP](./publicscript/LAMP) | yumによりApache、MySQL、PHPをインストールし、LAMP構成を作成します。 | 
-| 開発言語・フレームワーク | [Node-RED](./publicscript/Node-RED) | ブラウザの操作だけででハードウェア・デバイスを制御できるプログラミング・ツール「Node-RED」をインストールします。<br />※CentOS7系のみで動作します |
+| 開発言語・フレームワーク | [Node-RED](./publicscript/Node-RED) | ブラウザの操作だけでハードウェア・デバイスを制御できるプログラミング・ツール「Node-RED」をインストールします。<br />※CentOS7系のみで動作します |
 | 開発言語・フレームワーク | [Ruby on Rails](./publicscript/Ruby%20on%20Rails) | スクリプト言語RubyのフレームワークであるRuby on Railsをインストールします。 |
 | プロジェクト管理 | [Redmine](./publicscript/Redmine) | プロジェクト管理ソフトウェアのRedmineをインストールし、起動時に動作する状態に設定します。 |
 
@@ -59,5 +59,5 @@
 | 監視 | [zabbix-server](./publicscript/zabbix-server) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します | 
 | 監視 | [zabbix-agent](./publicscript/zabbix-agent) | zabbix-serverに対応するエージェントzabbix-agentをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-agent/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [hatohol-server](./publicscript/hatohol-server) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
-| セキュリティ | [Vuls](./publicscript/Vuls) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。<br />OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。<br />また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
+| セキュリティ | [Vuls](./publicscript/Vuls) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
 
