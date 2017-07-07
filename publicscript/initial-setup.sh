@@ -6,8 +6,16 @@
 # @sacloud-require-archive distro-centos distro-ver-6.*
 #
 # @sacloud-desc-begin
-#    Initial setup script for CentOS7.x or CentOS6.x
 #    CentOS 7.x or 6.xの初期設定をします
+#    * パッケージの最新化
+#    * 新規ユーザの作成
+#    * suコマンドの制限
+#      * suコマンドの実行可能ユーザ・グループを限定する
+#      * パスワード入力なしでsudoコマンドを利用可能にする
+#    * ssh接続の制限
+#      * rootユーザのsshログインを禁止する
+#      * 公開鍵認証のみ接続を許可する
+#    ※ fail2banによりログインできなくなる場合があります
 # @sacloud-desc-end
 #
 # @sacloud-text required shellarg maxlen=60 user_name "新規追加するユーザ名"
