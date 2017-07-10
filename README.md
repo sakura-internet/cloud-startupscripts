@@ -46,6 +46,7 @@
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
 | 設定支援 | [lb-dsr](./publicscript/lb-dsr.sh) | ロードバランス対象のサーバの初期設定を自動化するためのスクリプトです。<br />このスクリプトは、以下のアーカイブでのみ動作します<br />- CentOS 6.X<br />- CentOS 7.X |
+| 設定支援 | [switching consoles for RancherOS](./switching_consoles_for_rancheros.yml) | Rancher OSの標準のコンソールを設定するサンプルスクリプトです<br />このスクリプトは、以下のアーカイブでのみ動作します<br />- RancherOS |
 | CLI | [Usacloud](./publicscript/usacloud.sh) | さくらのクラウドをコマンドラインで操作する [Usacloud](https://github.com/sacloud/usacloud)  をインストールします。[Usacloud](https://github.com/sacloud/usacloud)  は、さくらインターネット公認のユーザーコミュニティが開発を進めているツールです 。<br />※CentOS7系のみで動作します |
 | CLI | [Terraform for さくらのクラウド](./publicscript/terraform_for_sacloud.sh) | インフラ構築や構成変更をコードで管理する“Infrastructure as Code“を実現するための、オープンソースのコマンドラインツール「Terraform」およびさくらのクラウドを利用するためのプラグインを一括でインストールします。詳細は「[Terraform for さくらのクラウド](https://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/)」をご確認ください。<br />※CentOS7系のみで動作します |
 
