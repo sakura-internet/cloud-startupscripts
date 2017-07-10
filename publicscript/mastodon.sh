@@ -2,18 +2,19 @@
 #
 # @sacloud-once
 # @sacloud-desc-begin
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚Ímastodon‚ğƒZƒbƒgƒAƒbƒv‚µ‚Ü‚·B
-# (‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B)
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ mastodon ã‚’ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã—ã¾ã™
+# (ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ CentOS7.X ã§ã®ã¿å‹•ä½œã—ã¾ã™)
 #
-# –‘Oì‹Æ‚Æ‚µ‚ÄˆÈ‰º‚Ì2‚Â‚ª•K—v‚Æ‚È‚è‚Ü‚·
-# E‚³‚­‚ç‚ÌƒNƒ‰ƒEƒhDNS‚Éƒ][ƒ““o˜^‚ğŠ®—¹‚µ‚Ä‚¢‚é‚±‚Æ
-# E‚³‚­‚ç‚ÌƒNƒ‰ƒEƒhAPI‚ÌƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚µ‚Ä‚¢‚é‚±‚Æ
-# ƒuƒ‰ƒEƒU‚©‚çƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚È‚é‚Ü‚Å‚É30•ª’ö“x‚Ì‚¨ŠÔ‚ª‚©‚©‚è‚Ü‚·B
-# https://(‚³‚­‚ç‚ÌƒNƒ‰ƒEƒhDNS‚Ìƒ][ƒ“–¼)
+# äº‹å‰ä½œæ¥­ã¨ã—ã¦ä»¥ä¸‹ã®2ã¤ãŒå¿…è¦ã¨ãªã‚Šã¾ã™
+# ãƒ»ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰DNSã«ã‚¾ãƒ¼ãƒ³ç™»éŒ²ã‚’å®Œäº†ã—ã¦ã„ã‚‹ã“ã¨
+# ãƒ»ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰APIã®ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã—ã¦ã„ã‚‹ã“ã¨
+# ãƒ–ãƒ©ã‚¦ã‚¶ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ãªã‚‹ã¾ã§ã«30åˆ†ç¨‹åº¦ã®ãŠæ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™
+# ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—å®Œäº†å¾Œã€ã‚µãƒ¼ãƒã‚’è‡ªå‹•ã§å†èµ·å‹•ã—ã¾ã™
+# https://(ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰DNSã®ã‚¾ãƒ¼ãƒ³å)
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
-# @sacloud-text required ZONE "‚³‚­‚ç‚ÌƒNƒ‰ƒEƒhDNS‚ÅŠÇ—‚µ‚Ä‚¢‚éDNSƒ][ƒ“" ex="example.com"
-# @sacloud-apikey required permission=create AK "APIƒL["
+# @sacloud-text required ZONE "ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰DNSã§ç®¡ç†ã—ã¦ã„ã‚‹DNSã‚¾ãƒ¼ãƒ³" ex="example.com"
+# @sacloud-apikey required permission=create AK "APIã‚­ãƒ¼"
 
 KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
 
@@ -22,25 +23,25 @@ source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
-# ƒƒO‚ÌƒŠƒ“ƒN‚ğì¬
+# ãƒ­ã‚°ã®ãƒªãƒ³ã‚¯ã‚’ä½œæˆ
 ln -s $(find /root/.sacloud-api/notes/*log) /tmp/startup_script.log
 
-# ƒŠƒ|ƒWƒgƒŠ‚Ìİ’è
+# ãƒªãƒã‚¸ãƒˆãƒªã®è¨­å®š
 yum install -y yum-utils
 yum-config-manager --enable epel
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_6.x | bash -
 
-# ƒpƒbƒP[ƒW‚ÌƒAƒbƒvƒf[ƒg‚ÆƒCƒ“ƒXƒg[ƒ‹
+# ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã¨ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
 
-# DNS“o˜^
+# DNSç™»éŒ²
 if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
- echo "‚¨‹q—lƒhƒƒCƒ“‚ÌNSƒŒƒR[ƒh‚É‚³‚­‚ç‚ÌƒNƒ‰ƒEƒhDNS‚ªİ’è‚³‚ê‚Ä‚¨‚è‚Ü‚¹‚ñ"
- exit 1
+	echo "ãŠå®¢æ§˜ãƒ‰ãƒ¡ã‚¤ãƒ³ã®NSãƒ¬ã‚³ãƒ¼ãƒ‰ã«ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰DNSãŒè¨­å®šã•ã‚Œã¦ãŠã‚Šã¾ã›ã‚“"
+	exit 1
 fi
 
 ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
@@ -55,14 +56,14 @@ RESID=$(jq -r .ID ${RESJS})
 BLANK=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
 if [ $(echo "${BLANK}" | grep -c "^\[\]$") -ne 1 ]
 then
- if [ "${BLANK}x" = "x" ]
- then
-  echo "ƒŠƒ\[ƒXID‚ªæ“¾‚Å‚«‚Ü‚¹‚ñAAPIƒL[‚ÆƒhƒƒCƒ“‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢"
-  exit 1
- else
-  echo "ƒŒƒR[ƒh‚ğ“o˜^‚µ‚Ä‚¢‚È‚¢ƒhƒƒCƒ“‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢"
-  exit 1
- fi
+	if [ "${BLANK}x" = "x" ]
+	then
+		echo "ãƒªã‚½ãƒ¼ã‚¹IDãŒå–å¾—ã§ãã¾ã›ã‚“ã€APIã‚­ãƒ¼ã¨ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚’ç¢ºèªã—ã¦ãã ã•ã„"
+		exit 1
+	else
+		echo "ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’ç™»éŒ²ã—ã¦ã„ãªã„ãƒ‰ãƒ¡ã‚¤ãƒ³ã‚’æŒ‡å®šã—ã¦ãã ã•ã„"
+		exit 1
+	fi
 fi
 
 API=${API}${RESID}
@@ -212,81 +213,81 @@ sed -i 's/create 0644 nginx nginx/create 0644 mastodon mastodon/' /etc/logrotate
 
 cat << _EOF_ > /etc/nginx/conf.d/https.conf
 map \$http_upgrade \$connection_upgrade {
- default upgrade;
- ''      close;
+	default upgrade;
+	''      close;
 }
 server {
- listen 443 ssl http2 default_server;
- server_name ${DOMAIN};
+	listen 443 ssl http2 default_server;
+	server_name ${DOMAIN};
 
- ssl_protocols TLSv1.2;
- ssl_ciphers EECDH+AESGCM:EECDH+AES;
- ssl_ecdh_curve prime256v1;
- ssl_prefer_server_ciphers on;
- ssl_session_cache shared:SSL:10m;
- ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
- ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+	ssl_protocols TLSv1.2;
+	ssl_ciphers EECDH+AESGCM:EECDH+AES;
+	ssl_ecdh_curve prime256v1;
+	ssl_prefer_server_ciphers on;
+	ssl_session_cache shared:SSL:10m;
+	ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
 
- keepalive_timeout 70;
- sendfile on;
- client_max_body_size 0;
- root /home/mastodon/live/public;
- server_tokens off;
- charset utf-8;
+	keepalive_timeout 70;
+	sendfile on;
+	client_max_body_size 0;
+	root /home/mastodon/live/public;
+	server_tokens off;
+	charset utf-8;
 
- gzip on;
- gzip_disable "msie6";
- gzip_vary on;
- gzip_proxied any;
- gzip_comp_level 6;
- gzip_buffers 16 8k;
- gzip_http_version 1.1;
- gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
- add_header Strict-Transport-Security "max-age=31536000";
+	gzip on;
+	gzip_disable "msie6";
+	gzip_vary on;
+	gzip_proxied any;
+	gzip_comp_level 6;
+	gzip_buffers 16 8k;
+	gzip_http_version 1.1;
+	gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+	add_header Strict-Transport-Security "max-age=31536000";
 
- location / {
-  try_files \$uri @proxy;
- }
- 
- location ~ ^/(packs|system/media_attachments/files|system/accounts/avatars) {
-  add_header Cache-Control "public, max-age=31536000, immutable";
-  try_files \$uri @proxy;
- }
+	location / {
+		try_files \$uri @proxy;
+	}
+	
+	location ~ ^/(packs|system/media_attachments/files|system/accounts/avatars) {
+		add_header Cache-Control "public, max-age=31536000, immutable";
+		try_files \$uri @proxy;
+	}
         
- location @proxy {
-  proxy_set_header Host \$host;
-  proxy_set_header X-Real-IP \$remote_addr;
-  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto https;
-  proxy_set_header Proxy "";
-  proxy_pass_header Server;
-  proxy_pass http://127.0.0.1:3000;
-  proxy_buffering off;
-  proxy_redirect off;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade \$http_upgrade;
-  proxy_set_header Connection \$connection_upgrade;
+	location @proxy {
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto https;
+		proxy_set_header Proxy "";
+		proxy_pass_header Server;
+		proxy_pass http://127.0.0.1:3000;
+		proxy_buffering off;
+		proxy_redirect off;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade \$http_upgrade;
+		proxy_set_header Connection \$connection_upgrade;
 
-  tcp_nodelay on;
- }
+		tcp_nodelay on;
+	}
 
- location /api/v1/streaming {
-  proxy_set_header Host \$host;
-  proxy_set_header X-Real-IP \$remote_addr;
-  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto https;
-  proxy_set_header Proxy "";
-  proxy_pass http://localhost:4000;
-  proxy_buffering off;
-  proxy_redirect off;
-  proxy_http_version 1.1;
-  proxy_set_header Upgrade \$http_upgrade;
-  proxy_set_header Connection \$connection_upgrade;
+	location /api/v1/streaming {
+		proxy_set_header Host \$host;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto https;
+		proxy_set_header Proxy "";
+		proxy_pass http://localhost:4000;
+		proxy_buffering off;
+		proxy_redirect off;
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade \$http_upgrade;
+		proxy_set_header Connection \$connection_upgrade;
 
-  tcp_nodelay on;
- }
+		tcp_nodelay on;
+	}
 
- error_page 500 501 502 503 504 /500.html;
+	error_page 500 501 502 503 504 /500.html;
 }
 _EOF_
 
@@ -315,31 +316,20 @@ cd /usr/local
 git clone https://github.com/certbot/certbot
 export PATH=/usr/local/certbot:${PATH}
 CERT=/etc/letsencrypt/live/${DOMAIN}/fullchain.pem
-CA="certbot-auto -n certonly --standalone -d ${DOMAIN} -m ${MADDR} --agree-tos"
-${CA}
-for x in $(seq 1 5)
-do
- if [ ! -f ${CERT} ]
- then
-  ${CA}
-  sleep 300
- else
-  continue
- fi
-done
+certbot-auto -n certonly --standalone -d ${DOMAIN} -m ${MADDR} --agree-tos
 
 if [ ! -f ${CERT} ]
 then
- echo "Ø–¾‘‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½"
- exit 1
+	echo "è¨¼æ˜æ›¸ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸ"
+	exit 1
 fi
 
-echo "$((${RANDOM}%60)) $((${RANDOM}%24)) 1 * * root /usr/local/certbot/certbot-auto renew --webroot --webroot-path /home/mastodon/live/public --force-renew && /bin/systemctl reload nginx" > /etc/cron.d/certbot-auto
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * $((${RANDOM}%7)) root /usr/local/certbot/certbot-auto renew --standalone --preferred-challenges tls-sni-01 --pre-hook 'systemctl stop nginx' --post-hook 'systemctl start nginx'" > /etc/cron.d/certbot-auto
 
 systemctl enable nginx
 systemctl start nginx
 
-# PTR “o˜^
+# PTR ç™»éŒ²
 API=${BASE}/ipaddress/${IPADDR}
 cd /root/.sacloud-api/notes
 PTRJS=ptr.json
@@ -355,8 +345,13 @@ set -x
 
 if [ "${BLANK}x" != "truex" ]
 then
- echo "‹tˆø‚«‚Ì“o˜^‚É¸”s‚µ‚Ü‚µ‚½"
- exit 1
+	echo "é€†å¼•ãã®ç™»éŒ²ã«å¤±æ•—ã—ã¾ã—ãŸ"
+	exit 1
 fi
 
-echo "ƒZƒbƒgƒAƒbƒv‚ªŠ®—¹‚µ‚Ü‚µ‚½"
+echo "ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãŒå®Œäº†ã—ã¾ã—ãŸ"
+
+# reboot
+shutdown -r 1
+
+exit 0
