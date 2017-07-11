@@ -21,10 +21,6 @@
 # @sacloud-text required shellarg maxlen=60 user_name "新規追加するユーザ名"
 # @sacloud-password required shellarg maxlen=60 user_pass "新規追加するユーザのパスワード"
 # @sacloud-textarea required shellarg maxlen=512 public_key "利用する公開鍵"
-# @sacloud-radios-begin required default=7 centos_version "CentOSのバージョン"
-#   7 "CentOS7.x系"
-#   6 "CentOS6.x系"
-# @sacloud-radios-end
 
 USER=@@@user_name@@@
 PW=@@@user_pass@@@
@@ -89,6 +85,7 @@ chown -R $USER:$USER /home/$USER/.ssh/
 
 
 # sshd service restart
+CENTOS_VERSION=$(cat /etc/redhat-release | sed -e 's/.*\s\([0-9]\)\..*/\1/')
 if [ $CENTOS_VERSION = "7" ]; then
   systemctl restart sshd
 elif [ $CENTOS_VERSION = "6" ]; then
