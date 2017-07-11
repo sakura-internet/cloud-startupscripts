@@ -25,7 +25,6 @@
 USER=@@@user_name@@@
 PW=@@@user_pass@@@
 PUBKEY=@@@public_key@@@
-CENTOS_VERSION=@@@centos_version@@@
 
 # disable SELinux temporarily
 setenforce 0
