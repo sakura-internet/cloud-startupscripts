@@ -89,7 +89,7 @@ CENTOS_VERSION=$(cat /etc/redhat-release | sed -e 's/.*\s\([0-9]\)\..*/\1/')
 if [ $CENTOS_VERSION = "7" ]; then
   systemctl restart sshd
 elif [ $CENTOS_VERSION = "6" ]; then
-  /etc/rc.d/init.d/sshd restart
+  service sshd restart
 fi
 
 exit 0
