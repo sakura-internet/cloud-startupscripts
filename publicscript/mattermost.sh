@@ -141,7 +141,7 @@ cat <<_EOF_> ${UPJS}
 _EOF_
 
 set +x
-curl -s --user -v "${KEY}" -X PUT -d "$(cat ${UPJS} | jq -c .)" ${API} 2>${RESTXT} | jq "."
+curl -s -v --user "${KEY}" -X PUT -d "$(cat ${UPJS} | jq -c .)" ${API} 2>${RESTXT} | jq "."
 set -x
 if [ $(grep -c "^< Status: 200 OK" ${RESTXT}) -ne 1 ]
 then
