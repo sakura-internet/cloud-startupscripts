@@ -2,18 +2,18 @@
 
 # @sacloud-once
 # @sacloud-desc-begin
-# RabbitMQ 3.6.1‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X‚à‚µ‚­‚ÍScientific Linux6.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B
-# ƒT[ƒoì¬Œã http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX:ƒ}ƒlƒWƒƒ“ƒgƒ|[ƒg”Ô†/ ‚ÉÚ‘±‚µ‚Ä‚­‚¾‚³‚¢B
+# RabbitMQ 3.6.1ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.Xã‚‚ã—ãã¯Scientific Linux6.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚
+# ã‚µãƒ¼ãƒä½œæˆå¾Œ http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹:ãƒãƒã‚¸ãƒ¡ãƒ³ãƒˆãƒãƒ¼ãƒˆç•ªå·/ ã«æ¥ç¶šã—ã¦ãã ã•ã„ã€‚
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-sl distro-ver-6.*
-# @sacloud-text required shellarg maxlen=16 default=admin username '‰Šúƒ†[ƒU–¼'
-# @sacloud-password required shellarg maxlen=16 password 'ƒpƒXƒ[ƒh'
-# @sacloud-text required shellarg integer min=1 max=65534 maxlen=5 default=5672 amqpport 'AMQPƒ|[ƒg”Ô†'
-# @sacloud-text required shellarg integer min=1 max=65534 maxlen=5 default=15672 mgmtport 'ƒ}ƒlƒWƒƒ“ƒgƒ|[ƒg”Ô†'
-# @sacloud-text required shellarg maxlen=20 default=0.0.0.0/0 allowed_src_amqp 'AMQPÚ‘±Œ³‹–‰ÂIPƒAƒhƒŒƒX'
-# @sacloud-text required shellarg maxlen=20 default=0.0.0.0/0 allowed_src_mgmt 'ƒ}ƒlƒWƒƒ“ƒgÚ‘±Œ³‹–‰ÂIPƒAƒhƒŒƒX'
+# @sacloud-text required shellarg maxlen=16 default=admin username 'åˆæœŸãƒ¦ãƒ¼ã‚¶å'
+# @sacloud-password required shellarg maxlen=16 password 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰'
+# @sacloud-text required shellarg integer min=1 max=65534 maxlen=5 default=5672 amqpport 'AMQPãƒãƒ¼ãƒˆç•ªå·'
+# @sacloud-text required shellarg integer min=1 max=65534 maxlen=5 default=15672 mgmtport 'ãƒãƒã‚¸ãƒ¡ãƒ³ãƒˆãƒãƒ¼ãƒˆç•ªå·'
+# @sacloud-text required shellarg maxlen=20 default=0.0.0.0/0 allowed_src_amqp 'AMQPæ¥ç¶šå…ƒè¨±å¯IPã‚¢ãƒ‰ãƒ¬ã‚¹'
+# @sacloud-text required shellarg maxlen=20 default=0.0.0.0/0 allowed_src_mgmt 'ãƒãƒã‚¸ãƒ¡ãƒ³ãƒˆæ¥ç¶šå…ƒè¨±å¯IPã‚¢ãƒ‰ãƒ¬ã‚¹'
 
 
 set -e

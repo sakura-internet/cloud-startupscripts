@@ -1,8 +1,8 @@
 #!/bin/bash
 # @sacloud-once
 # @sacloud-desc-begin
-# ƒ[ƒhƒoƒ‰ƒ“ƒX‘ÎÛ‚ÌƒT[ƒo‚Ì‰Šúİ’è‚ğ©“®‰»‚·‚é‚½‚ß‚ÌƒXƒNƒŠƒvƒg‚Å‚·B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍAˆÈ‰º‚ÌƒA[ƒJƒCƒu‚Å‚Ì‚İ“®ì‚µ‚Ü‚·
+# ãƒ­ãƒ¼ãƒ‰ãƒãƒ©ãƒ³ã‚¹å¯¾è±¡ã®ã‚µãƒ¼ãƒã®åˆæœŸè¨­å®šã‚’è‡ªå‹•åŒ–ã™ã‚‹ãŸã‚ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€ä»¥ä¸‹ã®ã‚¢ãƒ¼ã‚«ã‚¤ãƒ–ã§ã®ã¿å‹•ä½œã—ã¾ã™
 #  - CentOS 6.X
 #  - CentOS 7.X
 #  - SiteGuard Lite Ver3.X UpdateX (CentOS 6.X)
@@ -11,7 +11,7 @@
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
 # @sacloud-require-archive pkg-siteguard
-# @sacloud-text required shellarg maxlen=20 para1 "ƒ[ƒhƒoƒ‰ƒ“ƒT[‚ÌVIP"
+# @sacloud-text required shellarg maxlen=20 para1 "ãƒ­ãƒ¼ãƒ‰ãƒãƒ©ãƒ³ã‚µãƒ¼ã®VIP"
 
 PARA1=@@@para1@@@
 PARA2="net.ipv4.conf.all.arp_ignore = 1"

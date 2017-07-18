@@ -4,16 +4,16 @@ set -eux
 
 # @sacloud-once
 # @sacloud-desc-begin
-# Fluentd, Elasticsearch, Kibana‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éƒXƒNƒŠƒvƒg‚Å‚·B
-# fluent-plugin-dstat‚ğ—LŒø‚É‚·‚é‚ÆAdstat‚ğƒCƒ“ƒXƒg[ƒ‹‚µA
-# dstat‚ÌÀsŒ‹‰Ê‚ª•Û‘¶‚³‚êA‰Â‹‰»‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-# CentOS 7.xŒn‚Ì‚İ‚É‘Î‰‚µ‚Ä‚¢‚éƒXƒNƒŠƒvƒg‚Å‚·B
-# ƒT[ƒoì¬ŒãAhttp://<ƒT[ƒo‚ÌIPƒAƒhƒŒƒX>/ ‚ÉƒAƒNƒZƒX‚­‚¾‚³‚¢B
-# “o˜^‚µ‚½Basic”FØ‚ÅƒƒOƒCƒ“‚·‚é‚ÆAKibana‚ÌƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚ª•\¦‚³‚ê‚Ü‚·B
+# Fluentd, Elasticsearch, Kibanaã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
+# fluent-plugin-dstatã‚’æœ‰åŠ¹ã«ã™ã‚‹ã¨ã€dstatã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã€
+# dstatã®å®Ÿè¡ŒçµæœãŒä¿å­˜ã•ã‚Œã€å¯è¦–åŒ–ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+# CentOS 7.xç³»ã®ã¿ã«å¯¾å¿œã—ã¦ã„ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
+# ã‚µãƒ¼ãƒä½œæˆå¾Œã€http://<ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹>/ ã«ã‚¢ã‚¯ã‚»ã‚¹ãã ã•ã„ã€‚
+# ç™»éŒ²ã—ãŸBasicèªè¨¼ã§ãƒ­ã‚°ã‚¤ãƒ³ã™ã‚‹ã¨ã€Kibanaã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒ‘ãƒãƒ«ãŒè¡¨ç¤ºã•ã‚Œã¾ã™ã€‚
 # @sacloud-desc-end
-# @sacloud-text required ex="user" shellarg basicuser 'Basic”FØ‚Ìƒ†[ƒU–¼'
-# @sacloud-password required ex="" shellarg basicpass 'Basic”FØ‚ÌƒpƒXƒ[ƒh'
-# @sacloud-checkbox default="" shellarg enabledstat 'fluent-plugin-dstat‚ğ—LŒø‚É‚·‚é'
+# @sacloud-text required ex="user" shellarg basicuser 'Basicèªè¨¼ã®ãƒ¦ãƒ¼ã‚¶å'
+# @sacloud-password required ex="" shellarg basicpass 'Basicèªè¨¼ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰'
+# @sacloud-checkbox default="" shellarg enabledstat 'fluent-plugin-dstatã‚’æœ‰åŠ¹ã«ã™ã‚‹'
 
 #===== Sacloud Vars =====#
 BASIC_USER=@@@basicuser@@@

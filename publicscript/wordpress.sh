@@ -2,10 +2,10 @@
 
 # @sacloud-once
 
-# @sacloud-desc WordPress‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-# @sacloud-desc ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-# @sacloud-desc http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX/
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X‚à‚µ‚­‚ÍScientific Linux6.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
+# @sacloud-desc WordPressã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+# @sacloud-desc ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+# @sacloud-desc http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹/
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.Xã‚‚ã—ãã¯Scientific Linux6.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-sl distro-ver-6.*
 
@@ -70,13 +70,13 @@ curl -L http://ja.wordpress.org/latest-ja.tar.gz | tar zxf - -C /var/www/ || exi
 mv /var/www/wordpress /var/www/$USERNAME
 cat <<EOT > /var/www/$USERNAME/wp-config.php
 <?php
-/** WordPress ‚Ì‚½‚ß‚Ìƒf[ƒ^ƒx[ƒX–¼ */
+/** WordPress ã®ãŸã‚ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å */
 define('DB_NAME', '$USERNAME');
-/** MySQL ƒf[ƒ^ƒx[ƒX‚Ìƒ†[ƒU[–¼ */
+/** MySQL ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼å */
 define('DB_USER', '$USERNAME');
-/** MySQL ƒf[ƒ^ƒx[ƒX‚ÌƒpƒXƒ[ƒh */
+/** MySQL ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ */
 define('DB_PASSWORD', '$PASSWORD');
-/** MySQL ‚ÌƒzƒXƒg–¼ */
+/** MySQL ã®ãƒ›ã‚¹ãƒˆå */
 define('DB_HOST', 'localhost');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');

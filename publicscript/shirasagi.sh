@@ -3,26 +3,26 @@
 # @sacloud-once
 
 # @sacloud-desc-begin
-#   Ruby�ARuby on Rails�AMongoDB�œ��삷�钆�E��K�̓T�C�g����CMS�ł���V���T�M���Z�b�g�A�b�v����X�N���v�g�ł��B
-#   �I�v�V�����́u�h���C�����v��ݒ肷��ƁA
-#   �u���E�U�� "http://example.jp/" �ɃA�N�Z�X����ƃV���T�M���\�������悤�ɃV���T�M���C���X�g�[������܂��B
-#   example.jp�̕����́A�����p�̃h���C���ɉ����ēK���ύX���Ă��������B
+#   Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMSであるシラサギをセットアップするスクリプトです。
+#   オプションの「ドメイン名」を設定すると、
+#   ブラウザで "http://example.jp/" にアクセスするとシラサギが表示されるようにシラサギがインストールされます。
+#   example.jpの部分は、ご利用のドメインに応じて適時変更してください。
 #   
-#   �T�[�o�쐬��AWeb�u���E�U�ŃV���T�M�̊Ǘ���ʂɃA�N�Z�X���Ă��������B
-#   http://IP�A�h���X:3000/.mypage
-#   ����ID/�p�X���[�h�͉��LURL���Q�Ƃ��Ă��������B
+#   サーバ作成後、Webブラウザでシラサギの管理画面にアクセスしてください。
+#   http://IPアドレス:3000/.mypage
+#   初期ID/パスワードは下記URLを参照してください。
 #   http://www.ss-proj.org/download/demo.html
 #
-#   �� ���̃X�N���v�g�� CentOS 7.X �ł̂ݓ��삵�܂��B
-#   �� �������FCPU 2�R�A / ������ 3GB / �f�B�X�N 40GB
-#   �� �Z�b�g�A�b�v�ɂ�10�����x���Ԃ�������܂��B
+#   ※ このスクリプトは CentOS 7.X でのみ動作します。
+#   ※ 推奨環境：CPU 2コア / メモリ 3GB / ディスク 40GB
+#   ※ セットアップには10分程度時間がかかります。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-text SSHOST "�h���C����"
+# @sacloud-text SSHOST "ドメイン名"
 
 #---------SET SS__HOST---------#
-# ���[�U���h���C��������͂��Ă���΂�����A
-# ���͂��Ă��Ȃ����IP�A�h���X��SS__HOST�ɐݒ肵�܂��B
+# ユーザがドメイン名を入力していればそれを、
+# 入力していなければIPアドレスをSS__HOSTに設定します。
 SS_HOST=@@@SSHOST@@@
 IPADDR=$(awk -F= '/^IPADDR=/{print $2}' /etc/sysconfig/network-scripts/ifcfg-eth0)
 
@@ -34,13 +34,13 @@ else
 fi
 
 #---------START OF SHIRASAGI---------#
-# �V���T�M�̃C���X�g�[�������s���܂��B
+# シラサギのインストーラを実行します。
 curl https://raw.githubusercontent.com/shirasagi/shirasagi/master/bin/install.sh | bash -s ${SS__HOST}
 #---------END OF SHIRASAGI---------#
 
 #---------START OF firewalld---------#
-# �V���T�M�̊Ǘ���ʂ�3000�ԃ|�[�g���g�p���邽�߁A
-# �T�[�o�ɑ΂���3000�ԃ|�[�g�ŃA�N�Z�X�ł���悤�ɂ��܂��B
+# シラサギの管理画面は3000番ポートを使用するため、
+# サーバに対して3000番ポートでアクセスできるようにします。
 firewall-cmd --permanent --add-port=3000/tcp
 firewall-cmd --reload
 #---------END OF firewalld---------#

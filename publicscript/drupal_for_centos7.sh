@@ -5,29 +5,29 @@
 # @sacloud-require-archive distro-centos distro-ver-7.*
 #
 # @sacloud-desc-begin
-#   Drupal‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-#   ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-#   http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX/
-#   ¦ ƒZƒbƒgƒAƒbƒv‚É‚Í5•ª’ö“xŠÔ‚ª‚©‚©‚è‚Ü‚·B
-#   i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
-#   ƒZƒbƒgƒAƒbƒv‚ª³í‚ÉŠ®—¹‚·‚é‚ÆA ŠÇ—ƒ†[ƒU[‚Ìƒ[ƒ‹ƒAƒhƒŒƒXˆ¶‚ÉŠ®—¹ƒ[ƒ‹‚ª‘—•t‚³‚ê‚Ü‚·i‚¨g‚¢‚ÌŠÂ‹«‚É‚æ‚Á‚Ä‚ÍƒXƒpƒ€ƒtƒBƒ‹ƒ^‚É‚æ‚èóM‚³‚ê‚È‚¢ê‡‚ª‚ ‚è‚Ü‚·j
+#   Drupalã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+#   ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+#   http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹/
+#   â€» ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã«ã¯5åˆ†ç¨‹åº¦æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ã€‚
+#   ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS7.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
+#   ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãŒæ­£å¸¸ã«å®Œäº†ã™ã‚‹ã¨ã€ ç®¡ç†ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹å®›ã«å®Œäº†ãƒ¡ãƒ¼ãƒ«ãŒé€ä»˜ã•ã‚Œã¾ã™ï¼ˆãŠä½¿ã„ã®ç’°å¢ƒã«ã‚ˆã£ã¦ã¯ã‚¹ãƒ‘ãƒ ãƒ•ã‚£ãƒ«ã‚¿ã«ã‚ˆã‚Šå—ä¿¡ã•ã‚Œãªã„å ´åˆãŒã‚ã‚Šã¾ã™ï¼‰
 # @sacloud-desc-end
 #
-# Drupal ‚ÌŠÇ—ƒ†[ƒU[‚Ì“ü—ÍƒtƒH[ƒ€‚Ìİ’è
-# @sacloud-select-begin required default=7 drupal_version "Drupal ƒo[ƒWƒ‡ƒ“"
+# Drupal ã®ç®¡ç†ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®å…¥åŠ›ãƒ•ã‚©ãƒ¼ãƒ ã®è¨­å®š
+# @sacloud-select-begin required default=7 drupal_version "Drupal ãƒãƒ¼ã‚¸ãƒ§ãƒ³"
 #   7 "Drupal 7.x"
 #   8 "Drupal 8.x"
 # @sacloud-select-end
-# @sacloud-text required shellarg maxlen=128 site_name "Drupal ƒTƒCƒg–¼"
-# @sacloud-text required shellarg maxlen=60 ex=Admin user_name "Drupal ŠÇ—ƒ†[ƒU[‚Ì–¼‘O"
-# @sacloud-password required shellarg maxlen=60 password "Drupal ŠÇ—ƒ†[ƒU[‚ÌƒpƒXƒ[ƒh"
-# @sacloud-text required shellarg maxlen=254 ex=your.name@example.com mail "Drupal ŠÇ—ƒ†[ƒU[‚Ìƒ[ƒ‹ƒAƒhƒŒƒX"
+# @sacloud-text required shellarg maxlen=128 site_name "Drupal ã‚µã‚¤ãƒˆå"
+# @sacloud-text required shellarg maxlen=60 ex=Admin user_name "Drupal ç®¡ç†ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®åå‰"
+# @sacloud-password required shellarg maxlen=60 password "Drupal ç®¡ç†ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰"
+# @sacloud-text required shellarg maxlen=254 ex=your.name@example.com mail "Drupal ç®¡ç†ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹"
 
 DRUPAL_VERSION=@@@drupal_version@@@
 
-# •K—v‚Èƒ~ƒhƒ‹ƒEƒFƒA‚ğ‘S‚ÄƒCƒ“ƒXƒg[ƒ‹
+# å¿…è¦ãªãƒŸãƒ‰ãƒ«ã‚¦ã‚§ã‚¢ã‚’å…¨ã¦ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 yum makecache fast || exit 1
-# Drupal 7, 8 ‹¤’Ê‚ÌƒpƒbƒP[ƒW‚ğƒCƒ“ƒXƒg[ƒ‹
+# Drupal 7, 8 å…±é€šã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 yum -y install mariadb mariadb-server httpd || exit 1
 if [ $DRUPAL_VERSION -eq 7 ]; then
   yum -y install php php-mysql php-gd php-dom php-mbstring || exit 1
@@ -36,7 +36,7 @@ elif [ $DRUPAL_VERSION -eq 8 ]; then
   yum -y install --enablerepo=remi,remi-php56 gd-last php php-mysql php-gd php-dom php-mbstring php-pecl-apcu php-pecl-zendopcache || exit 1
 fi
 
-# Drupal ‚Å .htaccess ‚ğg—p‚·‚é‚½‚ß /var/www/html ƒfƒBƒŒƒNƒgƒŠ‚É‘Î‚µ‚ÄƒI[ƒo[ƒ‰ƒCƒh‚ğ‘S‚Ä‹–‰Â‚·‚é
+# Drupal ã§ .htaccess ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ /var/www/html ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«å¯¾ã—ã¦ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã‚’å…¨ã¦è¨±å¯ã™ã‚‹
 patch /etc/httpd/conf/httpd.conf << EOS
 151c151
 <     AllowOverride None
@@ -44,14 +44,14 @@ patch /etc/httpd/conf/httpd.conf << EOS
 >     AllowOverride All
 EOS
 
-# MySQL ‚Ì max_allowed_packet ‚Ìİ’è‚ğ 16MB ‚Ü‚Åˆø‚«ã‚°‚é
+# MySQL ã® max_allowed_packet ã®è¨­å®šã‚’ 16MB ã¾ã§å¼•ãä¸Šã’ã‚‹
 patch /etc/my.cnf << EOS
 9a10
 > max_allowed_packet=16M
 EOS
 
-# PHP ‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ^ƒCƒ€ƒ][ƒ“‚ğ“Œ‹‚Éİ’è
-# Drupal ‚ÌƒfƒtƒHƒ‹ƒg‚Ìƒ^ƒCƒ€ƒ][ƒ“‚É‚à‚È‚é
+# PHP ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¿ã‚¤ãƒ ã‚¾ãƒ¼ãƒ³ã‚’æ±äº¬ã«è¨­å®š
+# Drupal ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚¿ã‚¤ãƒ ã‚¾ãƒ¼ãƒ³ã«ã‚‚ãªã‚‹
 patch /etc/php.ini << EOS
 396c396
 < memory_limit = 128M
@@ -71,11 +71,11 @@ patch /etc/php.ini << EOS
 > date.timezone = Asia/Tokyo
 EOS
 
-# ƒtƒ@ƒCƒ‹ƒAƒbƒvƒ[ƒh‚ÌƒvƒƒOƒŒƒXƒo[‚ğ•\¦‚Å‚«‚é‚æ‚¤‚É‚·‚é
+# ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰æ™‚ã®ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼ã‚’è¡¨ç¤ºã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 if [ $DRUPAL_VERSION -eq 7 ]; then
   file_path=/etc/php.d/apcu.ini
 elif [ $DRUPAL_VERSION -eq 8 ]; then
-  # Drupal 8 ‚Ìê‡‚Í REMI ”Å‚Ì APCu ‚ğg‚¤‚½‚ßƒpƒX‚ªˆá‚¤
+  # Drupal 8 ã®å ´åˆã¯ REMI ç‰ˆã® APCu ã‚’ä½¿ã†ãŸã‚ãƒ‘ã‚¹ãŒé•ã†
   file_path=/etc/php.d/40-apcu.ini
 fi
 patch $file_path << EOS
@@ -85,19 +85,19 @@ patch $file_path << EOS
 > apc.rfc1867=1
 EOS
 
-# MySQL ƒT[ƒo[‚ğ©“®‹N“®‚·‚é‚æ‚¤‚É‚µ‚Ä‹N“®
+# MySQL ã‚µãƒ¼ãƒãƒ¼ã‚’è‡ªå‹•èµ·å‹•ã™ã‚‹ã‚ˆã†ã«ã—ã¦èµ·å‹•
 systemctl enable mariadb.service || exit 1
 systemctl start mariadb.service || exit 1
 
-# ÅV”Å‚Ì Drush ‚ğƒ_ƒEƒ“ƒ[ƒh‚·‚é
+# æœ€æ–°ç‰ˆã® Drush ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
 php -r "readfile('http://files.drush.org/drush.phar');" > drush || exit 1
 
-# drush ƒRƒ}ƒ“ƒh‚ğÀs‰Â”\‚É‚µ‚Ä /usr/local/bin ‚ÉˆÚ“®
+# drush ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œå¯èƒ½ã«ã—ã¦ /usr/local/bin ã«ç§»å‹•
 chmod +x drush || exit 1
 mv drush /usr/local/bin || exit 1
 drush=/usr/local/bin/drush
 
-# Drupal ‚ğƒ_ƒEƒ“ƒ[ƒh
+# Drupal ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
 if [ $DRUPAL_VERSION -eq 7 ]; then
   project=drupal-7
 elif [ $DRUPAL_VERSION -eq 8 ]; then
@@ -105,13 +105,13 @@ elif [ $DRUPAL_VERSION -eq 8 ]; then
 fi
 $drush -y dl $project --destination=/var/www --drupal-project-rename=html || exit 1
 
-# ƒAƒbƒvƒ[ƒh‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚é‚½‚ß‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ—pˆÓ
+# ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜ã™ã‚‹ãŸã‚ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ç”¨æ„
 mkdir /var/www/html/sites/default/files /var/www/html/sites/default/private || exit 1
 
-# Drupal ƒTƒCƒg‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚Ä drush ƒRƒ}ƒ“ƒh‚É”õ‚¦‚é
+# Drupal ã‚µã‚¤ãƒˆã®ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ã¦ drush ã‚³ãƒãƒ³ãƒ‰ã«å‚™ãˆã‚‹
 cd /var/www/html
 
-# Drupal ‚ğƒCƒ“ƒXƒg[ƒ‹
+# Drupal ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 $drush -y si\
   --db-url=mysql://root@localhost/drupal\
   --locale=ja\
@@ -121,68 +121,68 @@ $drush -y si\
   --site-name=@@@site_name@@@ || exit 1
 
 if [ $DRUPAL_VERSION -eq 7 ]; then
-  # Drupal ‚ğƒ[ƒJƒ‰ƒCƒY‚·‚é‚½‚ß‚Ìƒ‚ƒWƒ…[ƒ‹‚ğ—LŒø‰»
+  # Drupal ã‚’ãƒ­ãƒ¼ã‚«ãƒ©ã‚¤ã‚ºã™ã‚‹ãŸã‚ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’æœ‰åŠ¹åŒ–
   $drush -y en locale || exit 1
 
-  # “ú–{‚ÌƒƒP[ƒ‹İ’è
+  # æ—¥æœ¬ã®ãƒ­ã‚±ãƒ¼ãƒ«è¨­å®š
   $drush -y vset site_default_country JP || exit 1
 
-  # “ú–{Œê‚ğƒfƒtƒHƒ‹ƒg‚ÌŒ¾Œê‚Æ‚µ‚Ä’Ç‰Á
-  # drush_language ƒ‚ƒWƒ…[ƒ‹‚àg‚¦‚é‚ªAƒXƒ^[ƒgƒAƒbƒvƒXƒNƒŠƒvƒg‚Å‚Íãè‚­
-  # “®‚©‚È‚¢‚Ì‚Å eval ‚ğg‚¤
-  $drush eval "locale_add_language('ja', 'Japanese', '“ú–{Œê');" || exit 1
+  # æ—¥æœ¬èªã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨€èªã¨ã—ã¦è¿½åŠ 
+  # drush_language ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚‚ä½¿ãˆã‚‹ãŒã€ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã¯ä¸Šæ‰‹ã
+  # å‹•ã‹ãªã„ã®ã§ eval ã‚’ä½¿ã†
+  $drush eval "locale_add_language('ja', 'Japanese', 'æ—¥æœ¬èª');" || exit 1
   $drush eval '$langs = language_list(); variable_set("language_default", $langs["ja"])' || exit 1
 
-  # ÅV‚Ì“ú–{Œêƒtƒ@ƒCƒ‹‚ğæ‚è‚Şƒ‚ƒWƒ…[ƒ‹‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹
+  # æœ€æ–°ã®æ—¥æœ¬èªãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–ã‚Šè¾¼ã‚€ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ã¦ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
   $drush -y dl l10n_update || exit 1
   $drush -y en l10n_update || exit 1
 
-  # ÅV‚Ì“ú–{Œêî•ñ‚ğæ“¾‚µ‚ÄƒCƒ“ƒ|[ƒg
+  # æœ€æ–°ã®æ—¥æœ¬èªæƒ…å ±ã‚’å–å¾—ã—ã¦ã‚¤ãƒ³ãƒãƒ¼ãƒˆ
   $drush l10n-update-refresh || exit 1
   $drush l10n-update || exit 1
 elif [ $DRUPAL_VERSION -eq 8 ]; then
-  # “ú–{Œê–|–ó‚ÌƒCƒ“ƒ|[ƒg
+  # æ—¥æœ¬èªç¿»è¨³ã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆ
   $drush locale-check || exit 1
   $drush locale-update || exit 1
 
-  # “ú–{Œê–ó‚ªƒLƒƒƒbƒVƒ…‚É‚æ‚è’†“r”¼’[‚Èó‘Ô‚É‚È‚é‚±‚Æ‚ª‚ ‚é‚Ì‚ÅAƒLƒƒƒbƒVƒ…‚ğƒŠƒrƒ‹ƒg‚·‚é
+  # æ—¥æœ¬èªè¨³ãŒã‚­ãƒ£ãƒƒã‚·ãƒ¥ã«ã‚ˆã‚Šä¸­é€”åŠç«¯ãªçŠ¶æ…‹ã«ãªã‚‹ã“ã¨ãŒã‚ã‚‹ã®ã§ã€ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ãƒªãƒ“ãƒ«ãƒˆã™ã‚‹
   $drush cr || exit 1
 fi
 
-# Drupal ‚Ìƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ (/var/www/html) ˆÈ‰º‚ÌŠ—LÒ‚ğ apache ‚É•ÏX
+# Drupal ã®ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª (/var/www/html) ä»¥ä¸‹ã®æ‰€æœ‰è€…ã‚’ apache ã«å¤‰æ›´
 chown -R apache: /var/www/html || exit 1
 
-# Drupal ‚ÌƒNƒƒ“ƒ^ƒXƒN‚ğì¬‚µˆêŠÔ‚Éˆê“x‚Ì•p“x‚Å‰ñ‚·
+# Drupal ã®ã‚¯ãƒ­ãƒ³ã‚¿ã‚¹ã‚¯ã‚’ä½œæˆã—ä¸€æ™‚é–“ã«ä¸€åº¦ã®é »åº¦ã§å›ã™
 cat << EOS > /etc/cron.hourly/drupal
 #!/bin/bash
 /usr/local/bin/drush -r /var/www/html cron
 EOS
 chmod 755 /etc/cron.hourly/drupal || exit 1
 
-# Apache ‚ğ©“®‹N“®‚·‚é
+# Apache ã‚’è‡ªå‹•èµ·å‹•ã™ã‚‹
 systemctl enable httpd.service || exit 1
 
-# Apache ‚ğ‹N“®‚·‚é
+# Apache ã‚’èµ·å‹•ã™ã‚‹
 systemctl start httpd.service || exit 1
 
-# ƒtƒ@ƒCƒAƒEƒH[ƒ‹‚É‘Î‚µ http ƒvƒƒgƒRƒ‹‚Å‚ÌƒAƒNƒZƒX‚ğ‹–‰Â‚·‚é
+# ãƒ•ã‚¡ã‚¤ã‚¢ã‚¦ã‚©ãƒ¼ãƒ«ã«å¯¾ã— http ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã§ã®ã‚¢ã‚¯ã‚»ã‚¹ã‚’è¨±å¯ã™ã‚‹
 firewall-cmd --add-service=http || exit 1
 
-# ƒŒƒ|[ƒg‰æ–Ê‚Å—˜—p‰Â”\‚ÈƒAƒbƒvƒf[ƒg‚É–â‘è‚ª‚ ‚é‚ÆŒx‚³‚ê‚é‚½‚ßAƒAƒbƒvƒf[ƒg
-# ˆ—‚ğs‚¤B
-# - ‘¦ƒAƒbƒvƒf[ƒgŠm”F‚ğs‚¤‚ÆƒXƒe[ƒ^ƒX‰æ–Ê‚Å³í‚Æ”F¯‚³‚ê‚È‚¢‚½‚ßAsleep
-#   ƒRƒ}ƒ“ƒh‚Å1•ªŒã‚ÉÀs‚·‚éB
-# - `--update-backend=drupal` ‚ğw’è‚µ‚È‚¢‚ÆAƒŒƒ|[ƒg‰æ–Ê‚É³‚µ‚­”½‰f‚³‚ê‚È‚¢B
+# ãƒ¬ãƒãƒ¼ãƒˆç”»é¢ã§åˆ©ç”¨å¯èƒ½ãªã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã«å•é¡ŒãŒã‚ã‚‹ã¨è­¦å‘Šã•ã‚Œã‚‹ãŸã‚ã€ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
+# å‡¦ç†ã‚’è¡Œã†ã€‚
+# - å³æ™‚ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆç¢ºèªã‚’è¡Œã†ã¨ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ç”»é¢ã§æ­£å¸¸ã¨èªè­˜ã•ã‚Œãªã„ãŸã‚ã€sleep
+#   ã‚³ãƒãƒ³ãƒ‰ã§1åˆ†å¾Œã«å®Ÿè¡Œã™ã‚‹ã€‚
+# - `--update-backend=drupal` ã‚’æŒ‡å®šã—ãªã„ã¨ã€ãƒ¬ãƒãƒ¼ãƒˆç”»é¢ã«æ­£ã—ãåæ˜ ã•ã‚Œãªã„ã€‚
 sleep 1m
 $drush -y up --update-backend=drupal || exit 1
 
-# ‚¢‚ÂŠ®—¹‚µ‚Ä‚¢‚é‚©•ª‚©‚ç‚È‚¢‚½‚ßAŠÇ—Òƒ[ƒ‹ƒAƒhƒŒƒX‚ÉŠ®—¹ƒ[ƒ‹‚ğ‘—M
+# ã„ã¤å®Œäº†ã—ã¦ã„ã‚‹ã‹åˆ†ã‹ã‚‰ãªã„ãŸã‚ã€ç®¡ç†è€…ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã«å®Œäº†ãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡
 
-# •K—v‚Èî•ñ‚ğW‚ß‚é
+# å¿…è¦ãªæƒ…å ±ã‚’é›†ã‚ã‚‹
 IP=`ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1`
 SYSTEMINFO=`dmidecode -t system`
 
-# ƒtƒH[ƒ€‚Åİ’è‚µ‚½ŠÇ—Ò‚ÌƒAƒhƒŒƒX‚Öƒ[ƒ‹‚ğ‘—M
+# ãƒ•ã‚©ãƒ¼ãƒ ã§è¨­å®šã—ãŸç®¡ç†è€…ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã¸ãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡
 /usr/sbin/sendmail -t -i -o -f @@@mail@@@ << EOF From: @@@mail@@@
 Subject: finished drupal install on $IP
 To: @@@mail@@@

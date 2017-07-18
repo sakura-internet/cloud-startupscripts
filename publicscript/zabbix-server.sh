@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # @sacloud-once
-# @sacloud-desc ���̃X�N���v�g��Zabbix Server���Z�b�g�A�b�v���܂��B(���̃X�N���v�g�́ACentOS7.X�ł̂ݓ��삵�܂��B)
-# @sacloud-desc Zabbix��URL�� http://IP Address/zabbix �ł��B
+# @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
+# @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
 #
 # @sacloud-select-begin required default=3.2 ZV "Zabbix Version"
 #  3.2 "3.2"
@@ -10,8 +10,8 @@
 #  2.4 "2.4"
 #  2.2 "2.2"
 # @sacloud-select-end
-# @sacloud-password ZP "Zabbix Web��Admin�A�J�E���g�̃p�X���[�h�ύX"
-# @sacloud-text integer min=1024 max=65534 HPORT "httpd��port�ԍ��ύX(1024�ȏ�A65534�ȉ����w�肵�Ă�������)"
+# @sacloud-password ZP "Zabbix WebのAdminアカウントのパスワード変更"
+# @sacloud-text integer min=1024 max=65534 HPORT "httpdのport番号変更(1024以上、65534以下を指定してください)"
 # @sacloud-require-archive distro-centos distro-ver-7
 
 #---------SET sacloud values---------#

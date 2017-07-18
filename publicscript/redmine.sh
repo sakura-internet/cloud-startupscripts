@@ -2,11 +2,11 @@
 
 # @sacloud-once
 
-# @sacloud-desc Redmine‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-# @sacloud-desc ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-# @sacloud-desc http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX/
-# @sacloud-desc ¦ ƒZƒbƒgƒAƒbƒv‚É‚Í20•ª’ö“xŠÔ‚ª‚©‚©‚è‚Ü‚·B
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X‚à‚µ‚­‚ÍScientific Linux6.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
+# @sacloud-desc Redmineã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+# @sacloud-desc ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+# @sacloud-desc http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹/
+# @sacloud-desc â€» ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã«ã¯20åˆ†ç¨‹åº¦æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ã€‚
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.Xã‚‚ã—ãã¯Scientific Linux6.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-sl distro-ver-6.*
 

@@ -2,22 +2,22 @@
 
 # @sacloud-once
 
-# @sacloud-desc Ubuntu16.04.* LTS‚ÉAEC ƒTƒCƒg\’zƒvƒ‰ƒbƒgƒtƒH[ƒ€ Magento2.x ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-# @sacloud-desc ¦ƒzƒXƒg–¼‚Í–¼‘O‰ðŒˆ‚ªo—ˆ‚é–¼‘O‚ÌÝ’è‚ð„§‚µ‚Ü‚·B
-# @sacloud-desc ¦„§ƒXƒyƒbƒNFCPU:‚SCoreˆÈã Memory:8GBˆÈã@i’áƒXƒyƒbƒN‚Ìê‡ƒCƒ“ƒXƒg[ƒ‹‚ª³í‚ÉI—¹‚µ‚È‚¢ê‡‚ª‚ ‚è‚Ü‚·j
-# @sacloud-desc ¦ƒT[ƒoì¬‘O‚É Magento ƒ}[ƒPƒbƒgƒvƒŒƒCƒX‚ÉƒƒOƒCƒ“‚µAuMarketplace‚Ìpublic keyv‚ÆuMarketplace‚Ìprivate keyv‚ÌŽæ“¾‚ª•K—v‚Å‚·B
-# @sacloud-desc ƒƒOƒCƒ“‚Í https://account.magento.com/applications/customer/login ‚©‚çs‚¦‚Ü‚·B
-# @sacloud-desc public key ‚¨‚æ‚Ñ private key ‚ÍA https://marketplace.magento.com/customer/accessKeys/list/ ‚©‚çŠù‘¶‚Ì‚à‚Ì‚ðŽQÆ‚·‚é‚©AV‹K‚Éì¬‚­‚¾‚³‚¢B
-# @sacloud-desc ¦ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-# @sacloud-desc http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX/
-# @sacloud-desc ¦ƒAƒJƒEƒ“ƒgEƒpƒXƒ[ƒh‚ÍŠÇ—ŽÒƒ[ƒ‹ƒAƒhƒŒƒX‚Éƒ[ƒ‹‚³‚ê‚Ü‚·BiŠÂ‹«‚É‚æ‚èƒXƒpƒ€ƒtƒBƒ‹ƒ^[“™‚ÅƒtƒBƒ‹ƒ^‚³‚ê‚éê‡‚ª‚ ‚è‚Ü‚·Bj
-# @sacloud-desc ƒT[ƒoã‚Ì /home/ubuntu/info.txt ‚É‚à•Û‘¶‚³‚ê‚Ä‚¢‚é‚½‚ßŠm”FŒãíœ‚µ‚Ä‚­‚¾‚³‚¢B
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍAUbuntu16.04.* LTS‚Å‚Ì‚Ý“®ì‚µ‚Ü‚·j
+# @sacloud-desc Ubuntu16.04.* LTSã«ã€EC ã‚µã‚¤ãƒˆæ§‹ç¯‰ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ  Magento2.x ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+# @sacloud-desc â€»ãƒ›ã‚¹ãƒˆåã¯åå‰è§£æ±ºãŒå‡ºæ¥ã‚‹åå‰ã®è¨­å®šã‚’æŽ¨å¥¨ã—ã¾ã™ã€‚
+# @sacloud-desc â€»æŽ¨å¥¨ã‚¹ãƒšãƒƒã‚¯ï¼šCPU:ï¼”Coreä»¥ä¸Š Memory:8GBä»¥ä¸Šã€€ï¼ˆä½Žã‚¹ãƒšãƒƒã‚¯ã®å ´åˆã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãŒæ­£å¸¸ã«çµ‚äº†ã—ãªã„å ´åˆãŒã‚ã‚Šã¾ã™ï¼‰
+# @sacloud-desc â€»ã‚µãƒ¼ãƒä½œæˆå‰ã« Magento ãƒžãƒ¼ã‚±ãƒƒãƒˆãƒ—ãƒ¬ã‚¤ã‚¹ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ã€ã€ŒMarketplaceã®public keyã€ã¨ã€ŒMarketplaceã®private keyã€ã®å–å¾—ãŒå¿…è¦ã§ã™ã€‚
+# @sacloud-desc ãƒ­ã‚°ã‚¤ãƒ³ã¯ https://account.magento.com/applications/customer/login ã‹ã‚‰è¡Œãˆã¾ã™ã€‚
+# @sacloud-desc public key ãŠã‚ˆã³ private key ã¯ã€ https://marketplace.magento.com/customer/accessKeys/list/ ã‹ã‚‰æ—¢å­˜ã®ã‚‚ã®ã‚’å‚ç…§ã™ã‚‹ã‹ã€æ–°è¦ã«ä½œæˆãã ã•ã„ã€‚
+# @sacloud-desc â€»ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+# @sacloud-desc http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹/
+# @sacloud-desc â€»ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒ»ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¯ç®¡ç†è€…ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã«ãƒ¡ãƒ¼ãƒ«ã•ã‚Œã¾ã™ã€‚ï¼ˆç’°å¢ƒã«ã‚ˆã‚Šã‚¹ãƒ‘ãƒ ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ç­‰ã§ãƒ•ã‚£ãƒ«ã‚¿ã•ã‚Œã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚ï¼‰
+# @sacloud-desc ã‚µãƒ¼ãƒä¸Šã® /home/ubuntu/info.txt ã«ã‚‚ä¿å­˜ã•ã‚Œã¦ã„ã‚‹ãŸã‚ç¢ºèªå¾Œå‰Šé™¤ã—ã¦ãã ã•ã„ã€‚
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€Ubuntu16.04.* LTSã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
-# @sacloud-text required shellarg maxlen=100 admin_email "MagentoŠÇ—ŽÒƒAƒJƒEƒ“ƒg‚Ìƒ[ƒ‹ƒAƒhƒŒƒX"
-# @sacloud-text required shellarg maxlen=100 marketplace_public "Magento Marketplace‚Ìpublic key"
-# @sacloud-text required shellarg maxlen=100 marketplace_private "Magento Marketplace‚Ìprivate key"
-# @sacloud-checkbox default=on deploy_sample_data "Magento‚ÌƒTƒ“ƒvƒ‹ƒf[ƒ^‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é"
+# @sacloud-text required shellarg maxlen=100 admin_email "Magentoç®¡ç†è€…ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹"
+# @sacloud-text required shellarg maxlen=100 marketplace_public "Magento Marketplaceã®public key"
+# @sacloud-text required shellarg maxlen=100 marketplace_private "Magento Marketplaceã®private key"
+# @sacloud-checkbox default=on deploy_sample_data "Magentoã®ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹"
 
 ADMIN_EMAIL=@@@admin_email@@@
 MM_PUBLIC=@@@marketplace_public@@@
@@ -48,21 +48,21 @@ MAGENTO_DB_SCHEMA="magento_`pwgen -Bvscn 8 1`"
 echo "## Retrive IP Address"
 IP_ADDR=`ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1` || exit 1
 
-# ƒAƒJƒEƒ“ƒgî•ñ‚ðo—Í
-echo "ƒƒOƒCƒ“URL‚ÉƒAƒNƒZƒX‚µ‚ÄŠÇ—ŽÒID‚ÆƒpƒXƒ[ƒh‚ÅƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B‰‰ñƒƒOƒCƒ“Œã‚ÉƒpƒXƒ[ƒh•ÏX‚ð‚¨Š©‚ß‚µ‚Ü‚·B" >> /home/ubuntu/info.txt || exit 1
-echo "ƒƒOƒCƒ“URL:http://$IP_ADDR/index.php/$ADMIN_PATH" >> /home/ubuntu/info.txt || exit 1
-echo "ŠÇ—ŽÒID: $ADMIN_USER" >> /home/ubuntu/info.txt || exit 1
-echo "ŠÇ—ŽÒƒpƒXƒ[ƒh: $ADMIN_PASSWORD" >> /home/ubuntu/info.txt || exit 1
+# ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæƒ…å ±ã‚’å‡ºåŠ›
+echo "ãƒ­ã‚°ã‚¤ãƒ³URLã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ç®¡ç†è€…IDã¨ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã§ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚åˆå›žãƒ­ã‚°ã‚¤ãƒ³å¾Œã«ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å¤‰æ›´ã‚’ãŠå‹§ã‚ã—ã¾ã™ã€‚" >> /home/ubuntu/info.txt || exit 1
+echo "ãƒ­ã‚°ã‚¤ãƒ³URL:http://$IP_ADDR/index.php/$ADMIN_PATH" >> /home/ubuntu/info.txt || exit 1
+echo "ç®¡ç†è€…ID: $ADMIN_USER" >> /home/ubuntu/info.txt || exit 1
+echo "ç®¡ç†è€…ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰: $ADMIN_PASSWORD" >> /home/ubuntu/info.txt || exit 1
 /bin/cp  /home/ubuntu/info.txt  /home/ubuntu/info2.txt || exit 1
 chown ubuntu. /home/ubuntu/info2.txt || exit 1
 chmod 600 /home/ubuntu/info2.txt || exit 1
-echo "‚»‚Ì‘¼‚ÌƒpƒXƒ[ƒh‚Í /home/ubuntu/info.txt ‚ðŽQÆ‚µ‚Ä‚­‚¾‚³‚¢" >> /home/ubuntu/info2.txt || exit 1
+echo "ãã®ä»–ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¯ /home/ubuntu/info.txt ã‚’å‚ç…§ã—ã¦ãã ã•ã„" >> /home/ubuntu/info2.txt || exit 1
 
-echo "MySQL‚ÌrootƒpƒXƒ[ƒh: $NEWMYSQLPASSWORD" >> /home/ubuntu/info.txt || exit 1
-echo "Magento‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚½ƒf[ƒ^ƒx[ƒXƒXƒL[ƒ}: $MAGENTO_DB_SCHEMA" >> /home/ubuntu/info.txt || exit 1
-echo "MySQL‚ÌMAGENTO@ƒ†[ƒU: $MAGENTO_DB_USER" >> /home/ubuntu/info.txt || exit 1
-echo "MySQL‚ÌMAGENTO@ƒpƒXƒ[ƒh: $MAGENTO_DB_PASSWORD" >> /home/ubuntu/info.txt || exit 1
-echo "–{ƒtƒ@ƒCƒ‹‚ÍŠm”FŒãAíœ‚µ‚Ä‚­‚¾‚³‚¢" >> /home/ubuntu/info.txt || exit 1
+echo "MySQLã®rootãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰: $NEWMYSQLPASSWORD" >> /home/ubuntu/info.txt || exit 1
+echo "Magentoã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ãŸãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚¹ã‚­ãƒ¼ãƒž: $MAGENTO_DB_SCHEMA" >> /home/ubuntu/info.txt || exit 1
+echo "MySQLã®MAGENTOã€€ãƒ¦ãƒ¼ã‚¶: $MAGENTO_DB_USER" >> /home/ubuntu/info.txt || exit 1
+echo "MySQLã®MAGENTOã€€ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰: $MAGENTO_DB_PASSWORD" >> /home/ubuntu/info.txt || exit 1
+echo "æœ¬ãƒ•ã‚¡ã‚¤ãƒ«ã¯ç¢ºèªå¾Œã€å‰Šé™¤ã—ã¦ãã ã•ã„" >> /home/ubuntu/info.txt || exit 1
 chown ubuntu. /home/ubuntu/info.txt || exit 1
 chmod 600 /home/ubuntu/info.txt || exit 1
 
@@ -215,7 +215,7 @@ debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Si
 apt-get install -y postfix mailutils || exit 1
 
 
-echo "Magento‚ÌƒCƒ“ƒXƒg[ƒ‹‚ªŠ®—¹‚µ‚Ü‚µ‚½B" >> /home/ubuntu/info.txt || exit 1
+echo "Magentoã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ãŒå®Œäº†ã—ã¾ã—ãŸã€‚" >> /home/ubuntu/info.txt || exit 1
 
 echo "## sent finish email."
 cat /home/ubuntu/info2.txt | mail -s "Magento install finished on $IP_ADDR" @@@admin_email@@@
