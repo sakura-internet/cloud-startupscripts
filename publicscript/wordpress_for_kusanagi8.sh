@@ -5,27 +5,27 @@
 # @sacloud-require-archive pkg-kusanagi
 #
 # @sacloud-desc-begin
-#   KUSANAGI8 ���� WordPress ���Z�b�g�A�b�v����X�N���v�g�ł��B
-#   ���̃X�N���v�g���g���� kusanagi ���[�U�� ssh ���O�C���\�ɂȂ�܂��B
-#   �T�[�o�쐬��AWeb�u���E�U�ŃT�[�o��IP�A�h���X�ɃA�N�Z�X���Ă��������B
-#   https://�T�[�o��IP�A�h���X/
-#   �� �Z�b�g�A�b�v�ɂ�5?10�����x���Ԃ�������܂��B
-#   �Z�b�g�A�b�v������Ɋ�������ƁA �Ǘ����[�U�[�̃��[���A�h���X���Ɋ������[�������t����܂��i���g���̊��ɂ���Ă̓X�p���t�B���^�ɂ���M����Ȃ��ꍇ������܂��j
-#   ���[�����M��A�T�[�o���ċN�������܂��̃��[������M������1���قǑ҂��ăA�N�Z�X���������B
-#   �i���̃X�N���v�g�́AKUSANAGI8.x�ł̂ݓ��삵�܂��j
+#   KUSANAGI8 環境に WordPress をセットアップするスクリプトです。
+#   このスクリプトを使うと kusanagi ユーザで ssh ログイン可能になります。
+#   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
+#   https://サーバのIPアドレス/
+#   ※ セットアップには5?10分程度時間がかかります。
+#   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
+#   メール送信後、サーバを再起動をしますのメールを受信したら1分ほど待ってアクセスください。
+#   （このスクリプトは、KUSANAGI8.xでのみ動作します）
 #   
-#   �Z�b�g�A�b�v��́Akusanagi��SSL(Let's Encrypt)�ݒ��AWordPress ��URL�ݒ��IP�A�h���X����h���C�����ɕύX����ݒ�̎��{���������߂��܂��B
-#   �ڍׂ͏ڍׂ͈ȉ��̃y�[�W���ڍׂ͈ȉ��̃y�[�W��������������
+#   セットアップ後は、kusanagiのSSL(Let's Encrypt)設定や、WordPress のURL設定をIPアドレスからドメイン名に変更する設定の実施をおすすめします。
+#   詳細は詳細は以下のページを詳細は以下のページをご覧ください
 #    http://cloud-news.sakura.ad.jp/wordpress-for-kusanagi8/
 # @sacloud-desc-end
 #
-# �Ǘ����[�U�[�̓��̓t�H�[���̐ݒ�
-# @sacloud-password required shellarg maxlen=60 minlen=6 KUSANAGI_PASSWD  "���[�U�[ kusanagi �̃p�X���[�h" ex="6?60����"
-# @sacloud-password required shellarg maxlen=60 minlen=6 DBROOT_PASSWD    "MariaDB root ���[�U�[�̃p�X���[�h" ex="6?60����"
-# @sacloud-text     required shellarg maxlen=60 WP_ADMIN_USER    "WordPress �Ǘ��҃��[�U�� (���p�p�����A�����A�n�C�t���A�s���I�h�A�A�b�g�}�[�N (@) �݂̂��g�p�\)" ex="1?60����"
-# @sacloud-password required shellarg maxlen=60 minlen=6 WP_ADMIN_PASSWD  "WordPress �Ǘ��҃p�X���[�h" ex="6?60����"
-# @sacloud-text     required shellarg maxlen=256 WP_TITLE        "WordPress �T�C�g�̃^�C�g�� (256�����ȉ�)"
-# @sacloud-text     required  maxlen=128 WP_ADMIN_MAIL   "WordPress �Ǘ��҃��[���A�h���X (�C���X�g�[���������Ƀ��[�������M����܂�)" ex="user@example.com"
+# 管理ユーザーの入力フォームの設定
+# @sacloud-password required shellarg maxlen=60 minlen=6 KUSANAGI_PASSWD  "ユーザー kusanagi のパスワード" ex="6?60文字"
+# @sacloud-password required shellarg maxlen=60 minlen=6 DBROOT_PASSWD    "MariaDB root ユーザーのパスワード" ex="6?60文字"
+# @sacloud-text     required shellarg maxlen=60 WP_ADMIN_USER    "WordPress 管理者ユーザ名 (半角英数字、下線、ハイフン、ピリオド、アットマーク (@) のみが使用可能)" ex="1?60文字"
+# @sacloud-password required shellarg maxlen=60 minlen=6 WP_ADMIN_PASSWD  "WordPress 管理者パスワード" ex="6?60文字"
+# @sacloud-text     required shellarg maxlen=256 WP_TITLE        "WordPress サイトのタイトル (256文字以下)"
+# @sacloud-text     required  maxlen=128 WP_ADMIN_MAIL   "WordPress 管理者メールアドレス (インストール完了時にメールが送信されます)" ex="user@example.com"
 
 echo "## set default variables";
 TERM=xterm
@@ -57,10 +57,10 @@ kusanagi provision \
 
 #---------START OF WordPrss---------#
 
-# �o�b�N�G���h�� sudo �������悤�ɐݒ�ύX
+# バックエンドで sudo が動くように設定変更
 sed 's/^Defaults    requiretty/#Defaults    requiretty/' -i.bk  /etc/sudoers  || exit 1
 
-# ��������WordPress �̐ݒ�t�@�C���쐬
+# ここからWordPress の設定ファイル作成
 echo "## Kusanagi wordpress config";
 sudo -u kusanagi -i /usr/local/bin/wp core config \
   --dbname=$WPDB_USERNAME \
@@ -79,17 +79,17 @@ sudo -u kusanagi  -i /usr/local/bin/wp core install \
   --admin_email="@@@WP_ADMIN_MAIL@@@" \
   --path=/home/kusanagi/default_profile/DocumentRoot/  || exit 1
 
-# sudo �̕ύX�����ɖ߂�
+# sudo の変更を元に戻す
 /bin/cp /etc/sudoers.bk /etc/sudoers  || exit 1
 
 #---------END OF WordPrss---------#
 
-# ���������Ă��邩������Ȃ����߁AWP�Ǘ��҃��[���A�h���X�Ɋ������[���𑗐M
+# いつ完了しているか分からないため、WP管理者メールアドレスに完了メールを送信
 
-# �K�v�ȏ����W�߂�
+# 必要な情報を集める
 SYSTEMINFO=`dmidecode -t system`
 
-# �t�H�[���Őݒ肵���Ǘ��҂̃A�h���X�փ��[���𑗐M
+# フォームで設定した管理者のアドレスへメールを送信
 echo "## send email.";
 /usr/sbin/sendmail -t -i -o -f @@@WP_ADMIN_MAIL@@@ << EOF From: @@@WP_ADMIN_MAIL@@@
 Subject: finished Wordpress install on $IPADDRESS0

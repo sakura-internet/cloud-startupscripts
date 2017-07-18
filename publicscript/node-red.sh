@@ -1,28 +1,28 @@
 #!/bin/sh
 # @sacloud-once
-# @sacloud-desc NVM/Node.js/Node-RED‚ÌƒCƒ“ƒXƒg[ƒ‹‚ğÀs‚µ‚Ü‚·B
-# @sacloud-desc ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS 7.x‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B
-# @sacloud-desc Š®—¹Œãuhttp://<IPƒAƒhƒŒƒX>:1880/v‚ÉWebƒuƒ‰ƒEƒU‚©‚çƒAƒNƒZƒX‚Å‚«‚Ü‚·B
-# @sacloud-desc UIƒ|[ƒg”Ô†‚ğw’è‚µ‚½ê‡‚ÍAw’è‚µ‚½ƒ|[ƒg”Ô†‚ÅƒAƒNƒZƒX‚Å‚«‚Ü‚·B
-# @sacloud-desc Node-Red‚ÌƒƒO‚ğŠm”F‚·‚é‚É‚Íu pm2 logs node-redvƒRƒ}ƒ“ƒh‚ğÀs‚µ‚Ü‚·B
+# @sacloud-desc NVM/Node.js/Node-REDã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+# @sacloud-desc ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS 7.xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚
+# @sacloud-desc å®Œäº†å¾Œã€Œhttp://<IPã‚¢ãƒ‰ãƒ¬ã‚¹>:1880/ã€ã«Webãƒ–ãƒ©ã‚¦ã‚¶ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã™ã€‚
+# @sacloud-desc UIãƒãƒ¼ãƒˆç•ªå·ã‚’æŒ‡å®šã—ãŸå ´åˆã¯ã€æŒ‡å®šã—ãŸãƒãƒ¼ãƒˆç•ªå·ã§ã‚¢ã‚¯ã‚»ã‚¹ã§ãã¾ã™ã€‚
+# @sacloud-desc Node-Redã®ãƒ­ã‚°ã‚’ç¢ºèªã™ã‚‹ã«ã¯ã€Œ pm2 logs node-redã€ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
 # @sacloud-require-archive distro-centos distro-ver-7.*
 
-# @sacloud-text shellarg maxlen=5 ex=1880 integer min=80 max=65535 ui_port "Node-RED‚ÌWeb UIƒ|[ƒg”Ô†"
+# @sacloud-text shellarg maxlen=5 ex=1880 integer min=80 max=65535 ui_port "Node-REDã®Web UIãƒãƒ¼ãƒˆç•ªå·"
 UI_PORT=@@@ui_port@@@
 ${UI_PORT:=1880}
 export HOME=/root/ && export PM2_HOME="/root/.pm2"
 
-# Node.js‚ÆNode-Red‚ÌƒZƒbƒgƒAƒbƒv
+# Node.jsã¨Node-Redã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
 yum install -y --enablerepo=epel nodejs
 npm install -g --unsafe-perm node-red
 
-# Node-Red©“®‹N“®İ’è
+# Node-Redè‡ªå‹•èµ·å‹•è¨­å®š
 npm install -g pm2
 pm2 start /usr/bin/node-red -- -v -u root -p $UI_PORT
 pm2 save
 pm2 startup systemd -u root
 
-# ƒ|[ƒgŒöŠJ
+# ãƒãƒ¼ãƒˆå…¬é–‹
 firewall-cmd --add-port=$UI_PORT/tcp --permanent
 firewall-cmd --reload
 

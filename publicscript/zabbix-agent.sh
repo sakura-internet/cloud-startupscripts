@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # @sacloud-once
-# @sacloud-desc ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍZabbix Agent‚ğƒZƒbƒgƒAƒbƒv‚µ‚Ü‚·B(‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B)
-# @sacloud-desc Zabbix‚ÌURL‚Í http://IP Address/zabbix ‚Å‚·B
+# @sacloud-desc ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯Zabbix Agentã‚’ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã—ã¾ã™ã€‚(ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS7.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚)
+# @sacloud-desc Zabbixã®URLã¯ http://IP Address/zabbix ã§ã™ã€‚
 #
 # @sacloud-select-begin required default=3.2 ZV "Zabbix Version"
 #  3.2 "3.2"
@@ -10,7 +10,7 @@
 #  2.4 "2.4"
 #  2.2 "2.2"
 # @sacloud-select-end
-# @sacloud-textarea heredoc ADDR "“o˜^‚·‚éZabbixƒT[ƒo‚ÌIPƒAƒhƒŒƒX(ipv4)‚ğ1s‚É1‚Â“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B" ex="127.0.0.1"
+# @sacloud-textarea heredoc ADDR "ç™»éŒ²ã™ã‚‹Zabbixã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹(ipv4)ã‚’1è¡Œã«1ã¤å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚" ex="127.0.0.1"
 # @sacloud-require-archive distro-centos distro-ver-7
 
 #---------SET sacloud values---------#

@@ -1,7 +1,7 @@
 #!/bin/bash
 # @sacloud-once
-# @sacloud-desc OwnCloud‚ğƒZƒbƒgƒAƒbƒv‚µ‚Ü‚·B
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X‚à‚µ‚­‚ÍScientific Linux6.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
+# @sacloud-desc OwnCloudã‚’ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã—ã¾ã™ã€‚
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.Xã‚‚ã—ãã¯Scientific Linux6.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-sl distro-ver-6.*
 

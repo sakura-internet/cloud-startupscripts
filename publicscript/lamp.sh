@@ -3,16 +3,16 @@
 # @sacloud-once
 #
 # @sacloud-desc-begin
-#   Apache, PHP, MySQL‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
-#   ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-#   http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX/
-#   i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X,7.X,Ubuntu14.04,16.04‚Å“®ì‚µ‚Ü‚·j
+#   Apache, PHP, MySQLã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™ã€‚
+#   ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+#   http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹/
+#   ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.X,7.X,Ubuntu14.04,16.04ã§å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-desc-end
-#@sacloud-radios-begin default=php5 php_version "PHP‚Ìƒo[ƒWƒ‡ƒ“"
+#@sacloud-radios-begin default=php5 php_version "PHPã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³"
 #     php5 "5"
 #     php7 "7"
 # @sacloud-radios-end
-# @sacloud-password shellarg mysql_password "MySQL‚Éİ’è‚·‚éƒpƒXƒ[ƒh(“ü—Í‚ª‚È‚¢ê‡ƒ‰ƒ“ƒ_ƒ€’l‚ªƒZƒbƒg‚³‚ê‚Ü‚·B)"
+# @sacloud-password shellarg mysql_password "MySQLã«è¨­å®šã™ã‚‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰(å…¥åŠ›ãŒãªã„å ´åˆãƒ©ãƒ³ãƒ€ãƒ å€¤ãŒã‚»ãƒƒãƒˆã•ã‚Œã¾ã™ã€‚)"
 # @sacloud-require-archive distro-debian
 # @sacloud-require-archive distro-ubuntu
 # @sacloud-require-archive distro-centos distro-ver-7.*

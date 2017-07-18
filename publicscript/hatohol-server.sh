@@ -1,11 +1,11 @@
 #!/bin/bash
 # @sacloud-once
-# @sacloud-desc ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍHatohol Server‚ğƒZƒbƒgƒAƒbƒv‚µ‚Ü‚·B(‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B)
-# @sacloud-desc Hatohol ‚ÌURL‚Í http://IP Address/hatohol ‚Å‚·B
+# @sacloud-desc ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯Hatohol Serverã‚’ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã—ã¾ã™ã€‚(ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS7.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚)
+# @sacloud-desc Hatohol ã®URLã¯ http://IP Address/hatohol ã§ã™ã€‚
 #
-# @sacloud-textarea heredoc ADDR "hatohol‚É“o˜^‚·‚éZabbixƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚ğ1s‚É1IP“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B" ex="127.0.0.1"
-# @sacloud-password HP "Hatohol Web‚ÌAdminƒAƒJƒEƒ“ƒg‚ÌƒpƒXƒ[ƒh•ÏX"
-# @sacloud-text integer min=1024 max=65534 HPORT "httpd‚Ìport”Ô†•ÏX(1024ˆÈãA65534ˆÈ‰º‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢)"
+# @sacloud-textarea heredoc ADDR "hatoholã«ç™»éŒ²ã™ã‚‹Zabbixã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’1è¡Œã«1IPå…¥åŠ›ã—ã¦ãã ã•ã„ã€‚" ex="127.0.0.1"
+# @sacloud-password HP "Hatohol Webã®Adminã‚¢ã‚«ã‚¦ãƒ³ãƒˆã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å¤‰æ›´"
+# @sacloud-text integer min=1024 max=65534 HPORT "httpdã®portç•ªå·å¤‰æ›´(1024ä»¥ä¸Šã€65534ä»¥ä¸‹ã‚’æŒ‡å®šã—ã¦ãã ã•ã„)"
 # @sacloud-require-archive distro-centos distro-ver-7
 #---------SET sacloud values---------#
 HATOHOL_PASSWD=@@@HP@@@
