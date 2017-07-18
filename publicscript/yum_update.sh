@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # @sacloud-once
-# @sacloud-desc yum update‚ğÀs‚µ‚Ü‚·BŠ®—¹Œã©“®Ä‹N“®‚µ‚Ü‚·B
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X, 7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
+# @sacloud-desc yum updateã‚’å®Ÿè¡Œã—ã¾ã™ã€‚å®Œäº†å¾Œè‡ªå‹•å†èµ·å‹•ã—ã¾ã™ã€‚
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.X, 7.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-checkbox default= noreboot "yum updateŠ®—¹Œã‚ÉÄ‹N“®‚µ‚È‚¢"
+# @sacloud-checkbox default= noreboot "yum updateå®Œäº†å¾Œã«å†èµ·å‹•ã—ãªã„"
 
 yum -y update || exit 1
 WILL_NOT_REBOOT=@@@noreboot@@@

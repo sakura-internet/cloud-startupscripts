@@ -2,13 +2,13 @@
 #
 # @sacloud-once
 # @sacloud-desc-begin
-# ���̃X�N���v�g��Linux�T�[�o�ɑ��݂���Ǝ㐫���X�L��������Vuls���Z�b�g�A�b�v���܂��B
-# (���̃X�N���v�g�́ACentOS7.X�ł̂ݓ��삵�܂��B)
+# このスクリプトはLinuxサーバに存在する脆弱性をスキャンするVulsをセットアップします。
+# (このスクリプトは、CentOS7.Xでのみ動作します。)
 #
-# �Ǝ㐫���̃f�[�^�[�x�[�X���擾����ׁA
-# �Z�b�g�A�b�v����������܂ł�30�����x�̂����Ԃ�������܂��B
+# 脆弱性情報のデーターベースを取得する為、
+# セットアップが完了するまでに30分程度のお時間がかかります。
 # 
-# ���L�̃R�}���h�ŐƎ㐫��񂪎擾�ł���΃Z�b�g�A�b�v�͊������Ă��܂��B
+# 下記のコマンドで脆弱性情報が取得できればセットアップは完了しています。
 # # su - vuls -c "vuls scan"
 #
 # @sacloud-desc-end

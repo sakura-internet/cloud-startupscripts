@@ -2,11 +2,11 @@
 #
 # @sacloud-require-archive distro-rancheros
 # @sacloud-desc-begin
-# RancherOS‚ÌƒRƒ“ƒ\[ƒ‹‚ğØ‚è‘Ö‚¦‚Ü‚·BÚ×‚Í‰º‹LURL‚ğ‚²Šm”F‚­‚¾‚³‚¢B
+# RancherOSã®ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã¾ã™ã€‚è©³ç´°ã¯ä¸‹è¨˜URLã‚’ã”ç¢ºèªãã ã•ã„ã€‚
 # https://docs.rancher.com/os/configuration/switching-consoles/
 # @sacloud-desc-end
 #
-# @sacloud-select-begin required default=default console "ƒRƒ“ƒ\[ƒ‹"
+# @sacloud-select-begin required default=default console "ã‚³ãƒ³ã‚½ãƒ¼ãƒ«"
 # default
 # alpine
 # centos

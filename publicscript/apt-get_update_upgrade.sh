@@ -2,8 +2,8 @@
 
 # @sacloud-once
 
-# @sacloud-desc apt-get update/upgrade‚ğÀs‚µ‚Ü‚·BŠ®—¹Œã©“®Ä‹N“®‚µ‚Ü‚·B
-# @sacloud-desc i‚±‚ÌƒXƒNƒŠƒvƒg‚ÍADebian‚à‚µ‚­‚ÍUbuntu‚Å‚Ì‚İ“®ì‚µ‚Ü‚·j
+# @sacloud-desc apt-get update/upgradeã‚’å®Ÿè¡Œã—ã¾ã™ã€‚å®Œäº†å¾Œè‡ªå‹•å†èµ·å‹•ã—ã¾ã™ã€‚
+# @sacloud-desc ï¼ˆã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€Debianã‚‚ã—ãã¯Ubuntuã§ã®ã¿å‹•ä½œã—ã¾ã™ï¼‰
 # @sacloud-require-archive distro-debian
 # @sacloud-require-archive distro-ubuntu
 

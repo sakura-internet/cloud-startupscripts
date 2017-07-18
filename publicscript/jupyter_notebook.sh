@@ -2,42 +2,42 @@
 
 # @sacloud-once
 # @sacloud-desc-begin
-# pyenv, Anaconda,Jupyter‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚éƒXƒNƒŠƒvƒg‚Å‚·B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS7.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B
-# ƒT[ƒoì¬ŒãAWebƒuƒ‰ƒEƒU‚ÅˆÈ‰º‚ÌURLiƒT[ƒo‚ÌIPƒAƒhƒŒƒX‚Æİ’è‚µ‚½ƒ|[ƒgj‚ÉƒAƒNƒZƒX‚µ‚Ä‚­‚¾‚³‚¢B
-#   http://ƒT[ƒo‚ÌIPƒAƒhƒŒƒX:İ’è‚µ‚½ƒ|[ƒg/
-# ƒAƒNƒZƒX‚µ‚½ŒãAİ’è‚µ‚½Jupyter‚ÌƒpƒXƒ[ƒh‚ÅƒƒOƒCƒ“‚µ‚Ä‚­‚¾‚³‚¢B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍŠ®—¹‚Ü‚Å‚É20•ª’ö“xŠÔ‚ª‚©‚©‚è‚Ü‚·
+# pyenv, Anaconda,Jupyterã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS7.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚
+# ã‚µãƒ¼ãƒä½œæˆå¾Œã€Webãƒ–ãƒ©ã‚¦ã‚¶ã§ä»¥ä¸‹ã®URLï¼ˆã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹ã¨è¨­å®šã—ãŸãƒãƒ¼ãƒˆï¼‰ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚
+#   http://ã‚µãƒ¼ãƒã®IPã‚¢ãƒ‰ãƒ¬ã‚¹:è¨­å®šã—ãŸãƒãƒ¼ãƒˆ/
+# ã‚¢ã‚¯ã‚»ã‚¹ã—ãŸå¾Œã€è¨­å®šã—ãŸJupyterã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã§ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ãã ã•ã„ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯å®Œäº†ã¾ã§ã«20åˆ†ç¨‹åº¦æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™
 # @sacloud-desc-end
-# @sacloud-password required JP "Jupyter‚ÌƒƒOƒCƒ“ƒpƒXƒ[ƒhİ’è"
-# @sacloud-text required default=49152 integer min=49152 max=65534 JPORT "port”Ô†•ÏX(49152ˆÈãA65534ˆÈ‰º‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢)"
+# @sacloud-password required JP "Jupyterã®ãƒ­ã‚°ã‚¤ãƒ³ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰è¨­å®š"
+# @sacloud-text required default=49152 integer min=49152 max=65534 JPORT "portç•ªå·å¤‰æ›´(49152ä»¥ä¸Šã€65534ä»¥ä¸‹ã‚’æŒ‡å®šã—ã¦ãã ã•ã„)"
 
-# ƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Ì“ü—Í’l‚ğ•Ï”‚Ö‘ã“ü
+# ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒ‘ãƒãƒ«ã®å…¥åŠ›å€¤ã‚’å¤‰æ•°ã¸ä»£å…¥
 password=@@@JP@@@
 port=@@@JPORT@@@
 user="jupyter"
 home="/home/$user"
 
-# ƒ†[ƒU[‚Ìì¬
+# ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®ä½œæˆ
 if ! cat /etc/passwd | awk -F : '{ print $1 }' | egrep ^$user$; then
     adduser $user
 fi
 
-echo "[1/5] Python‚ÌƒCƒ“ƒXƒg[ƒ‹‚É•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ğƒCƒ“ƒXƒg[ƒ‹’†"
+echo "[1/5] Pythonã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã«å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­"
 yum update -y
 yum -y install git readline-devel zlib-devel bzip2-devel sqlite-devel openssl-devel
-echo "[1/5] Python‚ÌƒCƒ“ƒXƒg[ƒ‹‚É•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[1/5] Pythonã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã«å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[2/5] pyenv‚ğƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[2/5] pyenvã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 git clone https://github.com/yyuu/pyenv $home/.pyenv
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $home/.bash_profile
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> $home/.bash_profile
 echo 'eval "$(pyenv init -)"' >> $home/.bash_profile
 chown -R $user:$user $home/.pyenv
-echo "[2/5] pyenv‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[2/5] pyenvã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[3/5] Anaconda,chainer‚ÌƒCƒ“ƒXƒg[ƒ‹’†..."
-#Anaconda3Œn
+echo "[3/5] Anaconda,chainerã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
+#Anaconda3ç³»
 su -l $user -c "yes | pyenv install anaconda3-4.3.1"
 su -l $user -c "pyenv global anaconda3-4.3.1"
 su -l $user -c "pyenv rehash"
@@ -51,7 +51,7 @@ EOF
 chmod 755 /tmp/ana3.sh
 su -l $user -c "/bin/bash /tmp/ana3.sh"
 
-#Anaconda2Œn
+#Anaconda2ç³»
 su -l $user -c "yes | pyenv install anaconda2-4.3.1"
 su -l $user -c "pyenv global anaconda2-4.3.1"
 su -l $user -c "pyenv rehash"
@@ -64,14 +64,14 @@ pip install chainer
 EOF
 chmod 755 /tmp/ana2.sh
 su -l $user -c "/bin/bash /tmp/ana2.sh"
-echo "[3/5] Anaconda,chainer‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[3/5] Anaconda,chainerã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[4/5] İ’èƒ|[ƒg‚Ì‰ğ•ú’†..."
+echo "[4/5] è¨­å®šãƒãƒ¼ãƒˆã®è§£æ”¾ä¸­..."
 firewall-cmd --add-port=$port/tcp --zone=public --permanent
 firewall-cmd --reload
-echo "[4/5] İ’èƒ|[ƒg‚ğ‰ğ•ú‚µ‚Ü‚µ‚½"
+echo "[4/5] è¨­å®šãƒãƒ¼ãƒˆã‚’è§£æ”¾ã—ã¾ã—ãŸ"
 
-echo "[5/5] Jupyter‚ÌÀs’†..."
+echo "[5/5] Jupyterã®å®Ÿè¡Œä¸­..."
 su -l $user -c "jupyter notebook --generate-config"
 hashedp=`su -l $user -c "python -c 'from notebook.auth import passwd; print(passwd(\"${password}\",\"sha256\"))'"`
 echo "c.NotebookApp.password = '$hashedp'" >> $home/.jupyter/jupyter_notebook_config.py
@@ -99,5 +99,5 @@ EOF
 
 systemctl enable jupyter
 systemctl start jupyter
-echo "[5/5] Jupyter‚ÌÀs‚µ‚Ü‚µ‚½"
-echo "ƒXƒ^[ƒgƒAƒbƒvƒXƒNƒŠƒvƒg‚Ìˆ—‚ªŠ®—¹‚µ‚Ü‚µ‚½"
+echo "[5/5] Jupyterã®å®Ÿè¡Œã—ã¾ã—ãŸ"
+echo "ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‡¦ç†ãŒå®Œäº†ã—ã¾ã—ãŸ"

@@ -2,18 +2,18 @@
 
 # @sacloud-once
 # @sacloud-desc-begin
-#  CentOS7.x‚É Terraform for ‚³‚­‚ç‚ÌƒNƒ‰ƒEƒh ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·
-#  ƒCƒ“ƒXƒg[ƒ‹Š®—¹Œã‚Éƒ^[ƒ~ƒiƒ‹‚ÅƒT[ƒo‚ÉƒƒOƒCƒ“‚µAterraformƒRƒ}ƒ“ƒh‚ð‚²—˜—p‚­‚¾‚³‚¢
-#  Ú×‚ÍƒNƒ‰ƒEƒhƒjƒ…[ƒX‚ðŽQÆ‚­‚¾‚³‚¢Fhttps://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/
+#  CentOS7.xã« Terraform for ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰ ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™
+#  ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å®Œäº†å¾Œã«ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã§ã‚µãƒ¼ãƒã«ãƒ­ã‚°ã‚¤ãƒ³ã—ã€terraformã‚³ãƒžãƒ³ãƒ‰ã‚’ã”åˆ©ç”¨ãã ã•ã„
+#  è©³ç´°ã¯ã‚¯ãƒ©ã‚¦ãƒ‰ãƒ‹ãƒ¥ãƒ¼ã‚¹ã‚’å‚ç…§ãã ã•ã„ï¼šhttps://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-select-begin required default=tk1v default_zone "Terraform for ‚³‚­‚ç‚ÌƒNƒ‰ƒEƒh‚Å‘€ì‚·‚éƒfƒtƒHƒ‹ƒgƒ][ƒ“"
-#   is1a "ÎŽë‘æ1ƒ][ƒ“"
-#   is1b "ÎŽë‘æ2ƒ][ƒ“"
-#   tk1a "“Œ‹ž‘æ1ƒ][ƒ“"
+# @sacloud-select-begin required default=tk1v default_zone "Terraform for ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰ã§æ“ä½œã™ã‚‹ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¾ãƒ¼ãƒ³"
+#   is1a "çŸ³ç‹©ç¬¬1ã‚¾ãƒ¼ãƒ³"
+#   is1b "çŸ³ç‹©ç¬¬2ã‚¾ãƒ¼ãƒ³"
+#   tk1a "æ±äº¬ç¬¬1ã‚¾ãƒ¼ãƒ³"
 #   tk1v "Sandbox"
 # @sacloud-select-end
-# @sacloud-apikey required permission=create SACLOUD_APIKEY "APIƒL["
+# @sacloud-apikey required permission=create SACLOUD_APIKEY "APIã‚­ãƒ¼"
 
 DEFAULT_ZONE=@@@default_zone@@@
 
@@ -22,7 +22,7 @@ yum install -y openssl
 mkdir -p ~/terraform
 cd ~/terraform
 
-# Terraform‚ÌÅVƒo[ƒWƒ‡ƒ“
+# Terraformã®æœ€æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 version=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases | grep tag_name | grep -v "rc" | head -1 | cut -d '"' -f 4 | sed -e s/v//)
 if [ -z "$version" ]; then
   echo 'cannot get terraform version'
@@ -47,7 +47,7 @@ if [ ${actual_checksum} != ${expected_checksum} ]; then
   exit 1
 fi
 
-# Terraform for ‚³‚­‚ç‚ÌƒNƒ‰ƒEƒh
+# Terraform for ã•ãã‚‰ã®ã‚¯ãƒ©ã‚¦ãƒ‰
 curl -sL https://terraform.b.sakurastorage.jp/downloads/terraform-provider-sakuracloud_linux-amd64.zip > terraform-provider-sakuracloud_linux-amd64.zip
 
 unzip $terraform_file

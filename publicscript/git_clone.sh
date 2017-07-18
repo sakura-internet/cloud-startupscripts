@@ -4,13 +4,13 @@
 # @sacloud-once
 # 
 # @sacloud-text required shellarg url "Git URL"
-# @sacloud-text required shellarg default="startup.sh" auto_exec_cmd "Àsƒtƒ@ƒCƒ‹–¼"
-# @sacloud-text shellarg ex_options "’Ç‰ÁƒIƒvƒVƒ‡ƒ“"
+# @sacloud-text required shellarg default="startup.sh" auto_exec_cmd "å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«å"
+# @sacloud-text shellarg ex_options "è¿½åŠ ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
 # 
 # @sacloud-desc-begin
-#   w’è‚ÌGitƒŠƒ|ƒWƒgƒŠ‚ğclone‚µAw’è‚ÌÀsƒtƒ@ƒCƒ‹‚ğ©“®“I‚ÉÀs‚µ‚Ü‚·B
-#   Šg’£q‚ª .yml ‚Ì‚à‚Ì‚Í Ansible Playbook ‚Æ‚µ‚Ä‰ğß‚³‚ê‚Ü‚·B
-#   ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X‚à‚µ‚­‚ÍScientific Linux6.X‚Å‚Ì‚İ“®ì‚µ‚Ü‚·B
+#   æŒ‡å®šã®Gitãƒªãƒã‚¸ãƒˆãƒªã‚’cloneã—ã€æŒ‡å®šã®å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã‚’è‡ªå‹•çš„ã«å®Ÿè¡Œã—ã¾ã™ã€‚
+#   æ‹¡å¼µå­ãŒ .yml ã®ã‚‚ã®ã¯ Ansible Playbook ã¨ã—ã¦è§£é‡ˆã•ã‚Œã¾ã™ã€‚
+#   ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.Xã‚‚ã—ãã¯Scientific Linux6.Xã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-sl distro-ver-6.*

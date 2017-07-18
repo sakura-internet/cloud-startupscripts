@@ -2,16 +2,16 @@
 
 # @sacloud-once
 # @sacloud-desc-begin
-# rbenvABundlerARuby on Rails ‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚éƒXƒNƒŠƒvƒg‚Å‚·B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍACentOS6.X ‚à‚µ‚­‚Í Scientific Linux6.X ‚Å‚Ì‚Ý“®ì‚µ‚Ü‚·B
-# ‚±‚ÌƒXƒNƒŠƒvƒg‚ÍŠ®—¹‚Ü‚Å‚É10•ª’ö“xŽžŠÔ‚ª‚©‚©‚è‚Ü‚·B
-# ƒXƒNƒŠƒvƒg‚Ìi’»ó‹µ‚Í /root/.sacloud-api/notes/ƒXƒ^[ƒgƒAƒbƒvƒXƒNƒŠƒvƒgID.log ‚ð‚²Šm”F‚­‚¾‚³‚¢B
+# rbenvã€Bundlerã€Ruby on Rails ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯ã€CentOS6.X ã‚‚ã—ãã¯ Scientific Linux6.X ã§ã®ã¿å‹•ä½œã—ã¾ã™ã€‚
+# ã“ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã¯å®Œäº†ã¾ã§ã«10åˆ†ç¨‹åº¦æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ã€‚
+# ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®é€²æ—çŠ¶æ³ã¯ /root/.sacloud-api/notes/ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã‚¹ã‚¯ãƒªãƒ—ãƒˆID.log ã‚’ã”ç¢ºèªãã ã•ã„ã€‚
 # @sacloud-desc-end
-# @sacloud-text required default="rbenv" shellarg user 'rbenv ‚ð—˜—p‚·‚éƒ†[ƒU[–¼'
-# @sacloud-text required default="2.3.0" shellarg ruby_version 'global ‚Å—˜—p‚·‚é Ruby ‚Ìƒo[ƒWƒ‡ƒ“'
-# @sacloud-checkbox default="1" shellarg create_gemrc 'gem ‚Ì install ‚Æ update Žž‚É --no-document ƒIƒvƒVƒ‡ƒ“‚ð•t—^‚·‚é .gemrc ‚ðì¬‚·‚é'
+# @sacloud-text required default="rbenv" shellarg user 'rbenv ã‚’åˆ©ç”¨ã™ã‚‹ãƒ¦ãƒ¼ã‚¶ãƒ¼å'
+# @sacloud-text required default="2.3.0" shellarg ruby_version 'global ã§åˆ©ç”¨ã™ã‚‹ Ruby ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³'
+# @sacloud-checkbox default="1" shellarg create_gemrc 'gem ã® install ã¨ update æ™‚ã« --no-document ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ä»˜ä¸Žã™ã‚‹ .gemrc ã‚’ä½œæˆã™ã‚‹'
 
-# ƒRƒ“ƒgƒ[ƒ‹ƒpƒlƒ‹‚Ì“ü—Í’l‚ð•Ï”‚Ö‘ã“ü
+# ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ãƒ‘ãƒãƒ«ã®å…¥åŠ›å€¤ã‚’å¤‰æ•°ã¸ä»£å…¥
 user=@@@user@@@
 ruby_version=@@@ruby_version@@@
 create_gemrc=@@@create_gemrc@@@
@@ -22,26 +22,26 @@ else
  home="/root"
 fi
 
-# ƒ†[ƒU[‚ÌÝ’è
+# ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®è¨­å®š
 if ! cat /etc/passwd | awk -F : '{ print $1 }' | egrep ^$user$; then
  adduser $user
 fi
 
-echo "[1/5] Ruby ‚ÌƒCƒ“ƒXƒg[ƒ‹‚É•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ðƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[1/5] Ruby ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã«å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 yum install -y openssl-devel  >/dev/null 2>&1
 yum install -y zlib-devel     >/dev/null 2>&1
 yum install -y readline-devel >/dev/null 2>&1
 yum install -y libyaml-devel  >/dev/null 2>&1
 yum install -y libffi-devel   >/dev/null 2>&1
-echo "[1/5] Ruby ‚ÌƒCƒ“ƒXƒg[ƒ‹‚É•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[1/5] Ruby ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã«å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[2/5] rbenv ‚ðƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[2/5] rbenv ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 git clone https://github.com/sstephenson/rbenv.git      $home/.rbenv                    >/dev/null 2>&1
 git clone https://github.com/sstephenson/ruby-build.git $home/.rbenv/plugins/ruby-build >/dev/null 2>&1
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $home/.bash_profile
 echo 'eval "$(rbenv init -)"'               >> $home/.bash_profile
 chown -R $user:$user $home/.rbenv
-echo "[2/5] rbenv ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[2/5] rbenv ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
 
 if [ "$create_gemrc" = "1" ]; then
@@ -52,18 +52,18 @@ __EOS__
  chown $user:$user $home/.gemrc
 fi
 
-echo "[3/5] Ruby ‚ÌƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[3/5] Ruby ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 su -l $user -c "rbenv install $ruby_version" >/dev/null 2>&1 
 su -l $user -c "rbenv global  $ruby_version"
 su -l $user -c "rbenv rehash"
-echo "[3/5] Ruby ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[3/5] Ruby ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[4/5] Bundler ‚ÌƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[4/5] Bundler ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 su -l $user -c "rbenv exec gem i bundler" >/dev/null 2>&1
-echo "[4/5] Bundler ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[4/5] Bundler ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "[5/5] Rails ‚ÌƒCƒ“ƒXƒg[ƒ‹’†..."
+echo "[5/5] Rails ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ä¸­..."
 su -l $user -c "rbenv exec gem i rails" >/dev/null 2>&1
-echo "[5/5] Rails ‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚µ‚½"
+echo "[5/5] Rails ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã—ãŸ"
 
-echo "ƒXƒ^[ƒgƒAƒbƒvƒXƒNƒŠƒvƒg‚Ìˆ—‚ªŠ®—¹‚µ‚Ü‚µ‚½"
+echo "ã‚¹ã‚¿ãƒ¼ãƒˆã‚¢ãƒƒãƒ—ã‚¹ã‚¯ãƒªãƒ—ãƒˆã®å‡¦ç†ãŒå®Œäº†ã—ã¾ã—ãŸ"
