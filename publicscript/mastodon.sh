@@ -34,7 +34,7 @@ curl -sL https://rpm.nodesource.com/setup_6.x | bash -
 
 # パッケージのアップデートとインストール
 yum update -y
-yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg}-devel protobuf-compiler nginx jq bind-utils
+yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
 
 # DNS登録
@@ -211,6 +211,10 @@ sed -i 's/user nginx/user mastodon/' /etc/nginx/nginx.conf
 chown -R mastodon. /var/{lib,log}/nginx
 sed -i 's/create 0644 nginx nginx/create 0644 mastodon mastodon/' /etc/logrotate.d/nginx
 
+LD=/etc/letsencrypt/live/${DOMAIN}
+CERT=${LD}/fullchain.pem
+PKEY=${LD}/privkey.pem
+
 cat << _EOF_ > /etc/nginx/conf.d/https.conf
 map \$http_upgrade \$connection_upgrade {
 	default upgrade;
@@ -225,8 +229,8 @@ server {
 	ssl_ecdh_curve prime256v1;
 	ssl_prefer_server_ciphers on;
 	ssl_session_cache shared:SSL:10m;
-	ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+	ssl_certificate ${CERT};
+	ssl_certificate_key ${PKEY};
 
 	keepalive_timeout 70;
 	sendfile on;
@@ -315,7 +319,6 @@ firewall-cmd --reload
 cd /usr/local
 git clone https://github.com/certbot/certbot
 export PATH=/usr/local/certbot:${PATH}
-CERT=/etc/letsencrypt/live/${DOMAIN}/fullchain.pem
 certbot-auto -n certonly --standalone -d ${DOMAIN} -m ${MADDR} --agree-tos
 
 if [ ! -f ${CERT} ]
@@ -324,7 +327,8 @@ then
 	exit 1
 fi
 
-echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * $((${RANDOM}%7)) root /usr/local/certbot/certbot-auto renew --standalone --preferred-challenges tls-sni-01 --pre-hook 'systemctl stop nginx' --post-hook 'systemctl start nginx'" > /etc/cron.d/certbot-auto
+R=${RANDOM}
+echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root /usr/local/certbot/certbot-auto renew --standalone --preferred-challenges tls-sni-01 --pre-hook 'systemctl stop nginx' --post-hook 'systemctl start nginx'" > /etc/cron.d/certbot-auto
 
 systemctl enable nginx
 systemctl start nginx
@@ -349,9 +353,7 @@ then
 	exit 1
 fi
 
-echo "セットアップが完了しました"
-
 # reboot
 shutdown -r 1
 
-exit 0
+echo "セットアップが完了しました"
