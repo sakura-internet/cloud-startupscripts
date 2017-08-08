@@ -8,8 +8,6 @@ set -eux
 # (このスクリプトは Ubuntu Server 16.04* でのみ動作します)
 # 管理画面を有効にした場合、指定したAccess KeyとSecret Key（さくらのクラウドAPIとは異なります）で管理画面を操作できます。
 # サーバ作成後、http://<サーバのIPアドレス>/ にアクセスください。
-# 別途、fluent-plugin-dstatを有効にすると、dstatをインストールし、
-# dstatの実行結果が保存され、可視化することができます。
 # Debian系でsystemdにのみに対応しているスクリプトです。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-ubuntu distro-ver-16.04*
