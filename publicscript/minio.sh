@@ -14,8 +14,8 @@ set -eux
 # @sacloud-desc-end
 # @sacloud-require-archive distro-ubuntu distro-ver-16.04*
 # @sacloud-checkbox default="on" shellarg enablecpanel '管理画面を有効にする'
-# @sacloud-text required minlen=5 maxlen=20 ex="accessKey" shellarg accesskey '管理画面用 Access Key'
-# @sacloud-password required minlen=8 maxlen=100 ex="secretKey" shellarg secretkey '管理画面用 Secret Key'
+# @sacloud-text required minlen=5 maxlen=20 ex="accessKey" shellarg accesskey '管理画面用 / API Access Key'
+# @sacloud-password required minlen=8 maxlen=100 ex="secretKey" shellarg secretkey '管理画面用 / API Secret Key'
 # @sacloud-text required default="us-east-1" shellarg region 'リージョン名'
 
 #===== Sacloud Vars =====#
