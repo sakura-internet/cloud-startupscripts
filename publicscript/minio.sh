@@ -5,12 +5,14 @@ set -eux
 # @sacloud-once
 # @sacloud-desc-begin
 # Nginx, minio をインストールするスクリプトです。
+# (このスクリプトは Ubuntu Server 16.04* でのみ動作します)
 # fluent-plugin-dstatを有効にすると、dstatをインストールし、
 # dstatの実行結果が保存され、可視化することができます。
 # Debian系でsystemdにのみに対応しているスクリプトです。
 # サーバ作成後、http://<サーバのIPアドレス>/ にアクセスください。
 # 管理画面を有効にした場合、指定したAccess KeyとSecret Keyで管理画面で操作できます。
 # @sacloud-desc-end
+# @sacloud-require-archive distro-ubuntu distro-ver-16.04*
 # @sacloud-text required minlen=5 maxlen=20 ex="accessKey" shellarg accesskey 'API Access Key'
 # @sacloud-password required minlen=8 maxlen=100 ex="secretKey" shellarg secretkey 'API Secret Key'
 # @sacloud-text required default="us-east-1" shellarg region 'リージョン名'
