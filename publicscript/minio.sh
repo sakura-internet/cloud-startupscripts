@@ -14,12 +14,10 @@ set -eux
 # @sacloud-checkbox default="on" shellarg enablecpanel '管理画面を有効にする'
 # @sacloud-text required minlen=5 maxlen=20 ex="accessKey" shellarg accesskey '管理画面用 / API Access Key'
 # @sacloud-password required minlen=8 maxlen=100 ex="secretKey" shellarg secretkey '管理画面用 / API Secret Key'
-# @sacloud-text required default="us-east-1" shellarg region 'リージョン名'
 
 #===== Sacloud Vars =====#
 MINIO_ACCESS_KEY=@@@accesskey@@@
 MINIO_SECRET_KEY=@@@secretkey@@@
-MINIO_REGION=@@@region@@@
 MINIO_CPANEL_ENABLED=@@@enablecpanel@@@
 if [ -z $MINIO_CPANEL_ENABLED ]; then
   MINIO_BROWSER="off"
