@@ -2,8 +2,8 @@
 #
 # @sacloud-once
 # @sacloud-desc-begin
-# このスクリプトは mastodon をセットアップします
-# (このスクリプトは CentOS7.X でのみ動作します)
+# このスクリプトは Mastodon をセットアップします
+# (CentOS7.X でのみ動作します)
 #
 # 事前作業として以下の2つが必要となります
 # ・さくらのクラウドDNSにゾーン登録を完了していること
@@ -15,33 +15,44 @@
 # @sacloud-require-archive distro-centos distro-ver-7
 # @sacloud-text required ZONE "さくらのクラウドDNSで管理しているDNSゾーン" ex="example.com"
 # @sacloud-apikey required permission=create AK "APIキー"
-
+_motd() {
+	log=$(ls /root/.sacloud-api/notes/*log)
+	case $1 in
+	start)
+		echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+	;;
+	fail)
+		echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+		exit 1
+	;;
+	end)
+		cp -f /dev/null /etc/motd
+	;;
+	esac
+}
 KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
 
-set -x
+_motd start
 source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
-# ログのリンクを作成
-ln -s $(find /root/.sacloud-api/notes/*log) /tmp/startup_script.log
-
-# リポジトリの設定
+#リポジトリの設定
 yum install -y yum-utils
 yum-config-manager --enable epel
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_6.x | bash -
 
-# パッケージのアップデートとインストール
+#パッケージのインストール
 yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
 
-# DNS登録
+#DNS登録
 if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
-	echo "お客様ドメインのNSレコードにさくらのクラウドDNSが設定されておりません"
-	exit 1
+	echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されておりません"
+	_motd fail
 fi
 
 ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
@@ -49,45 +60,40 @@ BASE=https://secure.sakura.ad.jp/cloud/zone/${ZONE}/api/cloud/1.1
 API=${BASE}/commonserviceitem/
 RESJS=resource.json
 DNSJS=dns.json
-set +x
 curl -s --user "${KEY}" ${API} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${DOMAIN}\")" > ${RESJS} 2>/dev/null
-set -x
 RESID=$(jq -r .ID ${RESJS})
-BLANK=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
-if [ $(echo "${BLANK}" | grep -c "^\[\]$") -ne 1 ]
+RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
+if [ $(echo "${RECODES}" | grep -c "^\[\]$") -ne 1 ]
 then
-	if [ "${BLANK}x" = "x" ]
+	if [ "${RECODES}x" = "x" ]
 	then
-		echo "リソースIDが取得できません、APIキーとドメインを確認してください"
-		exit 1
+		echo "ドメインのリソースIDが取得できません"
+		_motd fail
 	else
 		echo "レコードを登録していないドメインを指定してください"
-		exit 1
+		_motd fail
 	fi
 fi
 
 API=${API}${RESID}
 cat <<_EOL_> ${DNSJS}
 {
- "CommonServiceItem": {
-  "Settings": {
-   "DNS":  {
-    "ResourceRecordSets": [
-     { "Name": "@", "Type": "A", "RData": "${IPADDR}" },
-     { "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
-     { "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
-    ]
-   }
-  }
- }
+	"CommonServiceItem": {
+	"Settings": {
+	"DNS":  {
+	"ResourceRecordSets": [
+		{ "Name": "@", "Type": "A", "RData": "${IPADDR}" },
+		{ "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
+		{ "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
+	]
+	}
+	}
+	}
 }
 _EOL_
+curl -s --user "${KEY}" -X PUT -d "$(cat ${DNSJS} | jq -c .)" ${API}
 
-set +x
-curl -s --user "${KEY}" -X PUT -d "$(cat ${DNSJS} | jq -c .)" ${API} |jq "."
-set -x
-
-# postgresql, redis
+#postgresql, redis
 export PGSETUP_INITDB_OPTIONS="--encoding=UTF-8 --no-locale"
 postgresql-setup initdb
 sed -i "s/ident/trust/" /var/lib/pgsql/data/pg_hba.conf
@@ -95,46 +101,47 @@ systemctl enable postgresql redis
 systemctl start postgresql redis
 su - postgres -c "createuser --createdb mastodon"
 
-# ruby, mastodon
+#ruby, mastodon
 useradd mastodon
 SETUP=/home/mastodon/setup.sh
 cat << _EOF_ > ${SETUP}
-set -x
-git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+REPO=https://github.com/sstephenson
+git clone \${REPO}/rbenv.git ~/.rbenv
 echo 'export PATH="~/.rbenv/bin:$PATH"' >> ~/.bash_profile
 source ~/.bash_profile
 rbenv init - >> ~/.bash_profile
 source ~/.bash_profile
-git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+git clone \${REPO}/ruby-build.git ~/.rbenv/plugins/ruby-build
 rbenv install 2.4.1
 rbenv global 2.4.1
 rbenv rehash
-
 git clone https://github.com/tootsuite/mastodon.git live
 cd live
-git checkout \$(git tag|grep -v rc|tail -n 1)
+git checkout \$(git tag|grep -v rc|tail -1)
 gem install bundler
 bundle install --deployment --without development test
 yarn install --pure-lockfile
-cp .env.production.sample .env.production
+cp .env.production{.sample,}
 export RAILS_ENV=production
-SECRET_KEY_BASE=\$(bundle exec rake secret)
-PAPERCLIP_SECRET=\$(bundle exec rake secret)
-OTP_SECRET=\$(bundle exec rake secret)
+SKB=\$(bundle exec rake secret)
+PS=\$(bundle exec rake secret)
+OS=\$(bundle exec rake secret)
 sed -i -e "s/_HOST=[rd].*/_HOST=localhost/" \
 -e "s/=postgres$/=mastodon/" \
--e "s/^LOCAL_DOMAIN=.*/LOCAL_DOMAIN=${DOMAIN}/" \
+-e "s/^LOCAL_DOMAIN.*/LOCAL_DOMAIN=${DOMAIN}/" \
 -e "s/^LOCAL_HTTPS.*/LOCAL_HTTPS=true/" \
 -e "s/^SMTP_SERVER.*/SMTP_SERVER=localhost/" \
 -e "s/^SMTP_PORT=587/SMTP_PORT=25/" \
 -e "s/^SMTP_LOGIN/#SMTP_LOGIN/" \
 -e "s/^SMTP_PASSWORD/#SMTP_PASSWORD/" \
 -e "s/^#SMTP_AUTH_METHOD.*/SMTP_AUTH_METHOD=none/" \
--e "s/^SMTP_FROM_ADDRESS=.*/SMTP_FROM_ADDRESS=${MADDR}/" \
--e "s/^SECRET_KEY_BASE=/SECRET_KEY_BASE=\$(printf \${SECRET_KEY_BASE})/" \
--e "s/^PAPERCLIP_SECRET=/PAPERCLIP_SECRET=\$(printf \${PAPERCLIP_SECRET})/" \
--e "s/^OTP_SECRET=/OTP_SECRET=\$(printf \${OTP_SECRET})/" .env.production
-
+-e "s/^SMTP_FROM_ADDRESS.*/SMTP_FROM_ADDRESS=${MADDR}/" \
+-e "s/^SECRET_KEY_BASE=/SECRET_KEY_BASE=\${SKB}/" \
+-e "s/^PAPERCLIP_SECRET=/PAPERCLIP_SECRET=\${PS}/" \
+-e "s/^OTP_SECRET=/OTP_SECRET=\${OS}/" .env.production
+export \$(bundle exec rake mastodon:webpush:generate_vapid_key)
+sed -i -e "s/^VAPID_PRIVATE_KEY=/VAPID_PRIVATE_KEY=\${VAPID_PRIVATE_KEY}/" \
+-e "s/^VAPID_PUBLIC_KEY=/VAPID_PUBLIC_KEY=\${VAPID_PUBLIC_KEY}/" .env.production
 bundle exec rails db:setup
 bundle exec rails assets:precompile
 _EOF_
@@ -200,28 +207,24 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 _EOF_
-
 systemctl enable mastodon-{web,sidekiq,streaming}
-systemctl start mastodon-{web,sidekiq,streaming}
 
-echo "5 0 * * * mastodon cd /home/mastodon/live && RAILS_ENV=production /home/mastodon/.rbenv/shims/bundle exec rake mastodon:daily 2>&1 | logger -t mastodon-daily -p local0.info" > /etc/cron.d/mastodon
-
-# nginx
-sed -i 's/user nginx/user mastodon/' /etc/nginx/nginx.conf
+#nginx
+sed -i -e 's/user nginx/user mastodon/' -e '1,/location/s/location \/ {/location ^~ \/.well-known\/acme-challenge\/ {}\n\tlocation \/ {\n\t\treturn 301 https:\/\/$host$request_uri;/' /etc/nginx/nginx.conf
 chown -R mastodon. /var/{lib,log}/nginx
-sed -i 's/create 0644 nginx nginx/create 0644 mastodon mastodon/' /etc/logrotate.d/nginx
+sed -i 's/ nginx nginx/ mastodon mastodon/' /etc/logrotate.d/nginx
 
 LD=/etc/letsencrypt/live/${DOMAIN}
 CERT=${LD}/fullchain.pem
 PKEY=${LD}/privkey.pem
 
-cat << _EOF_ > /etc/nginx/conf.d/https.conf
+cat << _EOF_ > https.conf
 map \$http_upgrade \$connection_upgrade {
 	default upgrade;
 	''      close;
 }
 server {
-	listen 443 ssl http2 default_server;
+	listen 443 ssl http2;
 	server_name ${DOMAIN};
 
 	ssl_protocols TLSv1.2;
@@ -294,66 +297,61 @@ server {
 	error_page 500 501 502 503 504 /500.html;
 }
 _EOF_
+systemctl enable nginx
+systemctl start nginx
 
-# postfix
+#postfix
 cat <<_EOL_>> /etc/postfix/main.cf
 myhostname = ${DOMAIN}
 smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
 smtp_tls_security_level = may
 smtp_tls_loglevel = 1
-smtpd_client_connection_count_limit = 5
-smtpd_client_message_rate_limit = 5
-smtpd_client_recipient_rate_limit = 5
+smtpd_client_connection_count_limit = 9
+smtpd_client_message_rate_limit = 9
+smtpd_client_recipient_rate_limit = 9
 disable_vrfy_command = yes
 smtpd_discard_ehlo_keywords = dsn, enhancedstatuscodes, etrn
 _EOL_
 sed -i -e 's/^inet_interfaces.*/inet_interfaces = all/' -e 's/^inet_protocols = all/inet_protocols = ipv4/' /etc/postfix/main.cf
+systemctl reload postfix
 
-systemctl restart postfix
-
-# firewall
-firewall-cmd --permanent --add-port=25/tcp --add-port=443/tcp
+#firewall
+firewall-cmd --permanent --add-port={25,80,443}/tcp
 firewall-cmd --reload
 
-# Lets Encrypt
-cd /usr/local
-git clone https://github.com/certbot/certbot
-export PATH=/usr/local/certbot:${PATH}
-certbot-auto -n certonly --standalone -d ${DOMAIN} -m ${MADDR} --agree-tos
+#Lets Encrypt
+CPATH=/usr/local/certbot
+git clone https://github.com/certbot/certbot ${CPATH}
+WROOT=/usr/share/nginx/html
+${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos
 
 if [ ! -f ${CERT} ]
 then
 	echo "証明書の取得に失敗しました"
-	exit 1
+	_motd fail
 fi
 
+mv https.conf /etc/nginx/conf.d/
 R=${RANDOM}
-echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root /usr/local/certbot/certbot-auto renew --standalone --preferred-challenges tls-sni-01 --pre-hook 'systemctl stop nginx' --post-hook 'systemctl start nginx'" > /etc/cron.d/certbot-auto
+echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root ${CPATH}/certbot-auto renew --webroot -w ${WROOT} --post-hook 'systemctl reload nginx'" > /etc/cron.d/certbot-auto
 
-systemctl enable nginx
-systemctl start nginx
-
-# PTR 登録
+#PTR登録
 API=${BASE}/ipaddress/${IPADDR}
-cd /root/.sacloud-api/notes
 PTRJS=ptr.json
 cat <<_EOL_> ${PTRJS}
-{
- "IPAddress": { "HostName": "${DOMAIN}" }
-}
+{"IPAddress": { "HostName": "${DOMAIN}" }}
 _EOL_
-set +x
-curl -s --user "${KEY}" -X PUT -d "$(cat ${PTRJS} | jq -c .)" ${API} |jq "."
-BLANK=$(curl -s --user "${KEY}" -X GET ${API} | jq -r "select(.IPAddress.HostName == \"${DOMAIN}\") | .is_ok")
-set -x
 
-if [ "${BLANK}x" != "truex" ]
+curl -s --user "${KEY}" -X PUT -d "$(cat ${PTRJS} | jq -c .)" ${API}
+RET=$(curl -s --user "${KEY}" -X GET ${API} | jq -r "select(.IPAddress.HostName == \"${DOMAIN}\") | .is_ok")
+if [ "${RET}x" != "truex" ]
 then
 	echo "逆引きの登録に失敗しました"
-	exit 1
+	_motd fail
 fi
 
 # reboot
 shutdown -r 1
 
-echo "セットアップが完了しました"
+echo "セットアップ完了"
+_motd end
