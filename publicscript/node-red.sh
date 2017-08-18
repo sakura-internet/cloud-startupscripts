@@ -13,8 +13,9 @@ ${UI_PORT:=1880}
 export HOME=/root/ && export PM2_HOME="/root/.pm2"
 
 # Node.jsとNode-Redのセットアップ
-yum install -y --enablerepo=epel nodejs
-npm install -g --unsafe-perm node-red
+curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+yum install -y nodejs || exit 1
+npm install -g --unsafe-perm node-red || exit 1
 
 # Node-Red自動起動設定
 npm install -g pm2
