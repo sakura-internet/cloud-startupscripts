@@ -12,6 +12,10 @@ UI_PORT=@@@ui_port@@@
 ${UI_PORT:=1880}
 export HOME=/root/ && export PM2_HOME="/root/.pm2"
 
+# yumのアップデート
+yum makecache fast || exit 1
+yum -y update || exit 1
+
 # Node.jsとNode-Redのセットアップ
 yum install -y --enablerepo=epel nodejs
 npm install -g --unsafe-perm node-red
