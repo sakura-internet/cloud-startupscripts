@@ -140,6 +140,7 @@ sed -i -e "s@\(access_log logs/static.log;$\)@# \1\n      access_log /var/log/ng
 systemctl start nginx.service || exit 1
 systemctl enable nginx.service || exit 1
 
+ufw allow 22 || exit 1
 ufw allow 80 || exit 1
 ufw enable || exit 1
 
