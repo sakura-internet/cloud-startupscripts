@@ -121,7 +121,7 @@ systemctl enable crowi.service || exit 1
 apt install -y nginx || exit 1
 systemctl stop nginx.service || exit 1
 
-HOSTNAME="$(hostname).vs.sakura.ne.jp"
+HOSTNAME="localhost"
 NGINX_CONFIGPATH="/etc/nginx/nginx.conf"
 mv "$NGINX_CONFIGPATH" "${NGINX_CONFIGPATH}.origin"
 cp "/opt/crowi/public/nginx.conf" "$NGINX_CONFIGPATH"
