@@ -10,7 +10,7 @@
 # @sacloud-desc-end
 # @sacloud-password required shellarg maxlen=100 minlen=8 ex="put_password_here" GITLAB_INITIAL_PASSWORD "管理者(rootユーザ)の初期パスワード(8文字以上)"
 
-set +e
+set -e
 
 export GITLAB_ROOT_PASSWORD=@@@GITLAB_INITIAL_PASSWORD@@@
 
