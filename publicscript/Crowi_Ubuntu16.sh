@@ -143,4 +143,7 @@ systemctl enable nginx.service || exit 1
 ufw allow 80 || exit 1
 ufw enable || exit 1
 
-reboot
+# reboot
+shutdown -r 1
+
+exit 0
