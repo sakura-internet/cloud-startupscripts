@@ -39,7 +39,7 @@
 | 開発言語・フレームワーク | [LAMP](./publicscript/lamp.sh) | yumによりApache、MySQL、PHPをインストールし、LAMP構成を作成します。 | 
 | 開発言語・フレームワーク | [Node-RED](./publicscript/node-red.sh) | ブラウザの操作だけでハードウェア・デバイスを制御できるプログラミング・ツール「Node-RED」をインストールします。<br />※CentOS7系のみで動作します |
 | 開発言語・フレームワーク | [Ruby on Rails](./publicscript/ruby_on_rails.sh) | スクリプト言語RubyのフレームワークであるRuby on Railsをインストールします。 |
-| プロジェクト管理 | [GitLab CE](./publicscript/gitlab.sh) | GitHubライクなGitリポジトリ管理機能を持つモダン開発者向けプラットフォーム「[GitLab](https://about.gitlab.com)」をインストールします。 |
+| プロジェクト管理 | [GitLab CE](./publicscript/gitlab.sh) | GitHubライクなGitリポジトリ管理機能を持つモダン開発者向けプラットフォーム「[GitLab](https://about.gitlab.com)」をインストールします。<br />※推奨メモリは4GBです |
 | プロジェクト管理 | [Redmine](./publicscript/redmine.sh) | プロジェクト管理ソフトウェアのRedmineをインストールし、起動時に動作する状態に設定します。 |
 | オブジェクトストレージ | [Minio](./publicscript/minio.sh) |  [minio](https://minio.io/) という管理用UIやAPIを備えるオブジェクトストレージサーバをインストールします。 例えば、fluent-plugin-dstat のデータ保存先としても活用可能であり、kibanaと連携してdstatの可視化も可能です<br />※Ubuntu 16.04のみで動作します |
 
