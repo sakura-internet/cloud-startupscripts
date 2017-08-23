@@ -140,7 +140,7 @@ sed -i -e "s@\(access_log logs/static.log;$\)@# \1\n      access_log /var/log/ng
 systemctl start nginx.service || exit 1
 systemctl enable nginx.service || exit 1
 
-iptables -I INPUT 5 -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
-iptables-save > "/etc/iptables/iptables.rules"
+ufw allow 80 || exit 1
+ufw enable || exit 1
 
 reboot
