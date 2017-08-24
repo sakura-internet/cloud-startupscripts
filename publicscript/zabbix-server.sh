@@ -4,7 +4,8 @@
 # @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
 #
-# @sacloud-select-begin required default=3.2 ZV "Zabbix Version"
+# @sacloud-select-begin required default=3.4 ZV "Zabbix Version"
+#  3.4 "3.4"
 #  3.2 "3.2"
 #  3.0 "3.0"
 #  2.4 "2.4"
@@ -14,10 +15,36 @@
 # @sacloud-text integer min=1024 max=65534 HPORT "httpdのport番号変更(1024以上、65534以下を指定してください)"
 # @sacloud-require-archive distro-centos distro-ver-7
 
+#---------UPDATE /etc/motd----------#
+_motd() {
+	log=$(ls /root/.sacloud-api/notes/*log)
+	case $1 in
+	start)
+		echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+	;;
+	fail)
+		echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+	;;
+	end)
+		cp -f /dev/null /etc/motd
+	;;
+	esac
+}
+
+set -e
+trap '_motd fail' ERR
+
+_motd start
+
 #---------SET sacloud values---------#
 ZABBIX_VERSION=@@@ZV@@@
 ZABBIX_PASSWORD=@@@ZP@@@
 HTTPD_PORT=@@@HPORT@@@
+
+if [ -z "${ZABBIX_VERSION}" ]
+then
+	ZABBIX_VERSION=3.4
+fi
 
 #---------START OF mysql-server---------#
 yum -y install expect mariadb-server
@@ -44,7 +71,9 @@ mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
 mysql -e "FLUSH PRIVILEGES;"
 #---------END OF mysql-server---------#
 #---------START OF zabbix-server---------#
-rpm -ivh http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.noarch.rpm
+RPM_URL1=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.noarch.rpm
+RPM_URL2=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.centos.noarch.rpm
+rpm -ivh ${RPM_URL1} || rpm -ivh ${RPM_URL2}
 yum -y install zabbix-server zabbix-server-mysql zabbix-web-mysql zabbix-web-japanese zabbix-agent zabbix-get zabbix-sender
 
 mysql -e "create database zabbix character set utf8 collate utf8_bin;"
@@ -53,9 +82,9 @@ mysql -e "FLUSH PRIVILEGES;"
 
 if [ $(echo ${ZABBIX_VERSION} | grep -c "^3") -eq 1 ]
 then
-  zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix 
+	zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix 
 else
-  cat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create/{schema,images,data}.sql | mysql -u zabbix -pzabbix zabbix
+	cat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create/{schema,images,data}.sql | mysql -u zabbix -pzabbix zabbix
 fi
 sed -i "/^# DBPassword=/a DBPassword=zabbix" /etc/zabbix/zabbix_server.conf
 
@@ -88,10 +117,10 @@ _EOL_
 
 mysql -uzabbix -pzabbix zabbix -e "update hosts set status=0 where host = 'Zabbix server' ;"
 
-if [ "${ZABBIX_PASSWORD}x" != "x" ]
+if [ ! -z "${ZABBIX_PASSWORD}" ]
 then
-  ADMIN_PASSWORD=$(printf ${ZABBIX_PASSWORD} | md5sum | awk '{print $1}')
-  mysql -uzabbix -pzabbix zabbix -e "update users SET passwd='${ADMIN_PASSWORD}' WHERE alias = 'Admin';"
+	ADMIN_PASSWORD=$(printf ${ZABBIX_PASSWORD} | md5sum | awk '{print $1}')
+	mysql -uzabbix -pzabbix zabbix -e "update users SET passwd='${ADMIN_PASSWORD}' WHERE alias = 'Admin';"
 fi
 
 firewall-cmd --permanent --add-port=10051/tcp
@@ -105,10 +134,10 @@ sed -i "s/^max_input_time.*$/max_input_time = 300/" /etc/php.ini
 
 if [ $(echo ${HTTPD_PORT} | egrep -c "^[0-9]+$") -eq 1 ] &&  [ ${HTTPD_PORT} -le 65534 ] && [ ${HTTPD_PORT} -ge 1024 ]
 then
-  sed -i "s/^Listen 80$/Listen ${HTTPD_PORT}/" /etc/httpd/conf/httpd.conf
-  firewall-cmd --permanent --add-port=${HTTPD_PORT}/tcp
+	sed -i "s/^Listen 80$/Listen ${HTTPD_PORT}/" /etc/httpd/conf/httpd.conf
+	firewall-cmd --permanent --add-port=${HTTPD_PORT}/tcp
 else
-  firewall-cmd --permanent --add-port=80/tcp
+	firewall-cmd --permanent --add-port=80/tcp
 fi
 
 systemctl enable httpd
@@ -118,4 +147,5 @@ systemctl start httpd
 firewall-cmd --reload
 #---------END OF firewalld---------#
 
-exit 0
+_motd end
+
