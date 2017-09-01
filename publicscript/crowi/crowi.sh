@@ -7,13 +7,13 @@
 #   Markdown形式で記述可能な組織用コミュニケーションツールCrowiをセットアップするスクリプトです。
 #   サーバ作成後はブラウザより「http://サーバのIPアドレス/installer」にアクセスすることで設定が行えます。
 #   （このスクリプトは、16.04 でのみ動作します）
-#   APIキーとさくらのクラウドDNSで管理しているゾーンがあれば、
-#   DNSのAレコードとLets EncryptのSSL証明書の設定までセットアップします。
+#   APIキーとさくらのクラウドDNSで管理しているゾーンを指定すれば、DNSのAレコードの登録とLets Encryptを使用したSSL証明書の設定も合わせて行えます。
+#   その場合、セットアップ後のURLは 「https://ドメイン/installer」になります。
 # @sacloud-desc-end
 #
-# @sacloud-apikey permission=create AK "APIキー(DNSと、Lets Encryptの証明書をセットアップします)"
-# @sacloud-text ZONE "さくらのクラウドDNSで管理しているDNSゾーン(APIキー必須)" ex="example.com"
-# @sacloud-text SUB "ドメイン(DNSゾーン名が含まれている必要があります。空の場合はDNSゾーン名でセットアップします)" ex="crowi.example.com"
+# @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと、Lets Encryptの証明書をセットアップします)"
+# @sacloud-text ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須となります)" ex="example.com"
+# @sacloud-text SUB "ドメイン(DNSゾーン名が含まれている必要があります。未入力の場合はDNSゾーン名でセットアップします)" ex="crowi.example.com"
 #
 #---------UPDATE /etc/motd----------#
 _motd() {
