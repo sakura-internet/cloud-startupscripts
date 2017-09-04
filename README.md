@@ -20,6 +20,7 @@
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
+| Wiki | [Crowi](./publicscript/crowi/crowi_112901108706.sh) | Markdown形式で記述可能な組織用コミュニケーショ>ンツール[Crowi](http://site.crowi.wiki/)をセットアップするスクリプトです。サーバ作成後はブラウザより「http://サーバのIPアドレス/installer」にアクセスすることで設定が行えます。<br />※Ubuntu 16.04 でのみ動作します |
 | CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu_112800971484.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 14.04 または 16.04 でのみ動作します |
 | CMS | [Drupal for CentOS 7](./publicscript/drupal_for_centos7/drupal_for_centos7_112800971518.sh) | 高機能CMSであるDrupalをインストールします。<br />※CentOS 7でのみ動作します |
 | CMS | [SHIRASAGI](./publicscript/shirasagi/shirasagi_112900597554.sh) | Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMS「SHIRASAGI」をインストールします。 [公式サイトはこちら](http://www.ss-proj.org/)です。<br />※CentOS7系のみで動作します |
