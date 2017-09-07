@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eux
-
 # @sacloud-once
 # @sacloud-desc-begin
 # Fluentd, Elasticsearch, Kibanaをインストールするスクリプトです。
@@ -15,9 +13,40 @@ set -eux
 # @sacloud-password required ex="" shellarg basicpass 'Basic認証のパスワード'
 # @sacloud-checkbox default="" shellarg enabledstat 'fluent-plugin-dstatを有効にする'
 
+#===== Startup Script Motd Monitor =====#
+_motd() {
+	LOG=$(ls /root/.sacloud-api/notes/*log)
+	case $1 in
+		start)
+			echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+		;;
+		fail)
+			echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+			exit 1
+		;;
+		end)
+			cp -f /dev/null /etc/motd
+		;;
+	esac
+}
+
+_motd start
+set -ex
+trap '_motd fail' ERR
+
 #===== Sacloud Vars =====#
 BASIC_USER=@@@basicuser@@@
+if [ -z $BASIC_USER ]; then
+    echo "BASIC_USER is not defined."
+    _motd fail
+fi
+
 BASIC_PASS=@@@basicpass@@@
+if [ -z $BASIC_PASS ]; then
+    echo "BASIC_PASS is not defined."
+    _motd fail
+fi
+
 FLUENT_PLUGIN_DSTAT_ENABLED=@@@enabledstat@@@
 if [ -z $FLUENT_PLUGIN_DSTAT_ENABLED ]; then
     FLUENT_PLUGIN_DSTAT_ENABLED="0"
@@ -81,17 +110,8 @@ __EOT__
 fi
 #===== Fluentd =====#
 
-#===== Elastic Search =====#
-echo "[*] Installing elasticsearch..."
-rpm -ivh https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.0.rpm
-echo "[*] Enable & Start elasticsearch..."
-systemctl enable elasticsearch
-systemctl start elasticsearch
-echo "[+] success"
-#===== Elastic Search =====#
-
 #===== Kibana =====#
-echo "[*] Installing Kibana..."
+echo "[*] Installing Kibana and Elastic..."
 rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 cat << __EOT__ >> /etc/yum.repos.d/kibana.repo
 [kibana-5.x]
@@ -104,12 +124,34 @@ autorefresh=1
 type=rpm-md
 __EOT__
 yum update -y
-yum install -y kibana
+yum install -y kibana elasticsearch
 
-echo "[*] Enable & Start Kibana..."
+echo "[*] Enable & Start Kibana and elasticsearch ..."
+systemctl enable elasticsearch
+systemctl start elasticsearch
+
+LIMIT=30
+COUNT=0
+while :
+do
+    COUNT=$(expr ${COUNT} + 1)
+    if [ ${LIMIT} -le ${COUNT} ]
+    then
+        echo "Timeout Error"
+        _motd fail
+    fi
+    if [ $(ss -an | grep "^tcp" | grep LISTEN | grep -c ":9200") -ne 0 ]
+    then
+        break
+    fi
+    sleep 10
+done
+
 systemctl enable kibana
 systemctl start kibana
 #===== Kibana =====#
+
+sleep 60
 
 #===== Change Logstash Template =====#
 if [ $FLUENT_PLUGIN_DSTAT_ENABLED = "1" ]; then
@@ -141,7 +183,7 @@ echo "[+] success"
 #===== Change Logstash Template =====#
 
 #===== Nginx =====#
-htpasswd -b -c /etc/nginx/.htpasswd $BASIC_USER $BASIC_PASS
+htpasswd -b -c /etc/nginx/.htpasswd ${BASIC_USER} ${BASIC_PASS}
 cat << __EOT__ > /etc/nginx/nginx.conf
 user nginx;
 worker_processes auto;
@@ -206,3 +248,5 @@ systemctl start nginx
 #===== Nginx =====#
 
 echo "[+] Install Finished."
+_motd end
+
