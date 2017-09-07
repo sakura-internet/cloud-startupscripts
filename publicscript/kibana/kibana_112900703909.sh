@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name Kibana
 # @sacloud-once
 # @sacloud-desc-begin
 # Fluentd, Elasticsearch, Kibanaをインストールするスクリプトです。
