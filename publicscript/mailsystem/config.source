@@ -1,0 +1,35 @@
+### domain
+DOMAIN_LIST=example.com
+FIRST_DOMAIN=example.com
+FIRST_ADDRESS=foo@example.com
+### ldap
+ROOT_DN="cn=admin,dc=sacloud"
+ROOT_PASSWORD=dummy
+LDAP_MASTER=127.0.0.1
+LDAP_SERVER=127.0.0.1
+### mail
+ADMINS=" admin root postmaster abuse virus-report nobody "
+DOVECOT_SERVER=127.0.0.1
+LMTP_PORT=24
+XAUTH_HOST=127.0.0.1
+OUTBOUND_MTA_SERVER=127.0.0.1
+STORE_SERVER=127.0.0.1
+### milter
+ENMA_SERVER=127.0.0.1
+ENMA_PORT=10025
+CLAMAV_SERVER=127.0.0.1
+CLAMAV_PORT=10026
+DKIM_SERVER=127.0.0.1
+DKIM_PORT=8891
+### web
+HTTP_DOCROOT=/var/www/html/http_root
+HTTPS_DOCROOT=/var/www/html/https_root
+### dns zone
+IPADDR=dummy
+### thunderbird
+TYPE=SSL
+### working directory
+WORKDIR=~/startup-script-mailsystem
+### software version
+DOVECOT_VERSION=2.2.32
+PIGEONHOLE_VERSION=0.4.20
