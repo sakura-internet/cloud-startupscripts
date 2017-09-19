@@ -1,17 +1,20 @@
 #!/bin/bash
 #
+# @sacloud-name MailSystem
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトはメールサーバをセットアップします
 # (このスクリプトは、CentOS7.Xでのみ動作します)
 #
 # 事前作業として以下の2つが必要となります
-# ・さくらのクラウドDNSにメールアドレスのドメインとして使用する空のゾーンを登録していること
+# ・さくらのクラウドDNSにメールアドレスのドメインとして使用するゾーンを登録していること
 # ・さくらのクラウドAPIのアクセストークンを取得していること
-# ホスト名にドメインは含めないでください(設定例: mail)
-# 下記のローカルパートのメールアドレスは自動で作成されるため、入力しないでください
-# <admin root postmaster abuse virus-report nobody>
-# セットアップ後、サーバを再起動します
+# 注意
+# ・使用するDNSゾーンはリソースレコードが未登録であること
+# ・ホスト名の入力はドメインを含めないこと(例: mail)
+# ・ローカルパートが下記のメールアドレスは自動で作成するため、入力しないこと
+#   [admin root postmaster abuse virus-report nobody]
+# ・セットアップ後、サーバを再起動します
 # @sacloud-desc-end
 #
 # @sacloud-require-archive distro-centos distro-ver-7
@@ -167,7 +170,7 @@ $(./setup_scripts/_setup_check.sh 2>&1)
 -- create Mail Address and Password List --
 $(cat ${PASS_LIST})
 
-" | postmulti -x sendmail -f admin@${FIRST_DOMAIN} ${MAILADDR}
+" | sendmail -f admin@${FIRST_DOMAIN} ${MAILADDR}
 fi
 
 _motd end
