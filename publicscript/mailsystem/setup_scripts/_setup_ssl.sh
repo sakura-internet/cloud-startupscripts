@@ -23,7 +23,12 @@ do
 	fi
 done
 
-cat <<_EOL_>> /etc/postfix/main.cf
+if [ ! -f ${CERT} ]
+then
+	exit 1
+fi
+
+cat <<_EOL_>> /etc/postfix-inbound/main.cf
 smtpd_use_tls = yes
 smtpd_tls_cert_file = /etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
 smtpd_tls_key_file  = /etc/letsencrypt/live/${FIRST_DOMAIN}/privkey.pem
