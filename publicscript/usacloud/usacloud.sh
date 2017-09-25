@@ -22,7 +22,7 @@ yum install -y yum-utils bash-completion
 yum-config-manager --enable epel
 yum install -y jq
 # usacloud install
-curl -fsSL https://usacloud.b.sakurastorage.jp/repos/setup-yum.sh | sh
+curl -fsSL http://releases.usacloud.jp/usacloud/repos/setup-yum.sh | sh
 # get zone name
 ZONE=@@@ZONE@@@
 if [ "${ZONE}" = "default" ]
