@@ -48,7 +48,7 @@ if [ ${actual_checksum} != ${expected_checksum} ]; then
 fi
 
 # Terraform for さくらのクラウド
-curl -sL https://terraform.b.sakurastorage.jp/downloads/terraform-provider-sakuracloud_linux-amd64.zip > terraform-provider-sakuracloud_linux-amd64.zip
+curl -sL http://releases.usacloud.jp/terraform/terraform-provider-sakuracloud_linux-amd64.zip > terraform-provider-sakuracloud_linux-amd64.zip
 
 unzip $terraform_file
 unzip terraform-provider-sakuracloud_linux-amd64.zip
