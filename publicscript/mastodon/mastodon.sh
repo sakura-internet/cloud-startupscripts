@@ -16,13 +16,13 @@
 # @sacloud-text required ZONE "さくらのクラウドDNSで管理しているDNSゾーン" ex="example.com"
 # @sacloud-apikey required permission=create AK "APIキー"
 _motd() {
-	log=$(ls /root/.sacloud-api/notes/*log)
+	LOG=$(ls /root/.sacloud-api/notes/*log)
 	case $1 in
 	start)
-		echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+    	echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
 	;;
 	fail)
-		echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > /etc/motd
+		echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
 		exit 1
 	;;
 	end)
@@ -33,28 +33,26 @@ _motd() {
 KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
 
 _motd start
+set -e
+trap '_motd fail' ERR
 source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
-
 #リポジトリの設定
 yum install -y yum-utils
 yum-config-manager --enable epel
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_6.x | bash -
-
 #パッケージのインストール
 yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
-
 #DNS登録
 if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
 	echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されておりません"
 	_motd fail
 fi
-
 ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
 BASE=https://secure.sakura.ad.jp/cloud/zone/${ZONE}/api/cloud/1.1
 API=${BASE}/commonserviceitem/
@@ -68,31 +66,22 @@ then
 	if [ "${RECODES}x" = "x" ]
 	then
 		echo "ドメインのリソースIDが取得できません"
-		_motd fail
 	else
 		echo "レコードを登録していないドメインを指定してください"
-		_motd fail
 	fi
+	_motd fail
 fi
-
 API=${API}${RESID}
 cat <<_EOL_> ${DNSJS}
 {
-	"CommonServiceItem": {
-	"Settings": {
-	"DNS":  {
-	"ResourceRecordSets": [
+	"CommonServiceItem": { "Settings": { "DNS":  { "ResourceRecordSets": [
 		{ "Name": "@", "Type": "A", "RData": "${IPADDR}" },
 		{ "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
 		{ "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
-	]
-	}
-	}
-	}
+	]}}}
 }
 _EOL_
 curl -s --user "${KEY}" -X PUT -d "$(cat ${DNSJS} | jq -c .)" ${API}
-
 #postgresql, redis
 export PGSETUP_INITDB_OPTIONS="--encoding=UTF-8 --no-locale"
 postgresql-setup initdb
@@ -112,12 +101,15 @@ source ~/.bash_profile
 rbenv init - >> ~/.bash_profile
 source ~/.bash_profile
 git clone \${REPO}/ruby-build.git ~/.rbenv/plugins/ruby-build
-rbenv install 2.4.1
-rbenv global 2.4.1
-rbenv rehash
 git clone https://github.com/tootsuite/mastodon.git live
 cd live
 git checkout \$(git tag|grep -v rc|tail -1)
+cd ..
+RV=\$(cat live/.ruby-version)
+rbenv install \${RV}
+rbenv global \${RV}
+rbenv rehash
+cd live
 gem install bundler
 bundle install --deployment --without development test
 yarn install --pure-lockfile
@@ -255,12 +247,12 @@ server {
 	location / {
 		try_files \$uri @proxy;
 	}
-	
+
 	location ~ ^/(packs|system/media_attachments/files|system/accounts/avatars) {
 		add_header Cache-Control "public, max-age=31536000, immutable";
 		try_files \$uri @proxy;
 	}
-        
+
 	location @proxy {
 		proxy_set_header Host \$host;
 		proxy_set_header X-Real-IP \$remote_addr;
@@ -308,7 +300,6 @@ smtp_tls_security_level = may
 smtp_tls_loglevel = 1
 smtpd_client_connection_count_limit = 9
 smtpd_client_message_rate_limit = 9
-smtpd_client_recipient_rate_limit = 9
 disable_vrfy_command = yes
 smtpd_discard_ehlo_keywords = dsn, enhancedstatuscodes, etrn
 _EOL_
@@ -352,6 +343,5 @@ fi
 
 # reboot
 shutdown -r 1
-
 echo "セットアップ完了"
 _motd end
