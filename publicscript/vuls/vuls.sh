@@ -17,7 +17,7 @@ set -x
 
 # Install requirements
 GOVERSION=1.8.3
-yum install -y yum-plugin-changelog sqlite git gcc make
+yum install -y yum-plugin-changelog sqlite git gcc make yum-utils
 curl -O https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz
 tar -C /usr/local/ -xzf go${GOVERSION}.linux-amd64.tar.gz
 
