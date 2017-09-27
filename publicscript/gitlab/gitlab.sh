@@ -33,4 +33,8 @@ yum install gitlab-ce -y
 # 3. Configure and start GitLab
 gitlab-ctl reconfigure
 
+# 4. Configure and restart sshd
+sed -i "/^# problems./a UsePAM yes" /etc/ssh/sshd_config
+systemctl restart sshd
+
 exit 0
