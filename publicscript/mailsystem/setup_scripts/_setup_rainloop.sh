@@ -8,6 +8,7 @@ mkdir -p ${HTTPS_DOCROOT}/rainloop
 cd ${HTTPS_DOCROOT}/rainloop
 curl -sL https://repository.rainloop.net/installer.php | php
 chown -R nginx. ${HTTPS_DOCROOT}/rainloop
+curl -s https://${FIRST_DOMAIN}/rainloop/
 
 for x in $(ldapsearch -x mailroutingaddress | awk -F@ '/^mailRoutingAddress/{print $2}' | sort | uniq)
 do
