@@ -9,13 +9,6 @@ cd ${HTTPS_DOCROOT}/rainloop
 curl -sL https://repository.rainloop.net/installer.php | php
 chown -R nginx. ${HTTPS_DOCROOT}/rainloop
 
-curl -s https://${FIRST_DOMAIN}/rainloop/
-
-RLCONF=${HTTPS_DOCROOT}/rainloop/data/_data_/_default_/configs/application.ini
-sed -i -e 's/"en"/"ja_JP"/' \
--e 's/determine_user_domain = Off/determine_user_domain = On/' \
--e 's/attachment_size_limit = 25/attachment_size_limit = 20/' ${RLCONF}
-
 for x in $(ldapsearch -x mailroutingaddress | awk -F@ '/^mailRoutingAddress/{print $2}' | sort | uniq)
 do
 	cat <<-_EOL_> ${HTTPS_DOCROOT}/rainloop/data/_data_/_default_/domains/${x}.ini
