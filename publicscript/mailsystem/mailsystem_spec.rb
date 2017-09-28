@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-services = %w(zabbix-agent)
-processes = %w(zabbix_agentd)
-ports = %w(10050)
+services = %w(nginx mariadb postfix dovecot slapd opendkim clamav-milter yenma php-fpm)
+processes = %w(nginx mysqld master dovecot slapd opendkim clamd clamav-milter yenma php-fpm)
+ports = %w(24 25 80 110 143 389 443 465 587 993 995 3306 4190 8891 9000 10025 10026)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
 services.each do |service_name|
@@ -27,3 +27,4 @@ end
 describe command(logchk) do
   its(:stdout) { should match /done$/ }
 end
+

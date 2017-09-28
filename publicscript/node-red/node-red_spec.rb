@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-services = %w(zabbix-agent)
-processes = %w(zabbix_agentd)
-ports = %w(10050)
+services = %w(pm2-root)
+processes = %w(node-red)
+ports = %w(1880)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
 services.each do |service_name|
