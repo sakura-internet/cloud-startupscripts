@@ -2,6 +2,8 @@ require 'spec_helper'
 
 services = %w(nginx mongodb crowi elasticsearch)
 processes = %w(nginx mongod node java)
+ports = %w(80 3000)
+logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
 services.each do |service_name|
   describe service(service_name) do
@@ -16,9 +18,12 @@ processes.each do |proc_name|
   end
 end
 
-ports = %w(80 3000)
 ports.each do |port_number|
   describe port(port_number) do
     it { should be_listening }
   end
+end
+
+describe command(logchk) do
+  its(:stdout) { should match /done$/ }
 end

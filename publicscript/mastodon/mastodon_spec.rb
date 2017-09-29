@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-services = %w(zabbix-agent)
-processes = %w(zabbix_agentd)
-ports = %w(10050)
+services = %w(nginx postfix redis postgresql mastodon-sidekiq mastodon-streaming mastodon-web)
+processes = %w(nginx master redis-server postgres bundle node)
+ports = %w(25 80 443 3000 5432 6379)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
 services.each do |service_name|
@@ -27,3 +27,4 @@ end
 describe command(logchk) do
   its(:stdout) { should match /done$/ }
 end
+
