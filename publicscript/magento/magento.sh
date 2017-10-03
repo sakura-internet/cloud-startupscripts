@@ -103,7 +103,7 @@ mysql $MYSQLAUTH -e "GRANT ALL ON $MAGENTO_DB_SCHEMA.* TO '$MAGENTO_DB_USER'@'12
 mysql $MYSQLAUTH -e "FLUSH PRIVILEGES;"
 
 echo "## Install packages"
-apt-get install -y apache2 libapache2-mod-php7.0 php7.0 php7.0-gd php7.0-mysql php7.0-cli php7.0-curl php7.0-mbstring php7.0-xml php7.0-zip php7.0-intl php7.0-mcrypt php7.0-json curl git composer || exit 1
+apt-get install -y apache2 libapache2-mod-php7.0 php7.0 php7.0-gd php7.0-mysql php7.0-cli php7.0-curl php7.0-mbstring php7.0-xml php7.0-zip php7.0-intl php7.0-mcrypt php7.0-json php7.0-soap curl git composer || exit 1
 
 echo "## Enable Apache rewrite module"
 a2enmod rewrite || exit 1
