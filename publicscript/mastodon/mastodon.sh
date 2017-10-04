@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# @sacloud-name "Mastodon"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは Mastodon をセットアップします

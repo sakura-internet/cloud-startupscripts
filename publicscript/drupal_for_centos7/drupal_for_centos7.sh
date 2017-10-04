@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Drupal for CentOS 7"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "apt-get update/upgrade"
 # @sacloud-once
 
 # @sacloud-desc apt-get update/upgradeを実行します。完了後自動再起動します。

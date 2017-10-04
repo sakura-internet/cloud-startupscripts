@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "owncloud"
 # @sacloud-once
 #
 # @sacloud-desc-begin OwnCloudをセットアップします。
@@ -20,7 +21,7 @@ if [ $DIST_VER = "7" ];then
   yum install -y --enablerepo=remi,remi-php71 php
   yum install -y --enablerepo=remi,remi-php71 php-gd php-pdo php-mbstring php-process php-xml php-ldap php-zip
   yum install -y owncloud-files
-  
+
   cat <<'EOT'>/var/www/html/owncloud/config/config.php
 <?php
 $CONFIG = array (
@@ -28,10 +29,10 @@ $CONFIG = array (
 );
 EOT
   chown apache:apache /var/www/html/owncloud/config/config.php
-  
+
   firewall-cmd --add-service=http --zone=public --permanent
   firewall-cmd --reload
-  
+
   systemctl enable httpd
   systemctl start httpd
 elif [ $DIST_VER = "6" ];then

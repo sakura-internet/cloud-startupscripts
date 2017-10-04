@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Jupyter Notebook"
 # @sacloud-once
 # @sacloud-desc-begin
 # pyenv, Anaconda,Jupyterをインストールするスクリプトです。

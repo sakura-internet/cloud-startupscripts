@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "RabbitMQ"
 # @sacloud-once
 # @sacloud-desc-begin
 # RabbitMQ 3.6.1をインストールします。

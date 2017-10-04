@@ -1,5 +1,6 @@
 #cloud-config
 #
+# @sacloud-name "Switching Consoles for RancherOS"
 # @sacloud-require-archive distro-rancheros
 # @sacloud-desc-begin
 # RancherOSのコンソールを切り替えます。詳細は下記URLをご確認ください。

@@ -1,4 +1,5 @@
 #!/bin/bash
+# @sacloud-name "lb-dsr"
 # @sacloud-once
 # @sacloud-desc-begin
 # ロードバランス対象のサーバの初期設定を自動化するためのスクリプトです。

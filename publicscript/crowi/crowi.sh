@@ -1,4 +1,5 @@
 #!/bin/bash
+# @sacloud-name "Crowi"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-ubuntu distro-ver-16.04.*

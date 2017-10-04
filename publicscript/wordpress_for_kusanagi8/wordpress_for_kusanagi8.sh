@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "WordPress for KUSANAGI8"
 # @sacloud-once
 #
 # @sacloud-require-archive pkg-kusanagi
@@ -13,7 +14,7 @@
 #   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
 #   メール送信後、サーバを再起動をしますのメールを受信したら1分ほど待ってアクセスください。
 #   （このスクリプトは、KUSANAGI8.xでのみ動作します）
-#   
+#
 #   セットアップ後は、kusanagiのSSL(Let's Encrypt)設定や、WordPress のURL設定をIPアドレスからドメイン名に変更する設定の実施をおすすめします。
 #   詳細は詳細は以下のページを詳細は以下のページをご覧ください
 #    http://cloud-news.sakura.ad.jp/wordpress-for-kusanagi8/
@@ -111,5 +112,5 @@ echo "please access to https://$IPADDRESS0/";
 
 echo "## reboot after 10 seconds.";
 sh -c 'sleep 10; reboot' &
- 
+
 exit 0

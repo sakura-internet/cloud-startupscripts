@@ -1,4 +1,5 @@
 #!/bin/bash
+# @sacloud-name "hatohol-server"
 # @sacloud-once
 # @sacloud-desc このスクリプトはHatohol Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc Hatohol のURLは http://IP Address/hatohol です。

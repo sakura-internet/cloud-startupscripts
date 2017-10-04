@@ -1,12 +1,13 @@
 #!/bin/bash
 
+# @sacloud-name "Git Clone"
 # @sacloud-tag @require-module-ansible
 # @sacloud-once
-# 
+#
 # @sacloud-text required shellarg url "Git URL"
 # @sacloud-text required shellarg default="startup.sh" auto_exec_cmd "実行ファイル名"
 # @sacloud-text shellarg ex_options "追加オプション"
-# 
+#
 # @sacloud-desc-begin
 #   指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。
 #   拡張子が .yml のものは Ansible Playbook として解釈されます。

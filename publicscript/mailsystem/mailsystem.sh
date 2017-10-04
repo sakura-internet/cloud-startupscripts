@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @sacloud-name MailSystem
+# @sacloud-name "MailSystem"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトはメールサーバをセットアップします
@@ -92,7 +92,7 @@ done
 # dovecot, pigeonhole のセットアップ
 ./setup_scripts/_setup_dovecot.sh 2>&1
 
-# clamav, clamav-milter のセットアップ 
+# clamav, clamav-milter のセットアップ
 ./setup_scripts/_setup_clamd.sh 2>&1
 
 # yenma のセットアップ
@@ -177,4 +177,3 @@ _motd end
 
 # reboot
 shutdown -r 1
-
