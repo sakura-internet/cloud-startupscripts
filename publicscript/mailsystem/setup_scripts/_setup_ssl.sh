@@ -82,4 +82,4 @@ sed -i 's/^#//' /etc/nginx/mail.conf
 systemctl reload nginx
 
 R=${RANDOM}
-echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root /usr/local/certbot/certbot-auto renew --webroot -w ${HTTP_DOCROOT} --post-hook 'systemctl reload nginx' --post-hook 'systemctl reload postfix'" > /etc/cron.d/certbot-auto
+echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root /usr/local/certbot/certbot-auto renew --webroot -w ${HTTP_DOCROOT} --post-hook 'systemctl reload nginx postfix'" > /etc/cron.d/certbot-auto
