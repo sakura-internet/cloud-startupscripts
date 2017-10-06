@@ -1,0 +1,11 @@
+#cloud-config
+#
+# @sacloud-require-archive distro-rancheros
+# @sacloud-desc-begin
+# RanchrOSのSSH公開鍵を設定します。
+# @sacloud-desc-end
+#
+# @sacloud-text required ex="ssh-rsa xxxxXXXXxxxxXXXX" key "ssh 公開鍵"
+
+ssh_authorized_keys:
+  - @@@key@@@
