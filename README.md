@@ -39,6 +39,7 @@
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
+| SSL環境 | [Let's Encrypt](./publicscript/letsencrypt/letsencrypt.sh) | Nginx と certbot-auto をインストールし、入力したドメインで Let's Encrypt の TLS 証明書を取得します。また、さくらのクラウド DNS で、A レコードを追加します。<br />※CentOS7系のみで動作します。 |
 | 開発支援 | [Git Clone](./publicscript/git_clone/git_clone.sh) | 指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。<br />拡張子が .yml のものは Ansible Playbook として解釈されます。 |
 | メッセージキュー管理 | [RabbitMQ](./publicscript/rabbitmq/rabbitmq.sh) | メッセージキュー管理システムであるRabbitMQをインストールします。 |
 | 開発言語・フレームワーク | [LAMP](./publicscript/lamp/lamp.sh) | yumによりApache、MySQL、PHPをインストールし、LAMP構成を作成します。 | 
