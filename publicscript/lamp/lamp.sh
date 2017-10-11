@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "LAMP"
 # @sacloud-once
 #
 # @sacloud-desc-begin
@@ -61,7 +62,7 @@ if [ $DIST = "redhat" ];then
       PASSWD=$(mkpasswd -l 12 -d 3 -c 3 -C 3 -s 0)
     fi
 
- 
+
     export HOME=/root
 
     mysql -u root -e "SET PASSWORD FOR root@localhost=PASSWORD('${PASSWD}');"
@@ -73,7 +74,7 @@ if [ $DIST = "redhat" ];then
     mysql -u root -p${PASSWD} -e "DROP DATABASE test;"
     mysql -u root -p${PASSWD} -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
     mysql -u root -p${PASSWD} -e "FLUSH PRIVILEGES;"
-    
+
         cat <<_EOL_> /root/.my.cnf
 [client]
 host     = localhost
@@ -92,16 +93,16 @@ _EOL_
 :FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
 :fail2ban-SSH - [0:0]
--A INPUT -p tcp -m multiport --dports 22 -j fail2ban-SSH 
+-A INPUT -p tcp -m multiport --dports 22 -j fail2ban-SSH
 -A INPUT -p TCP -m state --state NEW ! --syn -j DROP
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
--A INPUT -p icmp -j ACCEPT 
--A INPUT -i lo -j ACCEPT 
--A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
--A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 -A INPUT -p udp --sport 123 --dport 123 -j ACCEPT
 -A INPUT -p udp --sport 53 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 -A fail2ban-SSH -j RETURN
 COMMIT
 EOT
@@ -189,6 +190,6 @@ _EOL_
     mysql -e "DELETE FROM mysql.user WHERE User='';"
     mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1');"
     mysql -e "FLUSH PRIVILEGES;"
-    
+
    service apache2 restart
 fi

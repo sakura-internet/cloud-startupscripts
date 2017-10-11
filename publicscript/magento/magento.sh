@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Magento"
 # @sacloud-once
 
 # @sacloud-desc Ubuntu16.04.* LTSに、EC サイト構築プラットフォーム Magento2.x をインストールします。

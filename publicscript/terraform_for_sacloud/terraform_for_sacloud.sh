@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Terraform for さくらのクラウド"
 # @sacloud-once
 # @sacloud-desc-begin
 #  CentOS7.xに Terraform for さくらのクラウド をインストールします

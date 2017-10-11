@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# @sacloud-name "Usacloud"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは usacloud をセットアップします

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "SHIRASAGI"
 # @sacloud-once
 
 # @sacloud-desc-begin
@@ -7,7 +8,7 @@
 #   オプションの「ドメイン名」を設定すると、
 #   ブラウザで "http://example.jp/" にアクセスするとシラサギが表示されるようにシラサギがインストールされます。
 #   example.jpの部分は、ご利用のドメインに応じて適時変更してください。
-#   
+#
 #   サーバ作成後、Webブラウザでシラサギの管理画面にアクセスしてください。
 #   http://IPアドレス:3000/.mypage
 #   初期ID/パスワードは下記URLを参照してください。

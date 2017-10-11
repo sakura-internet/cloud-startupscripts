@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# @sacloud-name "Mattermost"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは Mattermost をセットアップします

@@ -2,6 +2,7 @@
 
 set -eux
 
+# @sacloud-name "Minio"
 # @sacloud-once
 # @sacloud-desc-begin
 # Nginx, minio をインストールするスクリプトです。

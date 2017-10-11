@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Ruby on Rails"
 # @sacloud-once
 # @sacloud-desc-begin
 # rbenv、Bundler、Ruby on Rails をインストールするスクリプトです。
@@ -53,7 +54,7 @@ __EOS__
 fi
 
 echo "[3/5] Ruby のインストール中..."
-su -l $user -c "rbenv install $ruby_version" >/dev/null 2>&1 
+su -l $user -c "rbenv install $ruby_version" >/dev/null 2>&1
 su -l $user -c "rbenv global  $ruby_version"
 su -l $user -c "rbenv rehash"
 echo "[3/5] Ruby をインストールしました"

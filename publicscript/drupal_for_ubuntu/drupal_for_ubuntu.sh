@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Drupal for Ubuntu"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-ubuntu

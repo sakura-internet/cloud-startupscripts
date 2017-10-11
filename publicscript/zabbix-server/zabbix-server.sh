@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "zabbix-server"
 # @sacloud-once
 # @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
@@ -82,7 +83,7 @@ mysql -e "FLUSH PRIVILEGES;"
 
 if [ $(echo ${ZABBIX_VERSION} | grep -c "^3") -eq 1 ]
 then
-	zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix 
+	zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix
 else
 	cat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create/{schema,images,data}.sql | mysql -u zabbix -pzabbix zabbix
 fi

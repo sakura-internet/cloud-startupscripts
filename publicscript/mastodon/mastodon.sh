@@ -1,14 +1,15 @@
 #!/bin/bash
 #
+# @sacloud-name "Mastodon"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは Mastodon をセットアップします
 # (CentOS7.X でのみ動作します)
 #
-# 事前作業として以下の2つが必要となります
-# ・さくらのクラウドDNSにゾーン登録を完了していること
-# ・さくらのクラウドAPIのアクセストークンを取得していること
-# ブラウザからアクセスできるようになるまでに30分程度のお時間がかかります
+# 事前作業として以下の2つが必要です
+# ・さくらのクラウドDNSにゾーン登録を完了済み
+# ・さくらのクラウドAPIのアクセストークンを取得済み
+# ブラウザからアクセスできるようになるまでに30分程度お時間がかかります
 # セットアップ完了後、サーバを自動で再起動します
 # https://(さくらのクラウドDNSのゾーン名)
 # @sacloud-desc-end
@@ -38,12 +39,12 @@ trap '_motd fail' ERR
 source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
-#リポジトリの設定
+
 yum install -y yum-utils
 yum-config-manager --enable epel
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_6.x | bash -
-#パッケージのインストール
+
 yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn

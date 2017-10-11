@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "yum update"
 # @sacloud-once
 # @sacloud-desc yum updateを実行します。完了後自動再起動します。
 # @sacloud-desc （このスクリプトは、CentOS6.X, 7.Xでのみ動作します）

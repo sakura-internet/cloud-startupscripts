@@ -250,4 +250,3 @@ systemctl start nginx
 
 echo "[+] Install Finished."
 _motd end
-

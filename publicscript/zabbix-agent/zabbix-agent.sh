@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "zabbix-agent"
 # @sacloud-once
 # @sacloud-desc このスクリプトはZabbix Agentをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。

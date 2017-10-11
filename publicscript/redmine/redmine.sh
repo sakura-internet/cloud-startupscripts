@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "Redmine"
 # @sacloud-once
 
 # @sacloud-desc Redmineをインストールします。
@@ -17,16 +18,16 @@ cat <<'EOT' > /etc/sysconfig/iptables
 :FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
 :fail2ban-SSH - [0:0]
--A INPUT -p tcp -m multiport --dports 22 -j fail2ban-SSH 
+-A INPUT -p tcp -m multiport --dports 22 -j fail2ban-SSH
 -A INPUT -p TCP -m state --state NEW ! --syn -j DROP
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT 
--A INPUT -p icmp -j ACCEPT 
--A INPUT -i lo -j ACCEPT 
--A INPUT -p tcp -m tcp --dport 80 -j ACCEPT 
--A INPUT -p tcp -m tcp --dport 443 -j ACCEPT 
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 -A INPUT -p udp --sport 123 --dport 123 -j ACCEPT
 -A INPUT -p udp --sport 53 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT 
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 -A fail2ban-SSH -j RETURN
 COMMIT
 EOT

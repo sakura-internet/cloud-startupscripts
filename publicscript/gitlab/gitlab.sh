@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# @sacloud-name "GitLab"
 # @sacloud-once
 # @sacloud-desc-begin
 #   GitLabをインストールします。
