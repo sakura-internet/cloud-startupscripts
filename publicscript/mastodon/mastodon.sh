@@ -51,7 +51,7 @@ npm install -g yarn
 #DNS登録
 if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
-	echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されておりません"
+	echo "${DOMAIN} はさくらのクラウドDNSで管理していません"
 	_motd fail
 fi
 ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
@@ -62,7 +62,7 @@ DNSJS=dns.json
 curl -s --user "${KEY}" ${API} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${DOMAIN}\")" > ${RESJS} 2>/dev/null
 RESID=$(jq -r .ID ${RESJS})
 RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
-if [ $(echo "${RECODES}" | grep -c "^\[\]$") -ne 1 ]
+if [ $(echo "${RECODES}" | egrep -c "^(\[\]|null)$") -ne 1 ]
 then
 	if [ "${RECODES}x" = "x" ]
 	then
@@ -76,9 +76,9 @@ API=${API}${RESID}
 cat <<_EOL_> ${DNSJS}
 {
 	"CommonServiceItem": { "Settings": { "DNS":  { "ResourceRecordSets": [
-		{ "Name": "@", "Type": "A", "RData": "${IPADDR}" },
-		{ "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
-		{ "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
+	{ "Name": "@", "Type": "A", "RData": "${IPADDR}" },
+	{ "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
+	{ "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
 	]}}}
 }
 _EOL_
@@ -115,7 +115,7 @@ gem install bundler
 bundle install --deployment --without development test
 yarn install --pure-lockfile
 cp .env.production{.sample,}
-export RAILS_ENV=production
+export RAILS_ENV=production SAFETY_ASSURED=1
 SKB=\$(bundle exec rake secret)
 PS=\$(bundle exec rake secret)
 OS=\$(bundle exec rake secret)
@@ -300,7 +300,6 @@ smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
 smtp_tls_security_level = may
 smtp_tls_loglevel = 1
 smtpd_client_connection_count_limit = 9
-smtpd_client_message_rate_limit = 9
 disable_vrfy_command = yes
 smtpd_discard_ehlo_keywords = dsn, enhancedstatuscodes, etrn
 _EOL_
