@@ -46,10 +46,12 @@ then
 	SSL=0
 fi
 
+set -x
 set -e
 trap '_motd fail' ERR
 
 _motd start
+apt-get update
 apt install -y curl jq
 
 IPADDR=$(awk '/^address/{print $2}' /etc/network/interfaces)
@@ -104,7 +106,7 @@ then
 	RESID=$(jq -r .ID ${RESJS})
 	API=${API}${RESID}
 	RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
-	if [ $(echo "${RECODES}" | grep -c "^\[\]$") -ne 1 ]
+	if [ $(echo "${RECODES}" | egrep -c "^(\[\]|null)$") -ne 1 ]
 	then
 		if [ -n "${RECODES}" ]
 		then
@@ -323,7 +325,5 @@ fi
 
 ufw enable
 
-# reboot
-shutdown -r 1
-
 _motd end
+
