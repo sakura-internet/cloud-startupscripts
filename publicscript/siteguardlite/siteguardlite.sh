@@ -40,14 +40,14 @@ function centos6(){
 	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-0.apache.x86_64.rpm -P /root/.sakuravps
 	rpm -Uvh /root/.sakuravps/siteguardlite-3.30-0.apache.x86_64.rpm
 
-	chkconfig httpd on || exit 1
+	chkconfig httpd on || _motd fail
 
 	cat > /opt/jp-secure/siteguardlite/conf/dbupdate_waf_url.conf <<-EOF
 	LATEST_URL=https://www.jp-secure.com/download/siteguardlite_sp/updates_lite/latest-lite.zip
 	EOF
 
 	cd /opt/jp-secure/siteguardlite/
-	yes '' | ./setup.sh || exit 1
+	yes '' | ./setup.sh || _motd fail
 }
 
 
@@ -67,14 +67,14 @@ function centos7(){
 	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-0.apache.x86_64.rpm -P /root/.sakuravps
 	rpm -Uvh /root/.sakuravps/siteguardlite-3.30-0.apache.x86_64.rpm
 
-	systemctl enable httpd.service || exit 1
+	systemctl enable httpd.service || _motd fail
 
 	cat > /opt/jp-secure/siteguardlite/conf/dbupdate_waf_url.conf <<-EOF
 	LATEST_URL=https://www.jp-secure.com/download/siteguardlite_sp/updates_lite/latest-lite.zip
 	EOF
 
 	cd /opt/jp-secure/siteguardlite/
-	yes '' | ./setup.sh || exit 1
+	yes '' | ./setup.sh || _motd fail
 }
 
 ### main ###
