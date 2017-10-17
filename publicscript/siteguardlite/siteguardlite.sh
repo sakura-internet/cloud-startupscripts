@@ -7,8 +7,25 @@
 # @sacloud-require-archive distro-centos distro-ver-7.*
 ## ScriptName : CentOS_SiteGuardLite-Apache
 set -x
+#===== Startup Script Motd Monitor =====#
+_motd() {
+ LOG=$(ls /root/.sacloud-api/notes/*log)
+ case $1 in
+  start)
+   echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+  ;;
+  fail)
+   echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+   exit 1
+  ;;
+  end)
+   cp -f /dev/null /etc/motd
+  ;;
+ esac
+}
 
 function centos6(){
+	_motd star
 	iptables -S INPUT | grep -q "\-\-dport 80 \-j ACCEPT"
 	[ "$?" = "0" ] ||  iptables -I INPUT 5 -p tcp -m tcp --dport 80 -j ACCEPT
 	iptables -S INPUT | grep -q "\-\-dport 443 \-j ACCEPT"
@@ -35,6 +52,7 @@ function centos6(){
 
 
 function centos7(){
+	_motd star
 	STATE_HTTP=$(firewall-cmd --query-service=http)
 	[ "$STATE_HTTP" = "yes" ] ||  firewall-cmd --add-service=http --zone=public --permanent
 	STATE_HTTPS=$(firewall-cmd --query-service=https)
@@ -66,4 +84,5 @@ VERSION=$(rpm -q centos-release --qf "%{VERSION}")
 [ "$VERSION" = "7" ] && centos7
 
 sh -c "echo -e '##########\nReboot after 10 seconds\n##########' | wall -n; sleep 10; reboot" &
+_motd end
 exit 0
