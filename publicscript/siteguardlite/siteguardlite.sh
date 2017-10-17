@@ -25,7 +25,7 @@ _motd() {
 }
 
 function centos6(){
-	_motd star
+	_motd start
 	iptables -S INPUT | grep -q "\-\-dport 80 \-j ACCEPT"
 	[ "$?" = "0" ] ||  iptables -I INPUT 5 -p tcp -m tcp --dport 80 -j ACCEPT
 	iptables -S INPUT | grep -q "\-\-dport 443 \-j ACCEPT"
@@ -52,7 +52,7 @@ function centos6(){
 
 
 function centos7(){
-	_motd star
+	_motd start
 	STATE_HTTP=$(firewall-cmd --query-service=http)
 	[ "$STATE_HTTP" = "yes" ] ||  firewall-cmd --add-service=http --zone=public --permanent
 	STATE_HTTPS=$(firewall-cmd --query-service=https)
