@@ -19,12 +19,13 @@
 # @sacloud-apikey required permission=create AK "APIキー"
 
 _motd() {
+	LOG=$(ls /root/.sacloud-api/notes/*log)
 	case $1 in
 		start)
-			echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: $2\n" > /etc/motd
+			echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
 		;;
 		fail)
-			echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: $2\n" > /etc/motd
+			echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
 			exit 1
 		;;
 		end)
@@ -35,10 +36,9 @@ _motd() {
 
 KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
 
-set -x
-LOG="$(pwd)/$(basename $0).log"
-# motdの変更
-_motd start ${LOG}
+_motd start
+set -ex
+trap '_motd fail' ERR
 
 source /etc/sysconfig/network-scripts/ifcfg-eth0
 ZONE="@@@ZONE@@@"
@@ -54,7 +54,7 @@ then
 	elif [ "${DOMAIN}" != "${ZONE}" ]
 	then
 		echo "ドメインにゾーンが含まれていません"
-		_motd fail ${LOG}
+		_motd fail
 	fi
 else
 	DOMAIN=${ZONE}
@@ -75,52 +75,53 @@ yum update -y
 # DNS 登録
 if [ $(dig ${ZONE} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
-	echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されておりません"
-	_motd fail ${LOG}
+	echo "${ZONE} はさくらのクラウドDNSで管理していません"
+	_motd fail
 fi
 
 for x in A MX TXT
 do
 	if [ $(dig ${DOMAIN} ${x} +short | grep -vc "^$") -ne 0 ]
 	then
-		echo "${DOMAIN}の${x}レコードが登録されています"
-		_motd fail ${LOG}
+		echo "${DOMAIN}の${x}レコードがDNSに登録されています"
+		_motd fail
 	fi
 done
 
-CZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
-BASE=https://secure.sakura.ad.jp/cloud/zone/${CZONE}/api/cloud/1.1
+SITE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
+BASE=https://secure.sakura.ad.jp/cloud/zone/${SITE}/api/cloud/1.1
 API=${BASE}/commonserviceitem/
+
+STATUS=status.txt
 RESJS=resource.json
 ADDJS=add.json
-UPJS=update.json
-RESTXT=response.txt
+REGIST=regist.json
 
 set +x
-curl -s -v --user "${KEY}" ${API} 2>${RESTXT} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${ZONE}\")" > ${RESJS}
+curl -s -v --user "${KEY}" ${API} 2>${STATUS} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${ZONE}\")" > ${RESJS}
 set -x
-if [ $(grep -c "^< Status: 200 OK" ${RESTXT}) -ne 1 ]
-then
-	echo "API接続エラー(1)"
-	_motd fail ${LOG}
-fi
-rm -f ${RESTXT}
 
 RESID=$(jq -r .ID ${RESJS})
 API=${API}${RESID}
 RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
-if [ $(echo "${RECODES}" | grep -c "^\[\]$") -ne 1 ]
+if [ $(grep -c "^< Status: 200 OK" ${STATUS}) -ne 1 ]
+then
+	echo "API接続エラー(1)"
+	_motd fail
+fi
+
+if [ $(echo "${RECODES}" | egrep -c "^(\[\]|null)$") -ne 1 ]
 then
 	if [ -n "${RECODES}" ]
 	then
 		if [ "${DOMAIN}" = "${ZONE}" ]
 		then
 			echo "レコードを登録していないドメインを指定してください"
-			_motd fail ${LOG}
+			_motd fail
 		fi
 	else
 		echo "ドメインのリソースIDが取得できません"
-		_motd fail ${LOG}
+		_motd fail
 	fi
 fi
 
@@ -131,14 +132,14 @@ cat <<_EOF_> ${ADDJS}
 	{ "Name": "${NAME}", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
 ]
 _EOF_
-DNSREC=$(echo "${RECODES}" | jq -r ".+$(cat ${ADDJS})")
+RRS=$(echo "${RECODES}" | jq -r ".+$(cat ${ADDJS})")
 
-cat <<_EOF_> ${UPJS}
+cat <<_EOF_> ${REGIST}
 {
 	"CommonServiceItem": {
 		"Settings": {
 			"DNS":  {
-				"ResourceRecordSets": $(echo ${DNSREC})
+				"ResourceRecordSets": $(echo ${RRS})
 			}
 		}
 	}
@@ -146,14 +147,13 @@ cat <<_EOF_> ${UPJS}
 _EOF_
 
 set +x
-curl -s -v --user "${KEY}" -X PUT -d "$(cat ${UPJS} | jq -c .)" ${API} 2>${RESTXT} | jq "."
+curl -s -v --user "${KEY}" -X PUT -d "$(cat ${REGIST} | jq -c .)" ${API} 2>${STATUS} | jq "."
 set -x
-if [ $(grep -c "^< Status: 200 OK" ${RESTXT}) -ne 1 ]
+if [ $(grep -c "^< Status: 200 OK" ${STATUS}) -ne 1 ]
 then
 	echo "API接続エラー(2)"
-	_motd fail ${LOG}
+	_motd fail
 fi
-rm -f ${RESTXT}
 
 # Mysql
 cat <<_EOF_>> /etc/my.cnf
@@ -188,7 +188,7 @@ mysql -e "SET GLOBAL validate_password_policy=LOW;" ;
 mysql -e "SET GLOBAL validate_password_length=7;"
 
 # mattermost
-VERSION=4.0.1
+VERSION=4.3.0
 curl -O https://releases.mattermost.com/${VERSION}/mattermost-team-${VERSION}-linux-amd64.tar.gz
 tar xpf mattermost-team-${VERSION}-linux-amd64.tar.gz
 mv mattermost /opt/
@@ -327,22 +327,23 @@ firewall-cmd --reload
 CPATH=/usr/local/certbot
 git clone https://github.com/certbot/certbot ${CPATH}
 WROOT=/usr/share/nginx/html
-CA=$(${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos)
-${CA}
-for x in $(seq 1 3)
+CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos"
+sleep 180
+
+for x in 1 2 3 4
 do
-	if [ ! -f ${CERT} ]
+	${CA}
+	if [ -f ${CERT} ]
 	then
+		break
+	elif [ ${x} -eq 4 ]
+	then
+		echo "証明書の取得に失敗しました"
+		_motd fail
+	else
 		sleep 300
-		${CA}
 	fi
 done
-
-if [ ! -f ${CERT} ]
-then
-	echo "証明書の取得に失敗しました"
-	_motd fail ${LOG}
-fi
 
 mv /etc/nginx/conf.d/mattermost.conf{_,}
 systemctl reload nginx
@@ -377,7 +378,7 @@ done
 if [ "${PRET}x" != "truex" ]
 then
 	echo "逆引きの登録に失敗しました"
-	_motd fail ${LOG}
+	_motd fail
 fi
 
 # reboot
