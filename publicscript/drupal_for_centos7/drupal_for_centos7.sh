@@ -29,6 +29,7 @@ DRUPAL_VERSION=@@@drupal_version@@@
 # 必要なミドルウェアを全てインストール
 yum makecache fast || exit 1
 # Drupal 7, 8 共通のパッケージをインストール
+yum -y localinstall http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 yum -y install mariadb mariadb-server httpd || exit 1
 if [ $DRUPAL_VERSION -eq 7 ]; then
   yum -y install php php-mysql php-gd php-dom php-mbstring || exit 1
