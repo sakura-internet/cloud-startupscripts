@@ -6,6 +6,7 @@
 # このスクリプトは オープンソース グループウェア Aipo をセットアップします
 # (このスクリプトは CentOS7.Xでのみ動作します)
 # URLは http://IPアドレス または http(s)://指定のドメイン名 です
+# 初期ユーザとパスワードは admin です
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
 # @sacloud-apikey permission=create AK "APIキーを選択すると指定したドメインでセットアップします"
