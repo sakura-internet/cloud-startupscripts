@@ -188,7 +188,7 @@ mysql -e "SET GLOBAL validate_password_policy=LOW;" ;
 mysql -e "SET GLOBAL validate_password_length=7;"
 
 # mattermost
-VERSION=4.3.0
+VERSION=4.3.1
 curl -O https://releases.mattermost.com/${VERSION}/mattermost-team-${VERSION}-linux-amd64.tar.gz
 tar xpf mattermost-team-${VERSION}-linux-amd64.tar.gz
 mv mattermost /opt/
