@@ -57,11 +57,11 @@ fi
 
 # checksum
 checksum_file="terraform-provider-sakuracloud_${version}_SHA256SUMS"
-curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/${version}/${checksum_file}
+curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/v${version}/${checksum_file}
 
 # Terraform for さくらのクラウド
 plugin_file="terraform-provider-sakuracloud_${version}_linux-amd64.zip"
-curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/${version}/${plugin_file}
+curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/v${version}/${plugin_file}
 
 actual_checksum=$(openssl dgst -sha256 ${plugin_file} | awk -F '=' '{ gsub(" ","", $2); print $2 }')
 echo "debug actual_checksum:plugin   => ${actual_checksum}"
