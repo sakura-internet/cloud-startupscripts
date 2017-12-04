@@ -32,27 +32,49 @@ fi
 
 # checksum
 checksum_file="terraform_${version}_SHA256SUMS"
-curl -sL https://releases.hashicorp.com/terraform/${version}/terraform_${version}_SHA256SUMS > $checksum_file
+curl -sLO https://releases.hashicorp.com/terraform/${version}/${checksum_file}
 
 # Terraform
 terraform_file="terraform_${version}_linux_amd64.zip"
-curl -sL https://releases.hashicorp.com/terraform/${version}/terraform_${version}_linux_amd64.zip > $terraform_file
+curl -sLO https://releases.hashicorp.com/terraform/${version}/${terraform_file}
 
 actual_checksum=$(openssl dgst -sha256 ${terraform_file} | awk -F '=' '{ gsub(" ","", $2); print $2 }')
-echo "debug actual_checksum   => ${actual_checksum}"
+echo "debug actual_checksum:terraform   => ${actual_checksum}"
 expected_checksum=$(cat ${checksum_file} | grep ${terraform_file} | awk '{ print $1 }')
-echo "debug expected_checksum => ${expected_checksum}"
+echo "debug expected_checksum:terraform => ${expected_checksum}"
 
 if [ ${actual_checksum} != ${expected_checksum} ]; then
-  echo 'does not match checksum'
+  echo 'does not match checksum:terraform'
   exit 1
 fi
 
+# Terraform for さくらのクラウドの最新バージョン
+version=$(curl -s https://api.github.com/repos/sacloud/terraform-provider-sakuracloud/releases | grep tag_name | grep -v "staging" |grep -v "rc" | head -1 | cut -d '"' -f 4 | sed -e s/v//)
+if [ -z "$version" ]; then
+  echo 'cannot get terraform for sakuracloud version'
+  exit 1
+fi
+
+# checksum
+checksum_file="terraform-provider-sakuracloud_${version}_SHA256SUMS"
+curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/${version}/${checksum_file}
+
 # Terraform for さくらのクラウド
-curl -sL http://releases.usacloud.jp/terraform/terraform-provider-sakuracloud_linux-amd64.zip > terraform-provider-sakuracloud_linux-amd64.zip
+plugin_file="terraform-provider-sakuracloud_${version}_linux-amd64.zip"
+curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/${version}/${plugin_file}
+
+actual_checksum=$(openssl dgst -sha256 ${plugin_file} | awk -F '=' '{ gsub(" ","", $2); print $2 }')
+echo "debug actual_checksum:plugin   => ${actual_checksum}"
+expected_checksum=$(cat ${checksum_file} | grep ${plugin_file} | awk '{ print $1 }')
+echo "debug expected_checksum:plugin => ${expected_checksum}"
+
+if [ ${actual_checksum} != ${expected_checksum} ]; then
+  echo 'does not match checksum:plugin'
+  exit 1
+fi
 
 unzip $terraform_file
-unzip terraform-provider-sakuracloud_linux-amd64.zip
+unzip $plugin_file
 
 cat << __EOL__ >> ~/.bash_profile
 export PATH=\$PATH:~/terraform/
