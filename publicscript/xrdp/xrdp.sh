@@ -1,11 +1,10 @@
 #!/bin/bash
 # @sacloud-once
-# @sacloud-name "xrdp"
+# @sacloud-name "GNOME-xrdp"
 # @sacloud-require-archive distro-centos distro-ver-7.*
 #
 # @sacloud-desc-begin
-#   TigerVNC と xrdp をインストールし、Windows からリモートデスクトップ接続できるようにします。
-#   サーバにユーザを作成してからリモートデスクトップにてサーバのIPアドレスを指定してアクセスしてください。
+#   GNOMEデスクトップ環境とTigerVNC、xrdp をインストールし、リモートデスクトップ接続をできるようにします。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
 # @sacloud-desc-end
 # @sacloud-textarea heredoc ADDR "xrdp に接続するクライアントのIPアドレス(ipv4)を制限する場合は、1行に1つIPアドレスを入力してください。" ex="127.0.0.1"
