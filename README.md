@@ -72,3 +72,4 @@
 | 監視 | [hatohol-server](./publicscript/hatohol-server/hatohol-server.sh) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
 | セキュリティ | [Vuls](./publicscript/vuls/vuls.sh) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
 | セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します | 
+| RDP環境 | [GNOME-xrdp](./publicscript/xrdp/xrdp.sh) | GNOMEデスクトップ環境と xrdp をインストールします。Microsoftのリモートデスクトップなどを使用してサーバに接続することができます。<br />※CentOS7系のみで動作します |
