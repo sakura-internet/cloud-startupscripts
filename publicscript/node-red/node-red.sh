@@ -12,9 +12,9 @@
 # @sacloud-text shellarg maxlen=5 ex=1880 integer min=80 max=65535 ui_port "Node-REDのWeb UIポート番号"
 UI_PORT=@@@ui_port@@@
 ${UI_PORT:=1880}
-# @sacloud-text shellarg minlen=5 maxlen=65535 ex=username nodered_id "Node-REDのログインID"
+# @sacloud-text shellarg minlen=5 maxlen=20 ex=username nodered_id "Node-REDのログインID"
 UI_NODERED_ID=@@@nodered_id@@@
-# @sacloud-password shellarg minlen=8 maxlen=65535 ex=password nodered_password "Node-REDのログインパスワード"
+# @sacloud-password shellarg minlen=8 maxlen=20 ex=password nodered_password "Node-REDのログインパスワード"
 UI_NODERED_PASSWORD=@@@nodered_password@@@
  
 export HOME=/root/ && export PM2_HOME="/root/.pm2"
