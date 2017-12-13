@@ -1,4 +1,5 @@
 #!/bin/sh
+# @sacloud-name "Node-RED"
 # @sacloud-once
 # @sacloud-desc NVM/Node.js/Node-REDのインストールを実行します。
 # @sacloud-desc このスクリプトは、CentOS 7.xでのみ動作します。
