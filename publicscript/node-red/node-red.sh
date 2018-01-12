@@ -72,7 +72,7 @@ then
 	# パスワード抽出
 	echo "# nodered password crypt make"
 	npm install bcryptjs
-	UI_NODERED_PASSWORD_CRYPT=`node -e "console.log(require('bcryptjs').hashSync(process.argv[1], 8));" ${UI_NODERED_PASSWORD}`
+	UI_NODERED_PASSWORD_CRYPT=`node -e "console.log(require('bcryptjs').hashSync(process.argv[1], 8));" "${UI_NODERED_PASSWORD}"`
 
 	# パスワード変更　事前置き換え
 	echo "# nodered password template push"
@@ -102,4 +102,3 @@ fi
 _motd end
 
 exit 0
-
