@@ -37,8 +37,8 @@ function centos6(){
 	rm -fr /var/cache/yum/*
 	yum clean all
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl
-	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-0.apache.x86_64.rpm -P /root/.sakuravps
-	rpm -Uvh /root/.sakuravps/siteguardlite-3.30-0.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-1.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguardlite-3.30-1.apache.x86_64.rpm
 
 	chkconfig httpd on || _motd fail
 
@@ -64,8 +64,8 @@ function centos7(){
 	rm -fr /var/cache/yum/*
 	yum clean all
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl
-	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-0.apache.x86_64.rpm -P /root/.sakuravps
-	rpm -Uvh /root/.sakuravps/siteguardlite-3.30-0.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-1.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguardlite-3.30-1.apache.x86_64.rpm
 
 	systemctl enable httpd.service || _motd fail
 
