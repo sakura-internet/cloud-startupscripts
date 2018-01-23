@@ -1,5 +1,5 @@
 #!/bin/bash
-# @sacloud-name "siteguardlite3.30u1"
+# @sacloud-name "SiteGuardLite for CentOS"
 # @sacloud-once
 # @sacloud-desc 完了後自動再起動します。
 # @sacloud-desc （このスクリプトは、CentOS6.X, 7.Xでのみ動作します）
