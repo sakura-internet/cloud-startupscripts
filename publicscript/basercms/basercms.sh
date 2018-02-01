@@ -6,12 +6,19 @@
 # @sacloud-require-archive distro-centos distro-ver-7.*
 #
 # @sacloud-desc-begin
-#   baserCMSをインストールします。
+#   CakePHPで動作する、Webサイト開発プラットフォームとして最適な国産CMS「baserCMS」をインストールします。
+#	デフォルトでは、テーマ「bc_sample」を適用した状態でインストールしますので、
+#	インストール完了後、適宜、テーマ管理よりテーマを変更して利用してください。
+#
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
+#
 #   管理者ページへは、以下のようなURLでアクセスしてください。
 #   http://サーバのIPアドレス/admin
-#   （このスクリプトは、CentOS7.Xで動作します）
+#
+#	※ アクセスするURLは、デフォルトでサーバのIPアドレスとなっていますが、
+#	  独自ドメイン利用時、「baserCMS サイトのURL」を設定すると独自ドメインのURLでアクセスする事ができます。
+#   ※ このスクリプトは、CentOS7.Xで動作します
 # @sacloud-desc-end
 #
 # @sacloud-text required shellarg maxlen=60 user_name "baserCMS 管理ユーザ名"
@@ -109,7 +116,7 @@ mv /var/www/basercms /var/www/$DBNAME
   --port 3306 \
   --login "$DBNAME" \
   --password "$DBPASS" \
-  --data 'nada-icons.default'
+  --data 'bc_sample.default'
 
 chown -R apache:apache /var/www/$DBNAME
 
