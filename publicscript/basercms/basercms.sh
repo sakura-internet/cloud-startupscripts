@@ -26,6 +26,27 @@
 # @sacloud-text required shellarg maxlen=254 ex=your.name@example.jp user_mail "baserCMS 管理ユーザのメールアドレス"
 # @sacloud-text shellarg maxlen=254 ex=http://example.jp site_url "baserCMS サイトのURL（省略するとサーバのIPアドレスになります）"
 
+_motd() {
+	LOG=$(ls /root/.sacloud-api/notes/*log)
+	case $1 in
+		start)
+			echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+		;;
+		fail)
+			echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+			exit 1
+		;;
+		end)
+			cp -f /dev/null /etc/motd
+		;;
+	esac
+}
+
+# ready for startup script
+_motd start
+set -e
+trap '_motd fail' ERR
+
 # install packages
 yum -y install expect httpd-devel mod_ssl php php-devel php-pear mariadb-server php-mbstring php-xml php-gd php-mysql|| exit 1
 
@@ -125,3 +146,5 @@ firewall-cmd --permanent --add-service http --zone=public
 firewall-cmd --reload
 
 # end
+_motd end
+
