@@ -27,6 +27,7 @@
 | CMS | [SHIRASAGI](./publicscript/shirasagi/shirasagi.sh) | Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMS「SHIRASAGI」をインストールします。 [公式サイトはこちら](http://www.ss-proj.org/)です。<br />※CentOS7系のみで動作します |
 | CMS | [WordPress](./publicscript/wordpress/wordpress.sh) | yumにより、ApacheとMySQLをインストール・WordPress向けの設定を自動的に行い、WordPress最新バージョンをインストールします。<br />サーバ作成後はサーバのIPアドレスにWebブラウザでアクセスするとWordPress初期画面が表示される状態となります。 |
 | CMS | [WordPress for KUSANAGI8](./publicscript/wordpress_for_kusanagi8/wordpress_for_kusanagi8.sh) | KUSANAGI8 環境に WordPress をセットアップするスクリプトです。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/wordpress-for-kusanagi8/)を参照ください。 |
+| CMS | [baserCMS](./publicscript/basercms/basercms.sh) | baser CMS (https://basercms.net/) をインストールします。 |
 | オンラインストレージ | [ownCloud](./publicscript/owncloud/owncloud.sh) | ownCloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「`http://サーバIPアドレス/owncloud/`」にアクセスすることでownCloudの設定が行えます。<br />※ownCloudのスタートアップスクリプトでインストールされるPHPのバージョンはownCloudの推奨バージョンより低くなっているため、5.3.8以降のバージョンにアップデートすることを推奨します。 |
 | ECプラットフォーム | [Magento](./publicscript/magento/magento.sh) | 越境ECプラットフォームであるMagentoをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/magento/)を参照ください。<br />※Ubuntu 16系のみで動作します |
 | SNS | [Mastodon](./publicscript/mastodon/mastodon.sh) | Twitterライクな投稿ができる分散型ソーシャルネットワーク「Mastodon」のインスタンス（サーバ）をセットアップします。<br />※CentOS7系のみで動作します |
