@@ -165,6 +165,7 @@ systemctl start httpd.service || exit 1
 
 # ファイアウォールに対し http プロトコルでのアクセスを許可する
 firewall-cmd --permanent --add-service=http || exit 1
+firewall-cmd --reload
 
 # レポート画面で利用可能なアップデートに問題があると警告されるため、アップデート
 # 処理を行う。
