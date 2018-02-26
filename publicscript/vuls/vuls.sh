@@ -55,8 +55,8 @@ git clone https://github.com/kotakanbe/go-cve-dictionary.git
 cd go-cve-dictionary
 make install
 cd ${HOME}
-#for i in $(seq 2002 $(date +"%Y")); do go-cve-dictionary fetchnvd -years $i; done
-#for i in $(seq 1998 $(date +"%Y")); do go-cve-dictionary fetchjvn -years $i; done
+for i in $(seq 2002 $(date +"%Y")); do go-cve-dictionary fetchnvd -years $i; done
+for i in $(seq 1998 $(date +"%Y")); do go-cve-dictionary fetchjvn -years $i; done
 
 # Deploy goval-dictionary
 cd $GOPATH/src/github.com/kotakanbe
@@ -64,7 +64,7 @@ git clone https://github.com/kotakanbe/goval-dictionary.git
 cd goval-dictionary
 make install
 cd ${HOME}
-#goval-dictionary fetch-redhat 7
+goval-dictionary fetch-redhat 7
 
 # Deploy Vuls
 mkdir -p $GOPATH/src/github.com/future-architect
