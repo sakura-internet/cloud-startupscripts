@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# @sacloud-name "Drupal for CentOS 7"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
@@ -29,13 +28,13 @@ DRUPAL_VERSION=@@@drupal_version@@@
 # 必要なミドルウェアを全てインストール
 yum makecache fast || exit 1
 # Drupal 7, 8 共通のパッケージをインストール
-yum -y localinstall http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-yum -y install mariadb mariadb-server httpd || exit 1
+yum -y install mariadb mariadb-server httpd epel-release || exit 1
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm || exit 1
 if [ $DRUPAL_VERSION -eq 7 ]; then
   yum -y install php php-mysql php-gd php-dom php-mbstring || exit 1
-  yum -y install --enablerepo=remi php-pecl-apcu php-pecl-zendopcache || exit 1
+  yum -y install --enablerepo=remi php-pecl-apcu php-pecl-zendopcache composer || exit 1
 elif [ $DRUPAL_VERSION -eq 8 ]; then
-  yum -y install --enablerepo=remi,remi-php56 gd-last php php-mysql php-gd php-dom php-mbstring php-pecl-apcu php-pecl-zendopcache || exit 1
+  yum -y install --enablerepo=remi,remi-php56 gd-last php php-mysql php-gd php-dom php-mbstring php-pecl-apcu php-pecl-zendopcache composer || exit 1
 fi
 
 # Drupal で .htaccess を使用するため /var/www/html ディレクトリに対してオーバーライドを全て許可する
@@ -91,13 +90,10 @@ EOS
 systemctl enable mariadb.service || exit 1
 systemctl start mariadb.service || exit 1
 
-# 最新版の Drush をダウンロードする
-php -r "readfile('http://files.drush.org/drush.phar');" > drush || exit 1
-
-# drush コマンドを実行可能にして /usr/local/bin に移動
-chmod +x drush || exit 1
-mv drush /usr/local/bin || exit 1
-drush=/usr/local/bin/drush
+# 8.xの Drush をダウンロードする
+mkdir /opt/composer && cd $_
+COMPOSER_HOME="/opt/composer" composer require "drush/drush":"~8"
+drush="$(pwd)/vendor/bin/drush"
 
 # Drupal をダウンロード
 if [ $DRUPAL_VERSION -eq 7 ]; then
@@ -168,7 +164,7 @@ systemctl enable httpd.service || exit 1
 systemctl start httpd.service || exit 1
 
 # ファイアウォールに対し http プロトコルでのアクセスを許可する
-firewall-cmd --add-service=http || exit 1
+firewall-cmd --permanent --add-service=http || exit 1
 
 # レポート画面で利用可能なアップデートに問題があると警告されるため、アップデート
 # 処理を行う。
@@ -196,3 +192,4 @@ Please access to http://$IP
 System Info:
 $SYSTEMINFO
 EOF
+

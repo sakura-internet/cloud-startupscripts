@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# @sacloud-name "Drupal for Ubuntu"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-ubuntu
@@ -47,9 +46,9 @@ echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-sel
 # 必要なミドルウェアを全てインストール
 apt-get update || exit 1
 if [ $DISTRIB_RELEASE = "14.04" ]; then
-  required_packages="apache2 mysql-server php5 php5-apcu php5-mysql php5-gd mailutils"
+  required_packages="apache2 mysql-server php5 php5-apcu php5-mysql php5-gd mailutils composer zip unzip"
 elif [ $DISTRIB_RELEASE = "16.04" ]; then
-  required_packages="apache2 libapache2-mod-php mysql-server php php-apcu php-mysql php-gd php-xml mailutils"
+  required_packages="apache2 libapache2-mod-php mysql-server php php-apcu php-mysql php-gd php-xml mailutils composer zip unzip"
 fi
 apt-get -y install $required_packages
 
@@ -107,13 +106,11 @@ fi
 
 service apache2 restart
 
-# 最新版の Drush をダウンロードする
-php -r "readfile('http://files.drush.org/drush.phar');" > drush || exit 1
-
-# drush コマンドを実行可能にして /usr/local/bin に移動
-chmod +x drush || exit 1
-mv drush /usr/local/bin || exit 1
-drush=/usr/local/bin/drush
+# 8.xの Drush をダウンロードする
+mkdir /opt/composer && cd $_
+COMPOSER_HOME="/opt/composer" composer config -g repositories.packagist composer https://packagist.org
+COMPOSER_HOME="/opt/composer" composer require "drush/drush":"~8"
+drush="$(pwd)/vendor/bin/drush"
 
 # Drupal をダウンロード
 if [ $DRUPAL_VERSION -eq 7 ]; then
@@ -203,3 +200,4 @@ Please access to http://$IP
 System Info:
 $SYSTEMINFO
 EOF
+
