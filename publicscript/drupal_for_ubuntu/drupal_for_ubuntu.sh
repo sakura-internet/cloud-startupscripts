@@ -3,14 +3,14 @@
 # @sacloud-name "Drupal for Ubuntu"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-ubuntu
+# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
 #
 # @sacloud-desc-begin
 #   Drupalをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
 #   ※ セットアップには5分程度時間がかかります。
-#   （このスクリプトは、Ubuntu 14.04 または 16.04 でのみ動作します）
+#   （このスクリプトは、Ubuntu 16.04 でのみ動作します）
 #   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
 # @sacloud-desc-end
 #
