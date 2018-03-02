@@ -18,7 +18,7 @@ set -x
 
 # Install requirements
 GOVERSION=1.9.4
-yum install -y yum-plugin-changelog yum-utils sqlite git gcc make yum-utils
+yum install -y yum-plugin-changelog yum-utils sqlite git gcc make
 curl -O https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz
 tar -C /usr/local/ -xzf go${GOVERSION}.linux-amd64.tar.gz
 
@@ -88,7 +88,7 @@ su - vuls -c "bash ./setup.sh"
 
 echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchnvd -last2y >/dev/null 2>&1" > /etc/cron.d/vuls
 echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchjvn -last2y >/dev/null 2>&1" >> /etc/cron.d/vuls
-echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && goval-dictionary  fetch-redhat7 >/dev/null 2>&1" >> /etc/cron.d/vuls
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && goval-dictionary  fetch-redhat 7 >/dev/null 2>&1" >> /etc/cron.d/vuls
 
 # Check config.toml and settings on the server before scanning
 su - vuls -c "vuls configtest"
