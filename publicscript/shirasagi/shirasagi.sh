@@ -10,7 +10,7 @@
 #   example.jpの部分は、ご利用のドメインに応じて適時変更してください。
 #
 #   サーバ作成後、Webブラウザでシラサギの管理画面にアクセスしてください。
-#   http://IPアドレス:3000/.mypage
+#   http://IPアドレス/.mypage
 #   初期ID/パスワードは下記URLを参照してください。
 #   http://www.ss-proj.org/download/demo.html
 #
@@ -39,11 +39,5 @@ fi
 curl https://raw.githubusercontent.com/shirasagi/shirasagi/master/bin/install.sh | bash -s ${SS__HOST}
 #---------END OF SHIRASAGI---------#
 
-#---------START OF firewalld---------#
-# シラサギの管理画面は3000番ポートを使用するため、
-# サーバに対して3000番ポートでアクセスできるようにします。
-firewall-cmd --permanent --add-port=3000/tcp
-firewall-cmd --reload
-#---------END OF firewalld---------#
 
 exit 0
