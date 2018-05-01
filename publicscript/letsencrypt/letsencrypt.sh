@@ -214,7 +214,7 @@ systemctl enable nginx
 # Configure Let's Encrypt
 WROOT=/usr/share/nginx/html
 systemctl start nginx
-CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos"
+CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory"
 
 for x in 1 2 3 4
 do

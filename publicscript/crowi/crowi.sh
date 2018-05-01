@@ -293,7 +293,7 @@ then
 	git clone https://github.com/certbot/certbot ${CPATH}
 	WROOT=/opt/crowi/public
 	DOMAIN=${DOMAIN}
-	${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos
+	${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory
 
 	CERT=/etc/letsencrypt/live/${DOMAIN}/fullchain.pem
 	CKEY=/etc/letsencrypt/live/${DOMAIN}/privkey.pem

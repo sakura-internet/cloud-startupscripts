@@ -188,7 +188,7 @@ mysql -e "SET GLOBAL validate_password_policy=LOW;" ;
 mysql -e "SET GLOBAL validate_password_length=7;"
 
 # mattermost
-VERSION=4.3.1
+VERSION=4.9.1
 curl -O https://releases.mattermost.com/${VERSION}/mattermost-team-${VERSION}-linux-amd64.tar.gz
 tar xpf mattermost-team-${VERSION}-linux-amd64.tar.gz
 mv mattermost /opt/
@@ -327,7 +327,7 @@ firewall-cmd --reload
 CPATH=/usr/local/certbot
 git clone https://github.com/certbot/certbot ${CPATH}
 WROOT=/usr/share/nginx/html
-CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos"
+CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory"
 sleep 180
 
 for x in 1 2 3 4
