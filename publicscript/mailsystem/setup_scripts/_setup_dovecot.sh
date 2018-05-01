@@ -4,40 +4,17 @@ set -e
 source $(dirname $0)/../config.source
 echo "---- $0 ----"
 
+cat <<_EOL_> /etc/yum.repos.d/dovecot.repo
+[dovecot-2.3-latest]
+name=Dovecot 2.3 CentOS $releasever - \$basearch
+baseurl=http://repo.dovecot.org/ce-2.3-latest/centos/\$releasever/RPMS/\$basearch
+gpgkey=https://repo.dovecot.org/DOVECOT-REPO-GPG
+gpgcheck=1
+enabled=1
+_EOL_
+
+yum install -y dovecot dovecot-pigeonhole 
 yum install -y openldap-devel expat-devel bzip2-devel zlib-devel
-
-DOVECOT_GID=97
-DOVECOT_UID=97
-DOVENULL_GID=10097
-DOVENULL_UID=10097
-
-groupadd -g ${DOVECOT_GID} dovecot
-useradd -u ${DOVECOT_UID} -g dovecot -s /sbin/nologin dovecot
-groupadd -g ${DOVENULL_GID} dovenull
-useradd -u ${DOVENULL_UID} -g dovenull -s /sbin/nologin dovenull
-
-mkdir -p ${WORKDIR}/build
-cd ${WORKDIR}/build
-
-VERSION=${DOVECOT_VERSION}
-curl -O -L https://dovecot.org/releases/2.2/dovecot-${VERSION}.tar.gz
-tar xzf dovecot-${VERSION}.tar.gz
-cd dovecot-${VERSION}
-./configure --prefix=/usr/local/dovecot-${VERSION} --sysconfdir=/etc --localstatedir=/var --with-ldap=plugin --with-zlib --with-bzlib
-make >/dev/null
-make install
-ln -s dovecot-${VERSION} /usr/local/dovecot
-
-VERSION=${PIGEONHOLE_VERSION}
-cd ${WORKDIR}/build
-curl -O -L https://pigeonhole.dovecot.org/releases/2.2/dovecot-2.2-pigeonhole-${VERSION}.tar.gz
-tar xzf dovecot-2.2-pigeonhole-${VERSION}.tar.gz
-cd dovecot-2.2-pigeonhole-${VERSION}
-./configure --prefix=/usr/local/dovecot --with-dovecot=/usr/local/dovecot/lib/dovecot -with-ldap=plugin
-make >/dev/null
-make install
-
-cp -pr /usr/local/dovecot/share/doc/dovecot/example-config/* /etc/dovecot
 
 sed -i 's/^#protocols = .*/protocols = imap pop3 lmtp sieve/' /etc/dovecot/dovecot.conf
 sed -i 's/^#disable_plaintext_auth.*/disable_plaintext_auth = no/' /etc/dovecot/conf.d/10-auth.conf
@@ -128,7 +105,7 @@ sed -i 's/^#ssl = yes/ssl = no/' /etc/dovecot/conf.d/10-ssl.conf
 sed -i 's/^ssl_cert =.*/#ssl_cert =/' /etc/dovecot/conf.d/10-ssl.conf
 sed -i 's/^ssl_key =.*/#ssl_key =/' /etc/dovecot/conf.d/10-ssl.conf
 
-sed -i "s/^#postmaster_address.*/postmaster_address = postmaster@${DOMAIN}/" /etc/dovecot/conf.d/15-lda.conf
+sed -i "s/^#postmaster_address.*/postmaster_address = postmaster@${FIRST_DOMAIN}/" /etc/dovecot/conf.d/15-lda.conf
 sed -i 's/^  #mail_plugins =.*/  mail_plugins = $mail_plugins sieve/' /etc/dovecot/conf.d/15-lda.conf
 sed -i 's/^#lda_mailbox_autocreate = no/lda_mailbox_autocreate = yes/' /etc/dovecot/conf.d/15-lda.conf
 sed -i 's/^  #mail_plugins =.*/  mail_plugins = $mail_plugins sieve/' /etc/dovecot/conf.d/20-lmtp.conf
@@ -151,34 +128,6 @@ plugin {
 	sieve_max_actions = 32
 	sieve_max_redirects = 10
 }
-_EOL_
-
-mkdir /run/dovecot
-chown dovecot. /run/dovecot
-
-echo "d /run/dovecot 0755 dovecot dovecot" > /etc/tmpfiles.d/dovecot.conf
-
-cat <<_EOL_>/usr/local/dovecot/libexec/dovecot/prestartscript
-#!/bin/bash -x
-/bin/systemctl -q is-enabled NetworkManager.service >/dev/null 2>&1 && /usr/bin/nm-online -q --timeout 30 ||:
-_EOL_
-chmod 755 /usr/local/dovecot/libexec/dovecot/prestartscript
-
-cat <<_EOL_>/etc/systemd/system/dovecot.service
-[Unit]
-Description=Dovecot IMAP/POP3 email server
-After=local-fs.target network.target
-
-[Service]
-Type=simple
-ExecStartPre=/usr/local/dovecot/libexec/dovecot/prestartscript
-ExecStart=/usr/local/dovecot/sbin/dovecot -F
-ExecReload=/bin/kill -HUP $MAINPID
-PrivateTmp=true
-NonBlocking=yes
-
-[Install]
-WantedBy=multi-user.target
 _EOL_
 
 systemctl enable dovecot

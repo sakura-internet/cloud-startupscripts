@@ -20,10 +20,7 @@ check_version() {
 			VERSION=$(/usr/sbin/opendkim -V | awk '/^opendkim/{print $NF}')
 			;;
 		dovecot)
-			VERSION=$(/usr/local/dovecot/sbin/dovecot --version | awk '{print $1}')
-			;;
-		dovecot-pigeonhole)
-			VERSION=$(grep PIGEONHOLE_VERSION /usr/local/dovecot/include/dovecot/sieve/pigeonhole-config.h | awk '{print $NF}' | sed 's/"//g')
+			VERSION=$(/usr/sbin/dovecot --version | awk '{print $1}')
 			;;
 		clamav-milter)
 			VERSION=$(/usr/sbin/clamav-milter --version | awk '{print $NF}')
@@ -131,7 +128,7 @@ check_cert ${x}
 echo
 
 echo "-- print_version --"
-for x in os slapd opendkim dovecot dovecot-pigeonhole clamav-milter clamd yenma postfix mysql php-fpm nginx roundcube phpldapadmin rainloop
+for x in os slapd opendkim dovecot clamav-milter clamd yenma postfix mysql php-fpm nginx roundcube phpldapadmin rainloop
 do
 	check_version ${x}
 done

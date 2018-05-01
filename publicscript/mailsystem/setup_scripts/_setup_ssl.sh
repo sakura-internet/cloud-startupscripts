@@ -9,7 +9,7 @@ git clone https://github.com/certbot/certbot
 export PATH=/usr/local/certbot:${PATH}
 CERT=/etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
 
-CA=$(certbot-auto -n certonly --webroot -w ${HTTP_DOCROOT} -d ${FIRST_DOMAIN} -m admin@${FIRST_DOMAIN} --agree-tos)
+CA=$(certbot-auto -n certonly --webroot -w ${HTTP_DOCROOT} -d ${FIRST_DOMAIN} -m admin@${FIRST_DOMAIN} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory)
 
 for x in $(seq 1 3)
 do
