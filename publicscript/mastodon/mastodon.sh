@@ -40,8 +40,6 @@ source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
-yum install -y yum-utils
-yum-config-manager --enable epel
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_6.x | bash -
 
@@ -314,7 +312,7 @@ firewall-cmd --reload
 CPATH=/usr/local/certbot
 git clone https://github.com/certbot/certbot ${CPATH}
 WROOT=/usr/share/nginx/html
-${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos
+${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory
 
 if [ ! -f ${CERT} ]
 then
