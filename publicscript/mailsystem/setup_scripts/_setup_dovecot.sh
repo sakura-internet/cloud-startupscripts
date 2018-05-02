@@ -132,3 +132,6 @@ _EOL_
 
 systemctl enable dovecot
 systemctl start dovecot
+
+sed -i 's/^NoNewPrivileges=/#NoNewPrivileges=/' /usr/lib/systemd/system/dovecot.service
+systemctl daemon-reload
