@@ -36,7 +36,7 @@ yum -y install epel-release
 yum-config-manager --enable epel
 
 # install XRDP
-yum -y install xrdp
+yum --enablerepo=cr -y install xrdp
 yum -y install tigervnc-server
 # install GNOME
 yum -y groups install "GNOME Desktop"
