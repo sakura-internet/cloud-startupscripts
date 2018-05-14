@@ -27,7 +27,7 @@ _motd() {
 
 function centos6(){
 	trap '_motd fail' ERR
-	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl
+	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
 	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-2.apache.x86_64.rpm -P /root/.sakuracloud
 	rpm -Uvh /root/.sakuracloud/siteguardlite-3.30-2.apache.x86_64.rpm
 
@@ -38,7 +38,15 @@ function centos6(){
 	EOF
 
 	cd /opt/jp-secure/siteguardlite/
-	yes '' | ./setup.sh 
+	expect -c "
+		spawn ./setup.sh
+		set i 0
+		while {\$i <= 32} {
+			expect -- \"-->\"
+			send -- \"\n\"
+			incr i 1
+		}
+	"
 }
 
 
@@ -49,7 +57,7 @@ function centos7(){
 	firewall-cmd --add-port=9443/tcp --zone=public --permanent
 	firewall-cmd --reload
 
-	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl
+	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
 	wget -q http://progeny.sakura.ad.jp/siteguard/3.3.0/apache/siteguardlite-3.30-2.apache.x86_64.rpm -P /root/.sakuracloud
 	rpm -Uvh /root/.sakuracloud/siteguardlite-3.30-2.apache.x86_64.rpm
 
@@ -60,7 +68,15 @@ function centos7(){
 	EOF
 
 	cd /opt/jp-secure/siteguardlite/
-	yes '' | ./setup.sh
+	expect -c "
+		spawn ./setup.sh
+		set i 0
+		while {\$i <= 32} {
+			expect -- \"-->\"
+			send -- \"\n\"
+			incr i 1
+		}
+	"
 }
 
 ### main ###
