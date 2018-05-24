@@ -6,6 +6,7 @@
 # このスクリプトは Restyaboard をセットアップします
 # (CentOS7.X でのみ動作します)
 # サーバ作成後はブラウザより「http://サーバのIPアドレス/」でアクセスすることができます
+# 管理ユーザは Username:admin Password:restya です。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
 
@@ -62,7 +63,7 @@ _EOL_
 
 # Restyaboardのインストールとセットアップ
 DOCROOT=/usr/share/nginx/html
-VERSION=0.6.3
+VERSION=0.6.4
 
 cd ${DOCROOT}
 curl -L -O https://github.com/RestyaPlatform/board/releases/download/v${VERSION}/board-v${VERSION}.zip
