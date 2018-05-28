@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-services = %w(nginx postfix redis postgresql mastodon-sidekiq mastodon-streaming mastodon-web)
+services = %w(nginx postfix redis postgresql-9.6 mastodon-sidekiq mastodon-streaming mastodon-web)
 processes = %w(nginx master redis-server postgres bundle node)
 ports = %w(25 80 443 3000 5432 6379)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
