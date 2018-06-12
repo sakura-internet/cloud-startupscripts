@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# @sacloud-name letsencrypt
+# @sacloud-name "Let's Encrypt"
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは nginx と certbot-auto をインストールし、入力したドメインでLet's EncryptのTLS証明書を取得します。
