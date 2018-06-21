@@ -218,8 +218,16 @@ systemctl enable elasticsearch.service
 
 # install Crowi
 apt install -y git build-essential libkrb5-dev
-git clone https://github.com/crowi/crowi.git /opt/crowi
+
+temp_dir=$(mktemp -d)
+cd ${temp_dir}
+latest_tarball_url=$(curl --silent https://api.github.com/repos/crowi/crowi/releases/latest | jq --raw-output .tarball_url)
+latest_tarball_name=$(echo $latest_tarball_url | awk -F '/' '{ print $NF }')
+wget --quiet ${latest_tarball_url}
+mkdir /opt/crowi
+tar zxf ${latest_tarball_name} -C /opt/crowi --strip-components 1
 cd /opt/crowi
+rm -rf ${temp_dir}
 npm install
 npm run build
 
@@ -290,7 +298,7 @@ ufw allow 80
 if [ ${SSL} -eq 1 ]
 then
 	CPATH=/usr/local/certbot
-	git clone https://github.com/certbot/certbot ${CPATH}
+	git clone --depth 1 https://github.com/certbot/certbot ${CPATH}
 	WROOT=/opt/crowi/public
 	DOMAIN=${DOMAIN}
 	${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m root@${DOMAIN} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory
