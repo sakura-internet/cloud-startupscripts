@@ -219,15 +219,10 @@ systemctl enable elasticsearch.service
 # install Crowi
 apt install -y git build-essential libkrb5-dev
 
-temp_dir=$(mktemp -d)
-cd ${temp_dir}
-latest_tarball_url=$(curl --silent https://api.github.com/repos/crowi/crowi/releases/latest | jq --raw-output .tarball_url)
-latest_tarball_name=$(echo $latest_tarball_url | awk -F '/' '{ print $NF }')
-wget --quiet ${latest_tarball_url}
-mkdir /opt/crowi
-tar zxf ${latest_tarball_name} -C /opt/crowi --strip-components 1
+git clone https://github.com/crowi/crowi.git /opt/crowi
 cd /opt/crowi
-rm -rf ${temp_dir}
+latest_tag=$(curl --silent https://api.github.com/repos/crowi/crowi/releases/latest | jq --raw-output .tag_name)
+git checkout -b ${latest_tag} refs/tags/${latest_tag}
 npm install
 npm run build
 
