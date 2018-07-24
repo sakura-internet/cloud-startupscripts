@@ -22,7 +22,6 @@ cat <<_EOL_> /etc/nginx/conf.d/http.conf
 server {
 	listen ${IPADDR}:80 ;
 	server_name ${FIRST_DOMAIN};
-	index index.html;
 	access_log /var/log/nginx/access.log main;
 	error_log  /var/log/nginx/error.log  error;
 	root ${HTTP_DOCROOT};

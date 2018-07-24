@@ -44,7 +44,7 @@ check_version() {
 			VERSION=$(/usr/sbin/nginx -v 2>&1 | awk -F\/ '{print $NF}')
 			;;
 		roundcube)
-			VERSION=$(awk '/Version/{print $3}' /usr/share/roundcubemail/index.php)
+			VERSION=$(awk '/Version/{print $3}' ${HTTPS_DOCROOT}/roundcube/index.php)
 			;;
 		phpldapadmin)
 			VERSION=$(awk -F- '{print $NF}' /usr/share/phpldapadmin/VERSION)

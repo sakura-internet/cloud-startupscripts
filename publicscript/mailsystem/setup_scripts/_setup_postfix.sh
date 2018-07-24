@@ -66,11 +66,9 @@ do
 	# smtpd_client_connection_rate_limit = 100
 	disable_vrfy_command = yes
 	smtpd_discard_ehlo_keywords = dsn, enhancedstatuscodes, etrn
-	smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
-	smtp_tls_security_level = may
-	smtp_tls_loglevel = 1
 	lmtp_host_lookup = native
 	smtp_host_lookup = native
+	tls_random_source = dev:/dev/urandom
 	_EOL_
 done
 
