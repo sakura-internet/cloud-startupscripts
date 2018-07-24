@@ -44,7 +44,8 @@ echo "## Kusanagi init";
 kusanagi init --tz Asia/Tokyo --lang ja --keyboard ja \
   --passwd @@@KUSANAGI_PASSWD@@@ --no-phrase \
   --dbrootpass @@@DBROOT_PASSWD@@@ \
-  --nginx --hhvm || exit 1
+  --nginx --hhvm --ruby24 \
+  --dbsystem mariadb || exit 1
 
 echo "## Kusanagi provision";
 kusanagi provision \
