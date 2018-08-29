@@ -2,6 +2,9 @@
 
 # @sacloud-name "GitLab"
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-7.*
+#
 # @sacloud-desc-begin
 #   GitLabをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。

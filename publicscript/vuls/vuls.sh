@@ -2,6 +2,9 @@
 #
 # @sacloud-name "Vuls"
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-7.*
+#
 # @sacloud-desc-begin
 # このスクリプトはLinuxサーバに存在する脆弱性をスキャンするVulsをセットアップします。
 # (このスクリプトは、CentOS7.Xでのみ動作します。)

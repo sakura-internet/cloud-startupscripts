@@ -2,6 +2,10 @@
 
 # @sacloud-name "Ruby on Rails"
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-6.*
+# @sacloud-require-archive distro-sl distro-ver-6.*
+#
 # @sacloud-desc-begin
 # rbenv、Bundler、Ruby on Rails をインストールするスクリプトです。
 # このスクリプトは、CentOS6.X もしくは Scientific Linux6.X でのみ動作します。
