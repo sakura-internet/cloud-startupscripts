@@ -6,7 +6,7 @@ echo "---- $0 ----"
 
 yum install -y clamav clamav-server-systemd clamav-milter clamav-milter-systemd clamav-update
 
-freshclam &
+freshclam
 
 mkdir /var/log/clamd
 chown root:clamilt /var/log/clamd
