@@ -32,7 +32,7 @@ curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/scrip
 yum install gitlab-ce -y
 
 # 3. Configure and start GitLab
-gitlab-ctl reconfigure
+gitlab-ctl reconfigure &
 
 # 4. Configure and restart sshd
 sed -i "/^# problems./a UsePAM yes" /etc/ssh/sshd_config
