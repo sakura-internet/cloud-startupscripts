@@ -2,6 +2,9 @@
 
 # @sacloud-name "Jupyter Notebook"
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-7.*
+#
 # @sacloud-desc-begin
 # pyenv, Anaconda,Jupyterをインストールするスクリプトです。
 # このスクリプトは、CentOS7.Xでのみ動作します。

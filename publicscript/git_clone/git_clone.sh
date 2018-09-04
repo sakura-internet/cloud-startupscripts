@@ -11,10 +11,9 @@
 # @sacloud-desc-begin
 #   指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。
 #   拡張子が .yml のものは Ansible Playbook として解釈されます。
-#   このスクリプトは、CentOS6.XもしくはScientific Linux6.Xでのみ動作します。
+#   このスクリプトは、CentOS6.Xでのみ動作します。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-6.*
-# @sacloud-require-archive distro-sl distro-ver-6.*
 
 HOME=/root
 SACDIR="$HOME/.sacloud-api"

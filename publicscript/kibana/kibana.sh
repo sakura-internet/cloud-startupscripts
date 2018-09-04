@@ -2,6 +2,9 @@
 
 # @sacloud-name Kibana
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-7.*
+#
 # @sacloud-desc-begin
 # Fluentd, Elasticsearch, Kibanaをインストールするスクリプトです。
 # fluent-plugin-dstatを有効にすると、dstatをインストールし、

@@ -6,9 +6,8 @@
 # @sacloud-desc WordPressをインストールします。
 # @sacloud-desc サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 # @sacloud-desc http://サーバのIPアドレス/
-# @sacloud-desc （このスクリプトは、CentOS6.XもしくはScientific Linux6.Xでのみ動作します）
+# @sacloud-desc （このスクリプトは、CentOS6.Xでのみ動作します）
 # @sacloud-require-archive distro-centos distro-ver-6.*
-# @sacloud-require-archive distro-sl distro-ver-6.*
 
 #---------START OF iptables---------#
 cat <<'EOT' > /etc/sysconfig/iptables
