@@ -5,11 +5,10 @@
 # @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
 #
-# @sacloud-select-begin required default=3.4 ZV "Zabbix Version"
+# @sacloud-select-begin required default=4.0 ZV "Zabbix Version"
+#  4.0 "4.0"
 #  3.4 "3.4"
-#  3.2 "3.2"
 #  3.0 "3.0"
-#  2.4 "2.4"
 #  2.2 "2.2"
 # @sacloud-select-end
 # @sacloud-password ZP "Zabbix WebのAdminアカウントのパスワード変更"
@@ -44,7 +43,7 @@ HTTPD_PORT=@@@HPORT@@@
 
 if [ -z "${ZABBIX_VERSION}" ]
 then
-	ZABBIX_VERSION=3.4
+	ZABBIX_VERSION=4.0
 fi
 
 #---------START OF mysql-server---------#
@@ -81,7 +80,7 @@ mysql -e "create database zabbix character set utf8 collate utf8_bin;"
 mysql -e "grant all on zabbix.* to zabbix@localhost identified by 'zabbix';"
 mysql -e "FLUSH PRIVILEGES;"
 
-if [ $(echo ${ZABBIX_VERSION} | grep -c "^3") -eq 1 ]
+if [ $(echo ${ZABBIX_VERSION} | egrep -c "^[34]") -eq 1 ]
 then
 	zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix
 else
