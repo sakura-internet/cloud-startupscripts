@@ -51,7 +51,7 @@ ZONE=@@@ZONE@@@
 DEFAULT_CORE=2
 DEFAULT_MEMORY=4
 DEFAULT_DISK_SIZE=40
-DEFAULT_OS_TYPE=coreos
+DEFAULT_OS_TYPE=rancheros
 
 # 必要なミドルウェアを全てインストール
 yum makecache fast || _motd fail
