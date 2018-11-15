@@ -24,6 +24,25 @@
 # @sacloud-select-end
 # @sacloud-apikey required permission=create AK "APIキー"
 
+_motd() {
+ LOG=$(ls /root/.sacloud-api/notes/*log)
+ case $1 in
+  start)
+   echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+  ;;
+  fail)
+   echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+   exit 1
+  ;;
+  end)
+   cp -f /dev/null /etc/motd
+  ;;
+ esac
+}
+
+_motd start
+trap '_motd fail' ERR
+
 # コントロールパネルでの入力値
 RANCHER_PASSWORD=@@@password@@@
 ZONE=@@@ZONE@@@
@@ -35,10 +54,10 @@ DEFAULT_DISK_SIZE=40
 DEFAULT_OS_TYPE=coreos
 
 # 必要なミドルウェアを全てインストール
-yum makecache fast || exit 1
-yum -y install curl docker jq || exit 1
-systemctl enable docker.service || exit 1
-systemctl start docker.service || exit 1
+yum makecache fast || _motd fail
+yum -y install curl docker jq || _motd fail
+systemctl enable docker.service || _motd fail
+systemctl start docker.service || _motd fail
 
 # ゾーンの設定
 if [ "${ZONE}" = "default" ]; then
@@ -47,8 +66,8 @@ fi
 
 
 # ファイアウォールに対し http/https プロトコルでのアクセスを許可する
-firewall-cmd --permanent --add-service=http || exit 1
-firewall-cmd --permanent --add-service=https || exit 1
+firewall-cmd --permanent --add-service=http || _motd fail
+firewall-cmd --permanent --add-service=https || _motd fail
 firewall-cmd --reload
 
 # 必要な情報を集める
@@ -87,7 +106,7 @@ RANCHER_SERVER="https://${IP}"
 curl -s 'https://127.0.0.1/v3/settings/server-url' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" -X PUT --data-binary '{"name":"server-url","value":"'${RANCHER_SERVER}'"}' --insecure
 
 # ノードドライバーの登録
-docker exec rancher-server kubectl apply -f https://sacloud.github.io/ui-driver-sakuracloud/rancher-custom-node-driver-sakuracloud.yaml || exit 1
+docker exec rancher-server kubectl apply -f https://sacloud.github.io/ui-driver-sakuracloud/rancher-custom-node-driver-sakuracloud.yaml || _motd fail
 
 # ノードドライバのダウンロード完了まで数秒待つ
 sleep 5
@@ -134,8 +153,8 @@ spec:
   useInternalIpAddress: true
 EOS
 
-docker cp nodeTemplate.yaml rancher-server:/ || exit 1
-docker exec rancher-server kubectl apply -f /nodeTemplate.yaml || exit 1
+docker cp nodeTemplate.yaml rancher-server:/ || _motd fail
+docker exec rancher-server kubectl apply -f /nodeTemplate.yaml || _motd fail
 
 # 完了メッセージの表示
 echo "Rancher server is ready."
@@ -143,3 +162,6 @@ echo "Rancher server is ready."
 echo "========================================================================="
 echo "Rancher server URL: ${RANCHER_SERVER}"
 echo "========================================================================="
+
+_motd end
+
