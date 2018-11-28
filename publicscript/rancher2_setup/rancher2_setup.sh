@@ -1,22 +1,24 @@
 #!/bin/bash
 
-# @sacloud-name "Rancher for さくらのクラウド"
+# @sacloud-name "Rancher2セットアップ"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
 #
 # @sacloud-desc-begin
-#   Rancher v2.xをインストールします。
+#   さくらのクラウド上で Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。
+#   ui-driver-sakuracloud がセットアップされ、さくらのクラウド上で Kubernetes クラスタを素早くセットアップできます。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   https://サーバのIPアドレス/
 #   (ユーザー名: admin, パスワード: 入力したRancher管理ユーザーのパスワード)
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
+#   ※ 事前に「作成・削除」の権限を持つAPIキーの登録が必要です。
 # @sacloud-desc-end
 #
 # Rancherの管理ユーザーの入力フォームの設定
 # @sacloud-password required shellarg maxlen=60 password "Rancher 管理ユーザーのパスワード"
-# @sacloud-select-begin required default=default ZONE "操作対象ゾーンを選択してください。(defaultはサーバを作成したゾーンになります)
+# @sacloud-select-begin required default=default ZONE "操作対象ゾーンを選択してください。(defaultはサーバを作成したゾーンになります)"
 #  default "default"
 #  is1a "is1a"
 #  is1b "is1b"
