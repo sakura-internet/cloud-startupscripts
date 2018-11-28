@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# @sacloud-name ""
+# @sacloud-name "Rancher for さくらのクラウド"
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
