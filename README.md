@@ -4,7 +4,7 @@
 スタートアップスクリプトは、新たにサーバを作成する際、任意の「スタートアップスクリプト」を選択することにより、起動時にそれらを自動的に実行する機能です。
 さくらインターネットが提供しているパブリックスクリプトの一覧です。
 
-詳細は[さくらのクラウドニュース](https://cloud-news.sakura.ad.jp/startup-script/)をご参照ください
+詳細は[さくらのクラウドニュース](https://cloud-news.sakura.ad.jp/startup-script/)をご参照ください。
 
 * [スタートアップスクリプトの登録をご希望の場合・登録のしかた](how-to-contribute.md)
 
@@ -70,10 +70,11 @@
 | --- | --- | :--- |
 | パッケージ管理 | [yum update](./publicscript/yum_update/yum_update.sh) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS6系のみで動作します |
 | パッケージ管理 | [apt-get update/upgrade](./publicscript/apt-get_update_upgrade/apt-get_update_upgrade.sh) | サーバ作成後の初回起動時のみ、コマンド”apt-get update”および”apt-get upgrade”を実行します。実行完了後、サーバが再起動されます。<br />※DebianまたはUbuntuのみで動作します |
-| 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します | 
+| コンテナ管理 | [Rancher2セットアップ](./publicscript/rancher2_setup/rancher2_setup.sh) | Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。ui-driver-sakuracloud がセットアップされ、さくらのクラウド上で Kubernetes クラスタを素早くセットアップできます。<br />※CentOS7系のみで動作します |
+| 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [zabbix-agent](./publicscript/zabbix-agent/zabbix-agent.sh) | zabbix-serverに対応するエージェントzabbix-agentをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-agent/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [hatohol-server](./publicscript/hatohol-server/hatohol-server.sh) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
 | セキュリティ | [SiteGuard Lite](./publicscript/siteguardlite/siteguardlite.sh) | WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。さくらのクラウドではJP-Secure社が開発する純国産のホスト型WAF製品「 SiteGuard Lite 」をさくらのクラウド向け特別版として無料で提供しています。<br />※CentOS系のみで動作します |
 | セキュリティ | [Vuls](./publicscript/vuls/vuls.sh) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
-| セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します | 
+| セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します |
 | RDP環境 | [GNOME-xrdp](./publicscript/xrdp/xrdp.sh) | GNOMEデスクトップ環境と xrdp をインストールします。Microsoftのリモートデスクトップなどを使用してサーバに接続することができます。<br />※CentOS7系のみで動作します |
