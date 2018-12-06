@@ -40,7 +40,7 @@ echo 'eval "$(pyenv init -)"' >> $home/.bash_profile
 chown -R $user:$user $home/.pyenv
 echo "[2/5] pyenvをインストールしました"
 
-echo "[3/5] Anaconda,chainerのインストール中..."
+echo "[3/5] Anaconda,chainer,tensorflowのインストール中..."
 #Anaconda3系
 su -l $user -c "yes | pyenv install anaconda3-4.3.1"
 su -l $user -c "pyenv global anaconda3-4.3.1"
@@ -51,6 +51,7 @@ source /home/$user/.pyenv/versions/anaconda3-4.3.1/bin/activate py3.5
 conda install jupyter ipykernel
 jupyter kernelspec install-self --user
 pip install chainer
+pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.12.0-cp35-cp35m-linux_x86_64.whl
 EOF
 chmod 755 /tmp/ana3.sh
 su -l $user -c "/bin/bash /tmp/ana3.sh"
@@ -65,10 +66,11 @@ source /home/$user/.pyenv/versions/anaconda2-4.3.1/bin/activate py2.7
 conda install jupyter ipykernel
 jupyter kernelspec install-self --user
 pip install chainer
+pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.12.0-cp27-none-linux_x86_64.whl
 EOF
 chmod 755 /tmp/ana2.sh
 su -l $user -c "/bin/bash /tmp/ana2.sh"
-echo "[3/5] Anaconda,chainerをインストールしました"
+echo "[3/5] Anaconda,chainer,tensorflowをインストールしました"
 
 echo "[4/5] 設定ポートの解放中..."
 firewall-cmd --add-port=$port/tcp --zone=public --permanent
