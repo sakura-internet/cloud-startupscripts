@@ -58,12 +58,6 @@ DEFAULT_OS_TYPE=rancheros
 # 必要なミドルウェアを全てインストール
 yum makecache fast || _motd fail
 yum -y install curl docker jq || _motd fail
-
-# docker execできないバグ回避のためダウングレード
-yum downgrade -y docker-1.13.1-75.git8633870.el7.centos.x86_64 \
-                 docker-client-1.13.1-75.git8633870.el7.centos.x86_64 \
-                 docker-common-1.13.1-75.git8633870.el7.centos.x86_64
-
 systemctl enable docker.service || _motd fail
 systemctl start docker.service || _motd fail
 
