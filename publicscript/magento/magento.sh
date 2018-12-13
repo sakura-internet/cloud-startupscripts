@@ -5,7 +5,7 @@
 
 # @sacloud-desc Ubuntu16.04.* LTSに、EC サイト構築プラットフォーム Magento2.x をインストールします。
 # @sacloud-desc ※ホスト名は名前解決が出来る名前の設定を推奨します。
-# @sacloud-desc ※推奨スペック：CPU:４Core以上 Memory:8GB以上　（低スペックの場合インストールが正常に終了しない場合があります）
+# @sacloud-desc ※推奨スペック：CPU:４Core以上 Memory:8GB以上（低スペックの場合インストールが正常に終了しない場合があります）
 # @sacloud-desc ※サーバ作成前に Magento マーケットプレイスにログインし、「Marketplaceのpublic key」と「Marketplaceのprivate key」の取得が必要です。
 # @sacloud-desc ログインは https://account.magento.com/applications/customer/login から行えます。
 # @sacloud-desc public key および private key は、 https://marketplace.magento.com/customer/accessKeys/list/ から既存のものを参照するか、新規に作成ください。
@@ -26,6 +26,7 @@ MM_PRIVATE=@@@marketplace_private@@@
 MAGENTO_INSTALL_SAMPLE=@@@deploy_sample_data@@@
 POSTFIX_HOST_NAME=`uname -n`
 
+export HOME=/root
 export DEBIAN_FRONTEND=noninteractive
 
 echo "## Set up ufw"
@@ -104,7 +105,9 @@ mysql $MYSQLAUTH -e "GRANT ALL ON $MAGENTO_DB_SCHEMA.* TO '$MAGENTO_DB_USER'@'12
 mysql $MYSQLAUTH -e "FLUSH PRIVILEGES;"
 
 echo "## Install packages"
-apt-get install -y apache2 libapache2-mod-php7.0 php7.0 php7.0-gd php7.0-mysql php7.0-cli php7.0-curl php7.0-mbstring php7.0-xml php7.0-zip php7.0-intl php7.0-mcrypt php7.0-json php7.0-soap php7.0-bcmath curl git composer || exit 1
+apt-get install -y apache2 libapache2-mod-php7.1 php7.1 php7.1-gd php7.1-mysql php7.1-cli php7.1-curl php7.1-mbstring php7.1-xml php7.1-zip php7.1-intl php7.1-mcrypt php7.1-json php7.1-soap php7.1-bcmath curl git || exit 1
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
 
 echo "## Enable Apache rewrite module"
 a2enmod rewrite || exit 1
@@ -112,13 +115,13 @@ a2enmod rewrite || exit 1
 chown -Rf ubuntu. /var/www || exit 1
 
 # Install prestissimo
-sudo -u ubuntu composer global require hirak/prestissimo || exit 1
+sudo -H -u ubuntu composer global require hirak/prestissimo || exit 1
 
 echo "## Create Magento Marketplace credential file"
 if [ ! -d /home/ubuntu/.composer ]; then
-sudo -u ubuntu mkdir /home/ubuntu/.composer || exit 1
+sudo -H -u ubuntu mkdir /home/ubuntu/.composer || exit 1
 fi
-sudo -u ubuntu cat << EOT > /home/ubuntu/.composer/auth.json || exit 1
+sudo -H -u ubuntu cat << EOT > /home/ubuntu/.composer/auth.json || exit 1
 {
 "http-basic": {
 "repo.magento.com": {
@@ -131,15 +134,15 @@ EOT
 
 echo "## Install Magento"
 cd /var/www
-sudo -u ubuntu composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition ./magento || exit 1
+sudo -H -u ubuntu composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition ./magento || exit 1
 cd magento
 echo "## Create magento_umask file"
-sudo -u ubuntu cat << EOT > /var/www/magento/magento_umask || exit 1
+sudo -H -u ubuntu cat << EOT > /var/www/magento/magento_umask || exit 1
 022
 EOT
 
 echo "## bin/magento setup:install"
-sudo -u ubuntu php bin/magento setup:install --cleanup-database \
+sudo -H -u ubuntu php bin/magento setup:install --cleanup-database \
 --db-host=localhost \
 --db-name=$MAGENTO_DB_SCHEMA \
 --db-user=$MAGENTO_DB_USER \
@@ -158,12 +161,12 @@ sudo -u ubuntu php bin/magento setup:install --cleanup-database \
 --use-rewrites=1 || exit 1
 
 echo "## Set Magento deploy mode to developer"
-sudo -u ubuntu php bin/magento deploy:mode:set developer || exit 1
+sudo -H -u ubuntu php bin/magento deploy:mode:set developer || exit 1
 
 if [ "$MAGENTO_INSTALL_SAMPLE" = '1' ]; then
 echo "## Deploy Sample data"
 if [ ! -d /var/www/magento/var/composer_home ]; then
-sudo -u ubuntu mkdir /var/www/magento/var/composer_home || exit 1
+sudo -H -u ubuntu mkdir /var/www/magento/var/composer_home || exit 1
 fi
 cat << EOT > /var/www/magento/var/composer_home/auth.json || exit 1
 {
@@ -176,8 +179,8 @@ cat << EOT > /var/www/magento/var/composer_home/auth.json || exit 1
 }
 EOT
 chown ubuntu. /var/www/magento/var/composer_home/auth.json || exit 1
-sudo -u ubuntu php bin/magento sampledata:deploy || exit 1
-sudo -u ubuntu php bin/magento setup:upgrade || exit 1
+sudo -H -u ubuntu php bin/magento sampledata:deploy || exit 1
+sudo -H -u ubuntu php bin/magento setup:upgrade || exit 1
 fi
 
 echo "## Create Apache virtualhost conf"
