@@ -33,7 +33,7 @@ EOT
 service iptables restart
 #---------END OF iptables---------#
 #---------START OF Rails---------#
-gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3 || exit 1
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB || exit 1
 echo 'gem: --no-rdoc --no-ri' > /etc/gemrc
 yum -y install readline-devel zlib-devel curl-devel libyaml-devel libyaml openssl-devel libxml2-devel libxslt libxslt-devel curl-devel sqlite-devel || exit 1
 command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - || exit 1
