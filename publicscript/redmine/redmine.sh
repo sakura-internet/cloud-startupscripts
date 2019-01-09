@@ -33,15 +33,15 @@ EOT
 service iptables restart
 #---------END OF iptables---------#
 #---------START OF Rails---------#
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB || exit 1
-echo 'gem: --no-rdoc --no-ri' > /etc/gemrc
+gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB || exit 1
+echo -e "install: --no-document\nupdate:  --no-document" > /root/.gemrc
 yum -y install readline-devel zlib-devel curl-devel libyaml-devel libyaml openssl-devel libxml2-devel libxslt libxslt-devel curl-devel sqlite-devel || exit 1
 command curl -sSL https://rvm.io/mpapis.asc | gpg2 --import - || exit 1
 curl -L https://get.rvm.io | bash -s stable --ignore-dotfiles --autolibs=0 || exit 1
 source /usr/local/rvm/scripts/rvm || exit 1
-rvm install ruby-2.2.4 || exit 1
-rvm use ruby-2.2.4 || exit 1
-gem install rails --no-ri --no-rdoc || exit 1
+rvm install ruby-2.4.5 || exit 1
+rvm use ruby-2.4.5 || exit 1
+gem install rails --no-document || exit 1
 #---------END OF Rails---------#
 #---------START OF Apache & MySQL---------#
 yum -y install expect httpd-devel mod_ssl mysql-server || exit 1
@@ -104,7 +104,7 @@ echo "create database db_redmine default character set utf8;" | mysql --defaults
 echo "grant all on db_redmine.* to $USERNAME@'localhost' identified by '$PASSWORD';" | mysql --defaults-file=/root/.my.cnf
 echo "flush privileges;" | mysql --defaults-file=/root/.my.cnf
 
-svn co http://svn.redmine.org/redmine/branches/3.2-stable /var/lib/redmine || exit 1
+svn co http://svn.redmine.org/redmine/branches/3.3-stable /var/lib/redmine || exit 1
 
 cat <<EOT > /var/lib/redmine/config/database.yml
 production:
