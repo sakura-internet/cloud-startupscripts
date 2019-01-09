@@ -30,10 +30,10 @@ _motd start
 set -e
 trap '_motd fail' ERR
 
-# Install nginx,mariadb,php
 yum -y install yum-utils
 yum -y install epel-release
 yum-config-manager --enable epel
+yum -y update grub2-common
 
 # install XRDP
 yum --enablerepo=cr -y install xrdp
