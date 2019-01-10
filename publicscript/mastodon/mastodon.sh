@@ -3,14 +3,14 @@
 # @sacloud-name "Mastodon"
 # @sacloud-once
 # @sacloud-desc-begin
-# このスクリプトは Mastodon をセットアップします
-# (CentOS7.X でのみ動作します)
+# Mastodon をセットアップします
+# (CentOS7.X で動作)
 #
-# 事前作業として以下の2つが必要です
-# ・さくらのクラウドDNSにゾーン登録を完了済み
-# ・さくらのクラウドAPIのアクセストークンを取得済み
-# ブラウザからアクセスできるようになるまでに30分程度お時間がかかります
-# セットアップ完了後、サーバを自動で再起動します
+# 事前に以下が必要です
+# ・さくらのクラウドDNSにゾーン登録
+# ・さくらのクラウドAPIのアクセストークンを取得
+# ブラウザからアクセスできるようになるまでの目安時間：30分
+# セットアップ完了後サーバを自動で再起動します
 # https://(さくらのクラウドDNSのゾーン名)
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
@@ -107,7 +107,7 @@ rbenv install \${RV}
 rbenv global \${RV}
 rbenv rehash
 cd live
-gem install bundler
+gem install bundler -v \$(cat Gemfile.lock|grep -A 1 'BUNDLED WITH'|tail -n 1)
 bundle install --deployment --without development test
 yarn install --pure-lockfile
 cp .env.production{.sample,}
