@@ -5,7 +5,6 @@
 
 # @sacloud-desc Ubuntu16.04.* LTSに、EC サイト構築プラットフォーム Magento2.x をインストールします。
 # @sacloud-desc ※ホスト名は名前解決が出来る名前の設定を推奨します。
-# @sacloud-desc ※推奨スペック：CPU:４Core以上 Memory:8GB以上（低スペックの場合インストールが正常に終了しない場合があります）
 # @sacloud-desc ※サーバ作成前に Magento マーケットプレイスにログインし、「Marketplaceのpublic key」と「Marketplaceのprivate key」の取得が必要です。
 # @sacloud-desc ログインは https://account.magento.com/applications/customer/login から行えます。
 # @sacloud-desc public key および private key は、 https://marketplace.magento.com/customer/accessKeys/list/ から既存のものを参照するか、新規に作成ください。
@@ -15,6 +14,7 @@
 # @sacloud-desc サーバ上の /home/ubuntu/info.txt にも保存されているため確認後削除してください。
 # @sacloud-desc （このスクリプトは、Ubuntu16.04.* LTSでのみ動作します）
 # @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
+# @sacloud-tag @require-core>=4 @require-memory-gib>=8
 # @sacloud-text required shellarg maxlen=100 admin_email "Magento管理者アカウントのメールアドレス"
 # @sacloud-text required shellarg maxlen=100 marketplace_public "Magento Marketplaceのpublic key"
 # @sacloud-text required shellarg maxlen=100 marketplace_private "Magento Marketplaceのprivate key"
