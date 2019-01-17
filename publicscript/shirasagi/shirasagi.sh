@@ -15,10 +15,11 @@
 #   http://www.ss-proj.org/download/demo.html
 #
 #   ※ このスクリプトは CentOS 7.X でのみ動作します。
-#   ※ 推奨環境：CPU 2コア / メモリ 3GB / ディスク 40GB
+#   ※ 推奨環境：ディスク 40GB
 #   ※ セットアップには15分程度時間がかかります。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-tag @require-core>=2 @require-memory-gib>=3
 # @sacloud-text SSHOST "ドメイン名"
 
 #---------SET SS__HOST---------#
