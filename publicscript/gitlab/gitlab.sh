@@ -4,7 +4,7 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-tag @require-core>=2 @require-memory-gib>=8
+# @sacloud-tag @simplemode @require-core>=2 @require-memory-gib>=8
 #
 # @sacloud-desc-begin
 #   GitLabをインストールします。

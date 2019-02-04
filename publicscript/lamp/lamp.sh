@@ -7,17 +7,17 @@
 #   Apache, PHP, MySQLをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
-#   （このスクリプトは、CentOS6.X,7.X,Ubuntu14.04,16.04で動作します）
+#   （このスクリプトは、CentOS6.X,7.X,Ubuntu16.04で動作します）
 # @sacloud-desc-end
 #@sacloud-radios-begin default=php5 php_version "PHPのバージョン"
 #     php5 "5"
 #     php7 "7"
 # @sacloud-radios-end
 # @sacloud-password shellarg mysql_password "MySQLに設定するパスワード(入力がない場合ランダム値がセットされます。)"
-# @sacloud-require-archive distro-debian
-# @sacloud-require-archive distro-ubuntu
+# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
 # @sacloud-require-archive distro-centos distro-ver-6.*
+# @sacloud-tag @simplemode
 
 PASSWD=@@@mysql_password@@@
 PHP_VERSION=@@@php_version@@@
@@ -28,7 +28,6 @@ if [ -e /etc/redhat-release ]; then
 else
     if [ -e /etc/lsb-release ]; then
       DIST="lsb"
-      DIST_VER=`cat /etc/lsb-release | tail -n 1 | cut -d "=" -f 2 | cut -d " " -f 2 | cut -d "." -f 1`
     fi
 fi
 
@@ -162,19 +161,14 @@ elif [ $DIST = "lsb" ]; then
     if [ $PHP_VERSION = "php7" ];then
       apt-get -y install php libapache2-mod-php php-mysql
     else
-      if [ $DIST_VER = "16" ];then
-        apt-get -y install php5.6 php5.6-mysql
-      else
-        apt-get -y install php5 php5-mysql
-      fi
+      apt-get -y install php5.6 php5.6-mysql
     fi
-
 
     if [ -z "$PASSWD" ]; then
       PASSWD=`pwgen 12 1`
     fi
 
-       mysql -u root -e "SET PASSWORD FOR root@localhost=PASSWORD('${PASSWD}');"
+    mysql -u root -e "SET PASSWORD FOR root@localhost=PASSWORD('${PASSWD}');"
 
     cat <<_EOL_> /root/.my.cnf
 [client]
