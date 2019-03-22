@@ -4,11 +4,10 @@
 # @sacloud-once
 # @sacloud-desc-begin
 # RabbitMQ 3.6.1をインストールします。
-# このスクリプトは、CentOS6.XもしくはScientific Linux6.Xでのみ動作します。
+# このスクリプトは、CentOS6.Xでのみ動作します。
 # サーバ作成後 http://サーバのIPアドレス:マネジメントポート番号/ に接続してください。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-6.*
-# @sacloud-require-archive distro-sl distro-ver-6.*
 # @sacloud-text required shellarg maxlen=16 default=admin username '初期ユーザ名'
 # @sacloud-password required shellarg maxlen=16 password 'パスワード'
 # @sacloud-text required shellarg integer min=1 max=65534 maxlen=5 default=5672 amqpport 'AMQPポート番号'

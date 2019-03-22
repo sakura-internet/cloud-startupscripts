@@ -9,7 +9,7 @@ git clone https://github.com/certbot/certbot
 export PATH=/usr/local/certbot:${PATH}
 CERT=/etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
 
-CA=$(certbot-auto -n certonly --webroot -w ${HTTP_DOCROOT} -d ${FIRST_DOMAIN} -m admin@${FIRST_DOMAIN} --agree-tos)
+CA=$(certbot-auto -n certonly --webroot -w ${HTTP_DOCROOT} -d ${FIRST_DOMAIN} -m admin@${FIRST_DOMAIN} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory)
 
 for x in $(seq 1 3)
 do
@@ -28,20 +28,35 @@ then
 	exit 1
 fi
 
-cat <<_EOL_>> /etc/postfix-inbound/main.cf
-smtpd_use_tls = yes
-smtpd_tls_cert_file = /etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
-smtpd_tls_key_file  = /etc/letsencrypt/live/${FIRST_DOMAIN}/privkey.pem
-smtpd_tls_loglevel = 1
-smtpd_tls_ask_ccert = yes
-_EOL_
+postconf -c /etc/postfix-inbound -e smtpd_use_tls=yes
+postconf -c /etc/postfix-inbound -e smtpd_tls_CAfile=/etc/pki/tls/certs/ca-bundle.crt
+postconf -c /etc/postfix-inbound -e smtpd_tls_cert_file=/etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
+postconf -c /etc/postfix-inbound -e smtpd_tls_key_file=/etc/letsencrypt/live/${FIRST_DOMAIN}/privkey.pem
+postconf -c /etc/postfix-inbound -e smtpd_tls_session_cache_database=btree:/var/lib/postfix-inbound/smtpd_tls_session_cache
+postconf -c /etc/postfix-inbound -e smtpd_tls_loglevel=1
+postconf -c /etc/postfix-inbound -e smtpd_tls_ask_ccert=yes
+postconf -c /etc/postfix-inbound -e 'smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
+postconf -c /etc/postfix-inbound -e 'smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1'
+postconf -c /etc/postfix-inbound -e tls_high_cipherlist=EECDH+AESGCM
+postconf -c /etc/postfix-inbound -e smtpd_tls_ciphers=high
+postconf -c /etc/postfix-inbound -e smtpd_tls_mandatory_ciphers=high
+postconf -c /etc/postfix-inbound -e smtpd_tls_received_header=yes
+postconf -c /etc/postfix-inbound -e tls_preempt_cipherlist=yes
+
+postconf -c /etc/postfix -e smtp_use_tls=yes
+postconf -c /etc/postfix -e smtp_tls_CAfile=/etc/pki/tls/certs/ca-bundle.crt
+postconf -c /etc/postfix -e smtp_tls_cert_file=/etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem
+postconf -c /etc/postfix -e smtp_tls_key_file=/etc/letsencrypt/live/${FIRST_DOMAIN}/privkey.pem
+postconf -c /etc/postfix -e smtp_tls_session_cache_database=btree:/var/lib/postfix/smtp_tls_session_cache
+postconf -c /etc/postfix -e smtp_tls_loglevel=1
+postconf -c /etc/postfix -e smtp_tls_security_level=may
 
 systemctl reload postfix
 
 cat <<_EOL_> /etc/nginx/conf.d/ssl.conf
 ssl_session_timeout  5m;
 ssl_protocols TLSv1.2;
-ssl_ciphers EECDH+AESGCM:EECDH+AES;
+ssl_ciphers EECDH+AESGCM;
 ssl_ecdh_curve prime256v1;
 ssl_prefer_server_ciphers on;
 ssl_certificate /etc/letsencrypt/live/${FIRST_DOMAIN}/fullchain.pem;
@@ -58,6 +73,11 @@ server {
 	root ${HTTPS_DOCROOT};
 	server_tokens off;
 	charset     utf-8;
+
+	add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+	ssl_session_cache shared:WEB:10m;
+	ssl_stapling on ;
+	ssl_stapling_verify on ;
 
 	location ~ \.php$ {
 		fastcgi_pass 127.0.0.1:9000;

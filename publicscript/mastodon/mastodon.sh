@@ -3,14 +3,14 @@
 # @sacloud-name "Mastodon"
 # @sacloud-once
 # @sacloud-desc-begin
-# このスクリプトは Mastodon をセットアップします
-# (CentOS7.X でのみ動作します)
+# Mastodon をセットアップします
+# (CentOS7.X で動作)
 #
-# 事前作業として以下の2つが必要です
-# ・さくらのクラウドDNSにゾーン登録を完了済み
-# ・さくらのクラウドAPIのアクセストークンを取得済み
-# ブラウザからアクセスできるようになるまでに30分程度お時間がかかります
-# セットアップ完了後、サーバを自動で再起動します
+# 事前に以下が必要です
+# ・さくらのクラウドDNSにゾーン登録
+# ・さくらのクラウドAPIのアクセストークンを取得
+# ブラウザからアクセスできるようになるまでの目安時間：30分
+# セットアップ完了後サーバを自動で再起動します
 # https://(さくらのクラウドDNSのゾーン名)
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
@@ -40,15 +40,13 @@ source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
-yum install -y yum-utils
-yum-config-manager --enable epel
-yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
-curl -sL https://rpm.nodesource.com/setup_6.x | bash -
+yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+curl -sL https://rpm.nodesource.com/setup_8.x | bash -
 
 yum update -y
-yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql-{server,devel,contrib} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
+yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql96-{server,contrib,devel} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
-#DNS登録
+
 if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 then
 	echo "${DOMAIN} はさくらのクラウドDNSで管理していません"
@@ -83,21 +81,19 @@ cat <<_EOL_> ${DNSJS}
 }
 _EOL_
 curl -s --user "${KEY}" -X PUT -d "$(cat ${DNSJS} | jq -c .)" ${API}
-#postgresql, redis
 export PGSETUP_INITDB_OPTIONS="--encoding=UTF-8 --no-locale"
-postgresql-setup initdb
-sed -i "s/ident/trust/" /var/lib/pgsql/data/pg_hba.conf
-systemctl enable postgresql redis
-systemctl start postgresql redis
+/usr/pgsql-9.6/bin/postgresql96-setup initdb
+sed -i "s/ident/trust/" /var/lib/pgsql/9.6/data/pg_hba.conf
+systemctl enable postgresql-9.6 redis
+systemctl start postgresql-9.6 redis
 su - postgres -c "createuser --createdb mastodon"
 
-#ruby, mastodon
 useradd mastodon
 SETUP=/home/mastodon/setup.sh
-cat << _EOF_ > ${SETUP}
+cat <<_EOF_> ${SETUP}
 REPO=https://github.com/sstephenson
 git clone \${REPO}/rbenv.git ~/.rbenv
-echo 'export PATH="~/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="~/.rbenv/bin:/usr/pgsql-9.6/bin:$PATH"' >> ~/.bash_profile
 source ~/.bash_profile
 rbenv init - >> ~/.bash_profile
 source ~/.bash_profile
@@ -111,7 +107,7 @@ rbenv install \${RV}
 rbenv global \${RV}
 rbenv rehash
 cd live
-gem install bundler
+gem install bundler -v \$(cat Gemfile.lock|grep -A 1 'BUNDLED WITH'|tail -n 1)
 bundle install --deployment --without development test
 yarn install --pure-lockfile
 cp .env.production{.sample,}
@@ -130,7 +126,6 @@ sed -i -e "s/_HOST=[rd].*/_HOST=localhost/" \
 -e "s/^#SMTP_AUTH_METHOD.*/SMTP_AUTH_METHOD=none/" \
 -e "s/^SMTP_FROM_ADDRESS.*/SMTP_FROM_ADDRESS=${MADDR}/" \
 -e "s/^SECRET_KEY_BASE=/SECRET_KEY_BASE=\${SKB}/" \
--e "s/^PAPERCLIP_SECRET=/PAPERCLIP_SECRET=\${PS}/" \
 -e "s/^OTP_SECRET=/OTP_SECRET=\${OS}/" .env.production
 export \$(bundle exec rake mastodon:webpush:generate_vapid_key)
 sed -i -e "s/^VAPID_PRIVATE_KEY=/VAPID_PRIVATE_KEY=\${VAPID_PRIVATE_KEY}/" \
@@ -144,7 +139,7 @@ chown mastodon. ${SETUP}
 su - mastodon -c "/bin/bash ${SETUP}"
 
 SDIR=/etc/systemd/system
-cat << "_EOF_" > ${SDIR}/mastodon-web.service
+cat <<"_EOF_"> ${SDIR}/mastodon-web.service
 [Unit]
 Description=mastodon-web
 After=network.target
@@ -163,7 +158,7 @@ Restart=always
 WantedBy=multi-user.target
 _EOF_
 
-cat << "_EOF_" > ${SDIR}/mastodon-sidekiq.service
+cat <<"_EOF_"> ${SDIR}/mastodon-sidekiq.service
 [Unit]
 Description=mastodon-sidekiq
 After=network.target
@@ -182,7 +177,7 @@ Restart=always
 WantedBy=multi-user.target
 _EOF_
 
-cat << "_EOF_" > ${SDIR}/mastodon-streaming.service
+cat <<"_EOF_"> ${SDIR}/mastodon-streaming.service
 [Unit]
 Description=mastodon-streaming
 After=network.target
@@ -202,7 +197,6 @@ WantedBy=multi-user.target
 _EOF_
 systemctl enable mastodon-{web,sidekiq,streaming}
 
-#nginx
 sed -i -e 's/user nginx/user mastodon/' -e '1,/location/s/location \/ {/location ^~ \/.well-known\/acme-challenge\/ {}\n\tlocation \/ {\n\t\treturn 301 https:\/\/$host$request_uri;/' /etc/nginx/nginx.conf
 chown -R mastodon. /var/{lib,log}/nginx
 sed -i 's/ nginx nginx/ mastodon mastodon/' /etc/logrotate.d/nginx
@@ -211,7 +205,7 @@ LD=/etc/letsencrypt/live/${DOMAIN}
 CERT=${LD}/fullchain.pem
 PKEY=${LD}/privkey.pem
 
-cat << _EOF_ > https.conf
+cat <<_EOF_> https.conf
 map \$http_upgrade \$connection_upgrade {
 	default upgrade;
 	''      close;
@@ -293,7 +287,6 @@ _EOF_
 systemctl enable nginx
 systemctl start nginx
 
-#postfix
 cat <<_EOL_>> /etc/postfix/main.cf
 myhostname = ${DOMAIN}
 smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
@@ -306,15 +299,13 @@ _EOL_
 sed -i -e 's/^inet_interfaces.*/inet_interfaces = all/' -e 's/^inet_protocols = all/inet_protocols = ipv4/' /etc/postfix/main.cf
 systemctl reload postfix
 
-#firewall
 firewall-cmd --permanent --add-port={25,80,443}/tcp
 firewall-cmd --reload
 
-#Lets Encrypt
 CPATH=/usr/local/certbot
 git clone https://github.com/certbot/certbot ${CPATH}
 WROOT=/usr/share/nginx/html
-${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos
+${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory
 
 if [ ! -f ${CERT} ]
 then
@@ -326,7 +317,6 @@ mv https.conf /etc/nginx/conf.d/
 R=${RANDOM}
 echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root ${CPATH}/certbot-auto renew --webroot -w ${WROOT} --post-hook 'systemctl reload nginx'" > /etc/cron.d/certbot-auto
 
-#PTR登録
 API=${BASE}/ipaddress/${IPADDR}
 PTRJS=ptr.json
 cat <<_EOL_> ${PTRJS}
@@ -341,7 +331,6 @@ then
 	_motd fail
 fi
 
-# reboot
 shutdown -r 1
 echo "セットアップ完了"
 _motd end

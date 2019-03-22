@@ -4,21 +4,22 @@
 # @sacloud-once
 
 # @sacloud-desc-begin
-#   Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMSであるシラサギをセットアップするスクリプトです。
+#   シラサギをセットアップするスクリプトです。
 #   オプションの「ドメイン名」を設定すると、
 #   ブラウザで "http://example.jp/" にアクセスするとシラサギが表示されるようにシラサギがインストールされます。
 #   example.jpの部分は、ご利用のドメインに応じて適時変更してください。
 #
 #   サーバ作成後、Webブラウザでシラサギの管理画面にアクセスしてください。
-#   http://IPアドレス:3000/.mypage
+#   http://IPアドレス/.mypage
 #   初期ID/パスワードは下記URLを参照してください。
 #   http://www.ss-proj.org/download/demo.html
 #
 #   ※ このスクリプトは CentOS 7.X でのみ動作します。
-#   ※ 推奨環境：CPU 2コア / メモリ 3GB / ディスク 40GB
-#   ※ セットアップには10分程度時間がかかります。
+#   ※ 推奨環境：ディスク 40GB
+#   ※ セットアップには15分程度時間がかかります。
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-tag @require-core>=2 @require-memory-gib>=3
 # @sacloud-text SSHOST "ドメイン名"
 
 #---------SET SS__HOST---------#
@@ -34,16 +35,18 @@ else
   SS__HOST=${IPADDR}
 fi
 
-#---------START OF SHIRASAGI---------#
-# シラサギのインストーラを実行します。
-curl https://raw.githubusercontent.com/shirasagi/shirasagi/master/bin/install.sh | bash -s ${SS__HOST}
-#---------END OF SHIRASAGI---------#
+#---------Download SHIRASAGI Install Script---------#
+# シラサギのインストーラを入手します。
+curl https://raw.githubusercontent.com/shirasagi/shirasagi/master/bin/install.sh > @@@.ID@@@_install.sh
 
-#---------START OF firewalld---------#
-# シラサギの管理画面は3000番ポートを使用するため、
-# サーバに対して3000番ポートでアクセスできるようにします。
-firewall-cmd --permanent --add-port=3000/tcp
-firewall-cmd --reload
-#---------END OF firewalld---------#
+#---------Change nginx Repository---------#
+# nginxを、epelでなくnginx.orgからインストールするように変更します。
+sed -i 's/sudo yum -y --enablerepo=nginx install nginx/sudo yum -y --disablerepo=epel --enablerepo=nginx install nginx/g' @@@.ID@@@_install.sh
+
+#---------Exec SHIRASAGI Install Script---------#
+# シラサギのインストーラを実行します。
+bash @@@.ID@@@_install.sh ${SS__HOST}
+
+#---------END OF SHIRASAGI---------#
 
 exit 0

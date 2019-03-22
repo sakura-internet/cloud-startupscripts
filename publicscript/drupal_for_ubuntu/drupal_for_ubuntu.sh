@@ -3,14 +3,14 @@
 # @sacloud-name "Drupal for Ubuntu"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-ubuntu
+# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
 #
 # @sacloud-desc-begin
 #   Drupalをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
 #   ※ セットアップには5分程度時間がかかります。
-#   （このスクリプトは、Ubuntu 14.04 または 16.04 でのみ動作します）
+#   （このスクリプトは、Ubuntu 16.04 でのみ動作します）
 #   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
 # @sacloud-desc-end
 #
@@ -24,19 +24,14 @@
 # @sacloud-password required shellarg maxlen=60 password "Drupal 管理ユーザーのパスワード"
 # @sacloud-text required shellarg maxlen=254 ex=your.name@example.com mail "Drupal 管理ユーザーのメールアドレス"
 
-# ファイル内で定義されている `DISTRIB_RELEASE` に Ubuntu のバージョンが記載
-# されているので、それを利用して分岐をする
 source /etc/lsb-release
 
 DRUPAL_VERSION=@@@drupal_version@@@
 
 # MySQL サーバーインストールウィザードの設定値をセット
 mysql_password=root
-if [ $DISTRIB_RELEASE = "14.04" ]; then
-  mysql_package="mysql-server-5.5"
-elif [ $DISTRIB_RELEASE = "16.04" ]; then
-  mysql_package="mysql-server-5.7"
-fi
+mysql_package="mysql-server-5.7"
+
 echo "$mysql_package mysql-server/root_password password $mysql_password" | debconf-set-selections
 echo "$mysql_package mysql-server/root_password_again password $mysql_password" | debconf-set-selections
 
@@ -46,11 +41,7 @@ echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-sel
 
 # 必要なミドルウェアを全てインストール
 apt-get update || exit 1
-if [ $DISTRIB_RELEASE = "14.04" ]; then
-  required_packages="apache2 mysql-server php5 php5-apcu php5-mysql php5-gd mailutils"
-elif [ $DISTRIB_RELEASE = "16.04" ]; then
-  required_packages="apache2 libapache2-mod-php mysql-server php php-apcu php-mysql php-gd php-xml mailutils"
-fi
+required_packages="apache2 libapache2-mod-php mysql-server php php-apcu php-mysql php-gd php-xml mailutils composer zip unzip"
 apt-get -y install $required_packages
 
 # Apache の rewrite モジュールを有効化
@@ -66,23 +57,7 @@ patch -l /etc/apache2/sites-available/000-default.conf << EOS
 EOS
 
 # PHP の各種設定
-if [ $DISTRIB_RELEASE = "14.04" ]; then
-  patch /etc/php5/apache2/php.ini << EOS
-673c673
-< post_max_size = 8M
----
-> post_max_size = 16M
-805c805
-< upload_max_filesize = 2M
----
-> upload_max_filesize = 16M
-879c879
-< ;date.timezone =
----
-> date.timezone = Asia/Tokyo
-EOS
-elif [ $DISTRIB_RELEASE = "16.04" ]; then
-  patch /etc/php/7.0/apache2/php.ini << EOS
+patch /etc/php/7.0/apache2/php.ini << EOS
 656c656
 < post_max_size = 8M
 ---
@@ -96,24 +71,17 @@ elif [ $DISTRIB_RELEASE = "16.04" ]; then
 ---
 > date.timezone = Asia/Tokyo
 EOS
-fi
 
 # ファイルアップロード時のプログレスバーを表示できるようにする
-if [ $DISTRIB_RELEASE = "14.04" ]; then
-  echo "apc.rfc1867=1" >> /etc/php5/apache2/conf.d/20-apcu.ini
-elif [ $DISTRIB_RELEASE = "16.04" ]; then
-  echo "apc.rfc1867=1" >> /etc/php/7.0/apache2/conf.d/20-apcu.ini
-fi
+echo "apc.rfc1867=1" >> /etc/php/7.0/apache2/conf.d/20-apcu.ini
 
 service apache2 restart
 
-# 最新版の Drush をダウンロードする
-php -r "readfile('http://files.drush.org/drush.phar');" > drush || exit 1
-
-# drush コマンドを実行可能にして /usr/local/bin に移動
-chmod +x drush || exit 1
-mv drush /usr/local/bin || exit 1
-drush=/usr/local/bin/drush
+# 8.xの Drush をダウンロードする
+mkdir /opt/composer && cd $_
+COMPOSER_HOME="/opt/composer" composer config -g repositories.packagist composer https://packagist.org
+COMPOSER_HOME="/opt/composer" composer require "drush/drush":"~8"
+drush="$(pwd)/vendor/bin/drush"
 
 # Drupal をダウンロード
 if [ $DRUPAL_VERSION -eq 7 ]; then
@@ -203,3 +171,4 @@ Please access to http://$IP
 System Info:
 $SYSTEMINFO
 EOF
+

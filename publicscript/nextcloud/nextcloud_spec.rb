@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-services = %w(nginx postfix redis postgresql-9.6 mastodon-sidekiq mastodon-streaming mastodon-web)
-processes = %w(nginx master redis-server postmaster bundle node)
-ports = %w(25 80 443 3000 5432 6379)
+services = %w(httpd)
+processes = %w(httpd)
+ports = %w(80)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
 services.each do |service_name|
@@ -27,4 +27,3 @@ end
 describe command(logchk) do
   its(:stdout) { should match /done$/ }
 end
-

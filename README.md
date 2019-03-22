@@ -4,7 +4,7 @@
 スタートアップスクリプトは、新たにサーバを作成する際、任意の「スタートアップスクリプト」を選択することにより、起動時にそれらを自動的に実行する機能です。
 さくらインターネットが提供しているパブリックスクリプトの一覧です。
 
-詳細は[さくらのクラウドニュース](https://cloud-news.sakura.ad.jp/startup-script/)をご参照ください
+詳細は[さくらのクラウドニュース](https://cloud-news.sakura.ad.jp/startup-script/)をご参照ください。
 
 * [スタートアップスクリプトの登録をご希望の場合・登録のしかた](how-to-contribute.md)
 
@@ -21,13 +21,16 @@
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
 | メール | [メールシステム](./publicscript/mailsystem/mailsystem.sh) | スタートアップスクリプトを実行するだけで、メールサーバやWeb UIのセットアップ、DNS設定、メールアドレス発行を自動的に行えるスクリプトです。詳しくは [ドキュメント](./publicscript/mailsystem/README.md) をご覧ください。 <br />※CentOS 7でのみ動作します |
-| Wiki | [Crowi](./publicscript/crowi/crowi.sh) | Markdown形式で記述可能な組織用コミュニケーショ>ンツール[Crowi](http://site.crowi.wiki/)をセットアップするスクリプトです。サーバ作成後はブラウザより `http://サーバのIPアドレス/installer` にアクセスすることで設定が行えます。<br />※Ubuntu 16.04 でのみ動作します |
-| CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 14.04 または 16.04 でのみ動作します |
+| Wiki | [Crowi](./publicscript/crowi/crowi.sh) | Markdown形式で記述可能な組織用コミュニケーションツール[Crowi](http://site.crowi.wiki/)をセットアップするスクリプトです。サーバ作成後はブラウザより `http://サーバのIPアドレス/installer` にアクセスすることで設定が行えます。<br />※Ubuntu 16.04 でのみ動作します |
+| Wiki | [Restyaboard](./publicscript/restyaboard/restyaboard.sh) |オープンソースのカンバンボードであるRestyaboard をセットアップします<br />サーバ作成後はブラウザより `http://サーバIPアドレス/` にアクセスすることで設定が行えます。<br />※CentOS7系のみで動作します |
+| CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 16.04 でのみ動作します |
 | CMS | [Drupal for CentOS 7](./publicscript/drupal_for_centos7/drupal_for_centos7.sh) | 高機能CMSであるDrupalをインストールします。<br />※CentOS 7でのみ動作します |
 | CMS | [SHIRASAGI](./publicscript/shirasagi/shirasagi.sh) | Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMS「SHIRASAGI」をインストールします。 [公式サイトはこちら](http://www.ss-proj.org/)です。<br />※CentOS7系のみで動作します |
-| CMS | [WordPress](./publicscript/wordpress/wordpress.sh) | yumにより、ApacheとMySQLをインストール・WordPress向けの設定を自動的に行い、WordPress最新バージョンをインストールします。<br />サーバ作成後はサーバのIPアドレスにWebブラウザでアクセスするとWordPress初期画面が表示される状態となります。 |
+| CMS | [WordPress](./publicscript/wordpress_for_centos7/wordpress_for_centos7.sh) | yumにより、ApacheとMySQLをインストール・WordPress向けの設定を自動的に行い、WordPress最新バージョンをインストールします。<br />サーバ作成後はサーバのIPアドレスにWebブラウザでアクセスするとWordPress初期画面が表示される状態となります。 |
 | CMS | [WordPress for KUSANAGI8](./publicscript/wordpress_for_kusanagi8/wordpress_for_kusanagi8.sh) | KUSANAGI8 環境に WordPress をセットアップするスクリプトです。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/wordpress-for-kusanagi8/)を参照ください。 |
+| CMS | [baserCMS](./publicscript/basercms/basercms.sh) | Webサイト製作プラットフォーム、[baser CMS](https://basercms.net/) をインストールします。 |
 | オンラインストレージ | [ownCloud](./publicscript/owncloud/owncloud.sh) | ownCloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「`http://サーバIPアドレス/owncloud/`」にアクセスすることでownCloudの設定が行えます。<br />※ownCloudのスタートアップスクリプトでインストールされるPHPのバージョンはownCloudの推奨バージョンより低くなっているため、5.3.8以降のバージョンにアップデートすることを推奨します。 |
+| オンラインストレージ | [Nextcloud](./publicscript/nextcloud/nextcloud.sh) | Nextcloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「`http://サーバIPアドレス/nextcloud/`」にアクセスすることでNextcloudの設定が行えます。<br />*CentOS 7でのみ動作します |
 | ECプラットフォーム | [Magento](./publicscript/magento/magento.sh) | 越境ECプラットフォームであるMagentoをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/magento/)を参照ください。<br />※Ubuntu 16系のみで動作します |
 | SNS | [Mastodon](./publicscript/mastodon/mastodon.sh) | Twitterライクな投稿ができる分散型ソーシャルネットワーク「Mastodon」のインスタンス（サーバ）をセットアップします。<br />※CentOS7系のみで動作します |
 | コミュニケーション | [Mattermost](./publicscript/mattermost/mattermost.sh) | オープンソースのチャット型コミュニケーションツール「 [Mattermost](https://github.com/mattermost/platform/blob/master/README.md) 」サーバや MySQL、DNS を同時にセットアップします。<br />※ CentOS7 系のみで動作します |
@@ -65,10 +68,13 @@
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
-| パッケージ管理 | [yum update](./publicscript/yum_update/yum_update.sh) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS6系またはScientific Linux6系のみで動作します |
+| パッケージ管理 | [yum update](./publicscript/yum_update/yum_update.sh) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS6系のみで動作します |
 | パッケージ管理 | [apt-get update/upgrade](./publicscript/apt-get_update_upgrade/apt-get_update_upgrade.sh) | サーバ作成後の初回起動時のみ、コマンド”apt-get update”および”apt-get upgrade”を実行します。実行完了後、サーバが再起動されます。<br />※DebianまたはUbuntuのみで動作します |
-| 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します | 
+| コンテナ管理 | [Rancher2セットアップ](./publicscript/rancher2_setup/rancher2_setup.sh) | Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。ui-driver-sakuracloud がセットアップされ、さくらのクラウド上で Kubernetes クラスタを素早くセットアップできます。<br />※CentOS7系のみで動作します |
+| 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [zabbix-agent](./publicscript/zabbix-agent/zabbix-agent.sh) | zabbix-serverに対応するエージェントzabbix-agentをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-agent/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [hatohol-server](./publicscript/hatohol-server/hatohol-server.sh) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
+| セキュリティ | [SiteGuard Lite](./publicscript/siteguardlite/siteguardlite.sh) | WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。さくらのクラウドではJP-Secure社が開発する純国産のホスト型WAF製品「 SiteGuard Lite 」をさくらのクラウド向け特別版として無料で提供しています。<br />※CentOS系のみで動作します |
 | セキュリティ | [Vuls](./publicscript/vuls/vuls.sh) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
-| セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します | 
+| セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します |
+| RDP環境 | [GNOME-xrdp](./publicscript/xrdp/xrdp.sh) | GNOMEデスクトップ環境と xrdp をインストールします。Microsoftのリモートデスクトップなどを使用してサーバに接続することができます。<br />※CentOS7系のみで動作します |

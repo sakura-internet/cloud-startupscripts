@@ -30,6 +30,3 @@ IPADDR=dummy
 TYPE=SSL
 ### working directory
 WORKDIR=~/startup-script-mailsystem
-### software version
-DOVECOT_VERSION=2.2.32
-PIGEONHOLE_VERSION=0.4.20

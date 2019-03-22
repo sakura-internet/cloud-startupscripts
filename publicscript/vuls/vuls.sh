@@ -2,6 +2,9 @@
 #
 # @sacloud-name "Vuls"
 # @sacloud-once
+#
+# @sacloud-require-archive distro-centos distro-ver-7.*
+#
 # @sacloud-desc-begin
 # このスクリプトはLinuxサーバに存在する脆弱性をスキャンするVulsをセットアップします。
 # (このスクリプトは、CentOS7.Xでのみ動作します。)
@@ -17,8 +20,8 @@
 set -x
 
 # Install requirements
-GOVERSION=1.8.3
-yum install -y yum-plugin-changelog sqlite git gcc make yum-utils
+GOVERSION=1.9.4
+yum install -y yum-plugin-changelog yum-utils sqlite git gcc make
 curl -O https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz
 tar -C /usr/local/ -xzf go${GOVERSION}.linux-amd64.tar.gz
 
@@ -40,7 +43,7 @@ cat << '_EOF_' >> /etc/sudoers
 
 # vuls settings
 Defaults:vuls !requiretty
-vuls ALL=(ALL) NOPASSWD:/usr/bin/yum --changelog --assumeno update *
+vuls ALL=(ALL) NOPASSWD:/usr/bin/yum --color=never repolist, /usr/bin/yum --color=never list-security --security, /usr/bin/yum --color=never info-security, /usr/bin/repoquery, /usr/bin/yum --color=never changelog all *
 Defaults:vuls env_keep="http_proxy https_proxy HTTP_PROXY HTTPS_PROXY"
 _EOF_
 
@@ -57,6 +60,14 @@ make install
 cd ${HOME}
 for i in $(seq 2002 $(date +"%Y")); do go-cve-dictionary fetchnvd -years $i; done
 for i in $(seq 1998 $(date +"%Y")); do go-cve-dictionary fetchjvn -years $i; done
+
+# Deploy goval-dictionary
+cd $GOPATH/src/github.com/kotakanbe
+git clone https://github.com/kotakanbe/goval-dictionary.git
+cd goval-dictionary
+make install
+cd ${HOME}
+goval-dictionary fetch-redhat 7
 
 # Deploy Vuls
 mkdir -p $GOPATH/src/github.com/future-architect
@@ -78,8 +89,9 @@ _EOF_
 
 su - vuls -c "bash ./setup.sh"
 
-echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * 1,3,5 vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchnvd -last2y >/dev/null 2>&1" > /etc/cron.d/vuls
-echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * 2,4,6 vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchjvn -last2y >/dev/null 2>&1" >> /etc/cron.d/vuls
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchnvd -last2y >/dev/null 2>&1" > /etc/cron.d/vuls
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && go-cve-dictionary fetchjvn -last2y >/dev/null 2>&1" >> /etc/cron.d/vuls
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * * vuls source /etc/profile.d/goenv.sh && goval-dictionary  fetch-redhat 7 >/dev/null 2>&1" >> /etc/cron.d/vuls
 
 # Check config.toml and settings on the server before scanning
 su - vuls -c "vuls configtest"
