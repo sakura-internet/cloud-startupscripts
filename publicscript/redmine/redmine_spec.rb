@@ -1,9 +1,13 @@
 require 'spec_helper'
 
-services = %w(httpd mysqld)
+services = %w(httpd mariadb)
 processes = %w(httpd mysqld PassengerAgent)
 ports = %w(80 3306)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
+
+if os[:family] == 'redhat' and os[:release] =~ /^6/
+  services = %w(httpd mysqld)
+end
 
 services.each do |service_name|
   describe service(service_name) do
