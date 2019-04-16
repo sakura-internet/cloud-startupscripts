@@ -9,7 +9,7 @@
 # 事前に以下が必要です
 # ・さくらのクラウドDNSにゾーン登録
 # ・さくらのクラウドAPIのアクセストークンを取得
-# ブラウザからアクセスできるようになるまでの目安時間：30分
+# セットアップ目安時間：30分
 # セットアップ完了後サーバを自動で再起動します
 # https://(さくらのクラウドDNSのゾーン名)
 # @sacloud-desc-end
@@ -64,9 +64,9 @@ if [ $(echo "${RECODES}" | egrep -c "^(\[\]|null)$") -ne 1 ]
 then
 	if [ "${RECODES}x" = "x" ]
 	then
-		echo "ドメインのリソースIDが取得できません"
+		echo "ドメインのリソースIDが取得不可"
 	else
-		echo "レコードを登録していないドメインを指定してください"
+		echo "レコードを未登録のドメインを指定してください"
 	fi
 	_motd fail
 fi
@@ -310,7 +310,7 @@ ${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR}
 
 if [ ! -f ${CERT} ]
 then
-	echo "証明書の取得に失敗しました"
+	echo "証明書の取得に失敗"
 	_motd fail
 fi
 
@@ -328,7 +328,7 @@ curl -s --user "${KEY}" -X PUT -d "$(cat ${PTRJS} | jq -c .)" ${API}
 RET=$(curl -s --user "${KEY}" -X GET ${API} | jq -r "select(.IPAddress.HostName == \"${DOMAIN}\") | .is_ok")
 if [ "${RET}x" != "truex" ]
 then
-	echo "逆引きの登録に失敗しました"
+	echo "逆引き登録に失敗"
 	_motd fail
 fi
 
