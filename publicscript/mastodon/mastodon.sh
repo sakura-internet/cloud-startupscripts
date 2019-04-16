@@ -107,6 +107,7 @@ rbenv install \${RV}
 rbenv global \${RV}
 rbenv rehash
 cd live
+gem update --system
 gem install bundler -v \$(cat Gemfile.lock|grep -A 1 'BUNDLED WITH'|tail -n 1)
 bundle install --deployment --without development test
 yarn install --pure-lockfile
