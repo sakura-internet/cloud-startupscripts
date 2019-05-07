@@ -41,7 +41,7 @@ echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-sel
 
 # 必要なミドルウェアを全てインストール
 apt-get update || exit 1
-required_packages="apache2 libapache2-mod-php mysql-server php php-apcu php-mysql php-gd php-xml mailutils composer zip unzip"
+required_packages="apache2 libapache2-mod-php mysql-server php php-mbstring php-apcu php-mysql php-gd php-xml mailutils composer zip unzip"
 apt-get -y install $required_packages
 
 # Apache の rewrite モジュールを有効化
@@ -71,9 +71,6 @@ patch /etc/php/7.0/apache2/php.ini << EOS
 ---
 > date.timezone = Asia/Tokyo
 EOS
-
-# ファイルアップロード時のプログレスバーを表示できるようにする
-echo "apc.rfc1867=1" >> /etc/php/7.0/apache2/conf.d/20-apcu.ini
 
 service apache2 restart
 
@@ -141,7 +138,7 @@ chown -R www-data: /var/www/html || exit 1
 # Drupal のクロンタスクを作成し一時間に一度の頻度で回す
 cat << EOS > /etc/cron.hourly/drupal
 #!/bin/bash
-/usr/local/bin/drush -r /var/www/html cron
+$drush -r /var/www/html cron
 EOS
 chmod 755 /etc/cron.hourly/drupal || exit 1
 
@@ -171,4 +168,3 @@ Please access to http://$IP
 System Info:
 $SYSTEMINFO
 EOF
-
