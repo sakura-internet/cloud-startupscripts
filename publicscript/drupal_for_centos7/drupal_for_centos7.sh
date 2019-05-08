@@ -31,12 +31,7 @@ yum makecache fast || exit 1
 # Drupal 7, 8 共通のパッケージをインストール
 yum -y install mariadb mariadb-server httpd epel-release || exit 1
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm || exit 1
-if [ $DRUPAL_VERSION -eq 7 ]; then
-  yum -y install php php-mysql php-gd php-dom php-mbstring || exit 1
-  yum -y install --enablerepo=remi php-pecl-apcu php-pecl-zendopcache composer || exit 1
-elif [ $DRUPAL_VERSION -eq 8 ]; then
-  yum -y install --enablerepo=remi,remi-php56 gd-last php php-mysql php-gd php-dom php-mbstring php-pecl-apcu php-pecl-zendopcache composer || exit 1
-fi
+yum -y install --enablerepo=remi,remi-php71 gd-last php php-mysql php-gd php-dom php-mbstring php-pecl-apcu php-pecl-zendopcache composer || exit 1
 
 # Drupal で .htaccess を使用するため /var/www/html ディレクトリに対してオーバーライドを全て許可する
 patch /etc/httpd/conf/httpd.conf << EOS
@@ -71,20 +66,6 @@ patch /etc/php.ini << EOS
 < ;date.timezone =
 ---
 > date.timezone = Asia/Tokyo
-EOS
-
-# ファイルアップロード時のプログレスバーを表示できるようにする
-if [ $DRUPAL_VERSION -eq 7 ]; then
-  file_path=/etc/php.d/apcu.ini
-elif [ $DRUPAL_VERSION -eq 8 ]; then
-  # Drupal 8 の場合は REMI 版の APCu を使うためパスが違う
-  file_path=/etc/php.d/40-apcu.ini
-fi
-patch $file_path << EOS
-67c67
-< ;apc.rfc1867=0
----
-> apc.rfc1867=1
 EOS
 
 # MySQL サーバーを自動起動するようにして起動
@@ -154,7 +135,7 @@ chown -R apache: /var/www/html || exit 1
 # Drupal のクロンタスクを作成し一時間に一度の頻度で回す
 cat << EOS > /etc/cron.hourly/drupal
 #!/bin/bash
-/usr/local/bin/drush -r /var/www/html cron
+$drush -r /var/www/html cron
 EOS
 chmod 755 /etc/cron.hourly/drupal || exit 1
 
@@ -194,4 +175,3 @@ Please access to http://$IP
 System Info:
 $SYSTEMINFO
 EOF
-
