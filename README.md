@@ -21,7 +21,6 @@
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
 | メール | [メールシステム](./publicscript/mailsystem/mailsystem.sh) | スタートアップスクリプトを実行するだけで、メールサーバやWeb UIのセットアップ、DNS設定、メールアドレス発行を自動的に行えるスクリプトです。詳しくは [ドキュメント](./publicscript/mailsystem/README.md) をご覧ください。 <br />※CentOS 7でのみ動作します |
-| Wiki | [Crowi](./publicscript/crowi/crowi.sh) | Markdown形式で記述可能な組織用コミュニケーションツール[Crowi](http://site.crowi.wiki/)をセットアップするスクリプトです。サーバ作成後はブラウザより `http://サーバのIPアドレス/installer` にアクセスすることで設定が行えます。<br />※Ubuntu 16.04 でのみ動作します |
 | Wiki | [Restyaboard](./publicscript/restyaboard/restyaboard.sh) |オープンソースのカンバンボードであるRestyaboard をセットアップします<br />サーバ作成後はブラウザより `http://サーバIPアドレス/` にアクセスすることで設定が行えます。<br />※CentOS7系のみで動作します |
 | CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 16.04 でのみ動作します |
 | CMS | [Drupal for CentOS 7](./publicscript/drupal_for_centos7/drupal_for_centos7.sh) | 高機能CMSであるDrupalをインストールします。<br />※CentOS 7でのみ動作します |
@@ -46,12 +45,12 @@
 | 開発支援 | [Git Clone](./publicscript/git_clone/git_clone.sh) | 指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。<br />拡張子が .yml のものは Ansible Playbook として解釈されます。 |
 | メッセージキュー管理 | [RabbitMQ](./publicscript/rabbitmq/rabbitmq.sh) | メッセージキュー管理システムであるRabbitMQをインストールします。 |
 | 開発言語・フレームワーク | [Laravel](./publicscript/laravel/laravel.sh) | "Web職人のためのPHPフレームワーク" をインストールします。<br />※CentOS7系のみで動作します。 | 
-| 開発言語・フレームワーク | [LAMP](./publicscript/lamp/lamp.sh) | yumによりApache、MySQL、PHPをインストールし、LAMP構成を作成します。 | 
+| 開発言語・フレームワーク | [LAMP](./publicscript/lamp/lamp.sh) | Apache、MySQL、PHPをインストールし、LAMP構成を作成します。 | 
 | 開発言語・フレームワーク | [Node-RED](./publicscript/node-red/node-red.sh) | ブラウザの操作だけでハードウェア・デバイスを制御できるプログラミング・ツール「Node-RED」をインストールします。<br />※CentOS7系のみで動作します |
 | 開発言語・フレームワーク | [Ruby on Rails](./publicscript/ruby_on_rails/ruby_on_rails.sh) | スクリプト言語RubyのフレームワークであるRuby on Railsをインストールします。 |
 | プロジェクト管理 | [GitLab CE](./publicscript/gitlab/gitlab.sh) | GitHubライクなGitリポジトリ管理機能を持つモダン開発者向けプラットフォーム「[GitLab](https://about.gitlab.com)」をインストールします。<br />※推奨メモリは4GBです |
 | プロジェクト管理 | [Redmine](./publicscript/redmine/redmine.sh) | プロジェクト管理ソフトウェアのRedmineをインストールし、起動時に動作する状態に設定します。 |
-| オブジェクトストレージ | [Minio](./publicscript/minio/minio.sh) |  [minio](https://minio.io/) という管理用UIやAPIを備えるオブジェクトストレージサーバをインストールします。 例えば、fluent-plugin-dstat のデータ保存先としても活用可能であり、kibanaと連携してdstatの可視化も可能です<br />※Ubuntu 16.04のみで動作します |
+| オブジェクトストレージ | [Minio](./publicscript/minio/minio.sh) |  [minio](https://minio.io/) という管理用UIやAPIを備えるオブジェクトストレージサーバをインストールします。 例えば、fluent-plugin-dstat のデータ保存先としても活用可能であり、kibanaと連携してdstatの可視化も可能です<br />※Ubuntu 18.04のみで動作します |
 
 
 ## <a name="sacloud">さくらのクラウド開発ツール・設定支援</a>
@@ -73,8 +72,6 @@
 | コンテナ管理 | [Rancher2セットアップ](./publicscript/rancher2_setup/rancher2_setup.sh) | Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。ui-driver-sakuracloud がセットアップされ、さくらのクラウド上で Kubernetes クラスタを素早くセットアップできます。<br />※CentOS7系のみで動作します |
 | 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します |
 | 監視 | [zabbix-agent](./publicscript/zabbix-agent/zabbix-agent.sh) | zabbix-serverに対応するエージェントzabbix-agentをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-agent/)を参照ください。<br />※CentOS7系のみで動作します |
-| 監視 | [hatohol-server](./publicscript/hatohol-server/hatohol-server.sh) | 複数のzabbix-serverを統合管理するhatoholをインストールします。<br />※CentOS7系のみで動作します
 | セキュリティ | [SiteGuard Lite](./publicscript/siteguardlite/siteguardlite.sh) | WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。さくらのクラウドではJP-Secure社が開発する純国産のホスト型WAF製品「 SiteGuard Lite 」をさくらのクラウド向け特別版として無料で提供しています。<br />※CentOS系のみで動作します |
 | セキュリティ | [Vuls](./publicscript/vuls/vuls.sh) | オープンソースで開発が進められているLinux/FreeBSD向けの脆弱性スキャンツールです。OSだけでなくミドルウェアやプログラム言語のライブラリなどもスキャンに対応しております。また、エージェントレスで実行させることが出来、SSH経由でリモートのサーバのスキャンを行うことも可能です。<br />※CentOS7系のみで動作します |
-| セキュリティ | [initial-setup](./publicscript/initial-setup/initial-setup.sh) | CentOSの基本的な初期設定（ユーザ作成、suコマンドの制限、SSHの制限）をします。<br /> ※CentOS6またはCentOS7のみで動作します |
 | RDP環境 | [GNOME-xrdp](./publicscript/xrdp/xrdp.sh) | GNOMEデスクトップ環境と xrdp をインストールします。Microsoftのリモートデスクトップなどを使用してサーバに接続することができます。<br />※CentOS7系のみで動作します |

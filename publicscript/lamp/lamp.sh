@@ -7,20 +7,15 @@
 #   Apache, PHP, MySQLをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
-#   （このスクリプトは、CentOS6.X,7.X,Ubuntu16.04で動作します）
+#   （このスクリプトは、CentOS6.X,7.X,Ubuntu18.04で動作します）
 # @sacloud-desc-end
-#@sacloud-radios-begin default=php5 php_version "PHPのバージョン"
-#     php5 "5"
-#     php7 "7"
-# @sacloud-radios-end
 # @sacloud-password shellarg mysql_password "MySQLに設定するパスワード(入力がない場合ランダム値がセットされます。)"
-# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-tag @simplemode
 
 PASSWD=@@@mysql_password@@@
-PHP_VERSION=@@@php_version@@@
 
 if [ -e /etc/redhat-release ]; then
     DIST="redhat"
@@ -33,15 +28,9 @@ fi
 
 if [ $DIST = "redhat" ];then
   if [ $DIST_VER = "7" ];then
-    if [ $PHP_VERSION = "php7" ];then
-      #Install httpd,mariadb,php7
-      rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm || exit 1
-
-      yum -y install httpd mariadb mariadb-server expect || exit 1
-      yum -y install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd php-mysql || exit 1
-    else
-      yum -y install expect mod_php httpd-devel mod_ssl php-devel php-pear mariadb-server php-mbstring php-xml php-gd php-mysql|| exit 1
-    fi
+    rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm || exit 1
+    yum -y install httpd mariadb mariadb-server expect || exit 1
+    yum -y install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd php-mysql || exit 1
     #firewall
     firewall-cmd --add-service=http --permanent --zone=public
     firewall-cmd --add-service=https --permanent --zone=public
@@ -108,14 +97,9 @@ EOT
     service iptables restart
     #---------END OF iptables---------#
     #---------START OF LAMP---------#
-    if [ $PHP_VERSION = "php7" ];then
-      #Install httpd,mariadb,php7
-      yum -y install httpd mysql mysql-server expect || exit 1
-      yum -y install libwebp --enablerepo=epel
-      yum -y install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd php-mysql || exit 1
-    else
-      yum -y install expect httpd-devel mod_ssl php-devel php-pear mysql-server php-mbstring php-xml php-gd php-mysql|| exit 1
-    fi
+    yum -y install httpd mysql mysql-server expect || exit 1
+    yum -y install libwebp --enablerepo=epel
+    yum -y install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd php-mysql || exit 1
     service httpd status >/dev/null 2>&1 || service httpd start
 
     for i in {1..5}; do
@@ -155,14 +139,7 @@ elif [ $DIST = "lsb" ]; then
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
     apt-get -y install apache2 mariadb-server pwgen
-    apt-get -y install python-software-properties software-properties-common
-    LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
-    apt-get update
-    if [ $PHP_VERSION = "php7" ];then
-      apt-get -y install php libapache2-mod-php php-mysql
-    else
-      apt-get -y install php5.6 php5.6-mysql
-    fi
+    apt-get -y install php libapache2-mod-php php-mysql
 
     if [ -z "$PASSWD" ]; then
       PASSWD=`pwgen 12 1`
