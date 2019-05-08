@@ -6,12 +6,12 @@ set -eux
 # @sacloud-once
 # @sacloud-desc-begin
 # Nginx, minio をインストールするスクリプトです。
-# (このスクリプトは Ubuntu Server 16.04* でのみ動作します)
+# (このスクリプトは Ubuntu Server 18.04* でのみ動作します)
 # 管理画面を有効にした場合、指定したAccess KeyとSecret Key（さくらのクラウドAPIとは異なります）で管理画面を操作できます。
 # サーバ作成後、http://<サーバのIPアドレス>/ にアクセスください。
 # Debian系でsystemdにのみに対応しているスクリプトです。
 # @sacloud-desc-end
-# @sacloud-require-archive distro-ubuntu distro-ver-16.04*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04*
 # @sacloud-checkbox default="on" shellarg enablecpanel '管理画面を有効にする'
 # @sacloud-text required minlen=5 maxlen=20 ex="accessKey" shellarg accesskey '管理画面用 / API Access Key'
 # @sacloud-password required minlen=8 maxlen=100 ex="secretKey" shellarg secretkey '管理画面用 / API Secret Key'
