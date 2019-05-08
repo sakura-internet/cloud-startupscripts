@@ -9,11 +9,6 @@ if os[:family] == 'redhat' and os[:release] =~ /^6/
   services = %w(httpd mysqld)
 end
 
-if os[:family] == 'ubuntu'
-  services = %w(apache2 mysql)
-  processes = %w(apache2 mysqld)
-end
-
 services.each do |service_name|
   describe service(service_name) do
     it { should be_enabled }
