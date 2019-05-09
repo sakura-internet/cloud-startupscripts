@@ -11,7 +11,6 @@
 #   http://サーバのIPアドレス/
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
-#   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
 # @sacloud-desc-end
 #
 # Drupal の管理ユーザーの入力フォームの設定
@@ -156,22 +155,3 @@ firewall-cmd --reload
 # - `--update-backend=drupal` を指定しないと、レポート画面に正しく反映されない。
 sleep 1m
 $drush -y up --update-backend=drupal || exit 1
-
-# いつ完了しているか分からないため、管理者メールアドレスに完了メールを送信
-
-# 必要な情報を集める
-IP=`ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1`
-SYSTEMINFO=`dmidecode -t system`
-
-# フォームで設定した管理者のアドレスへメールを送信
-/usr/sbin/sendmail -t -i -o -f @@@mail@@@ << EOF From: @@@mail@@@
-Subject: finished drupal install on $IP
-To: @@@mail@@@
-
-Finished drupal install on $IP
-
-Please access to http://$IP
-
-System Info:
-$SYSTEMINFO
-EOF
