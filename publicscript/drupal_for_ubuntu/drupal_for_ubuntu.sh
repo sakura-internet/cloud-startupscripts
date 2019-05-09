@@ -3,15 +3,14 @@
 # @sacloud-name "Drupal for Ubuntu"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 #
 # @sacloud-desc-begin
 #   Drupalをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
 #   ※ セットアップには5分程度時間がかかります。
-#   （このスクリプトは、Ubuntu 16.04 でのみ動作します）
-#   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
+#   （このスクリプトは、Ubuntu 18.04 でのみ動作します）
 # @sacloud-desc-end
 #
 # Drupal の管理ユーザーの入力フォームの設定
@@ -35,13 +34,9 @@ mysql_package="mysql-server-5.7"
 echo "$mysql_package mysql-server/root_password password $mysql_password" | debconf-set-selections
 echo "$mysql_package mysql-server/root_password_again password $mysql_password" | debconf-set-selections
 
-# Postfix サーバーインストールウィザードの設定値をセット
-echo "postfix postfix/mailname string localdomain" | debconf-set-selections
-echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-
 # 必要なミドルウェアを全てインストール
 apt-get update || exit 1
-required_packages="apache2 libapache2-mod-php mysql-server php php-mbstring php-apcu php-mysql php-gd php-xml mailutils composer zip unzip"
+required_packages="apache2 libapache2-mod-php mysql-server php php-mbstring php-apcu php-mysql php-gd php-xml composer zip unzip"
 apt-get -y install $required_packages
 
 # Apache の rewrite モジュールを有効化
@@ -149,22 +144,3 @@ chmod 755 /etc/cron.hourly/drupal || exit 1
 # - `--update-backend=drupal` を指定しないと、レポート画面に正しく反映されない。
 sleep 1m
 $drush -y up --update-backend=drupal || exit 1
-
-# いつ完了しているか分からないため、管理者メールアドレスに完了メールを送信
-
-# 必要な情報を集める
-IP=`ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1`
-SYSTEMINFO=`dmidecode -t system`
-
-# フォームで設定した管理者のアドレスへメールを送信
-/usr/sbin/sendmail -t -i -o -f @@@mail@@@ << EOF From: @@@mail@@@
-Subject: finished drupal install on $IP
-To: @@@mail@@@
-
-Finished drupal install on $IP
-
-Please access to http://$IP
-
-System Info:
-$SYSTEMINFO
-EOF
