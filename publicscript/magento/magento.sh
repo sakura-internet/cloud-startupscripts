@@ -3,17 +3,16 @@
 # @sacloud-name "Magento"
 # @sacloud-once
 
-# @sacloud-desc Ubuntu16.04.* LTSに、EC サイト構築プラットフォーム Magento2.x をインストールします。
+# @sacloud-desc Ubuntu18.04.* LTSに、EC サイト構築プラットフォーム Magento2.x をインストールします。
 # @sacloud-desc ※ホスト名は名前解決が出来る名前の設定を推奨します。
 # @sacloud-desc ※サーバ作成前に Magento マーケットプレイスにログインし、「Marketplaceのpublic key」と「Marketplaceのprivate key」の取得が必要です。
 # @sacloud-desc ログインは https://account.magento.com/applications/customer/login から行えます。
 # @sacloud-desc public key および private key は、 https://marketplace.magento.com/customer/accessKeys/list/ から既存のものを参照するか、新規に作成ください。
 # @sacloud-desc ※サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 # @sacloud-desc http://サーバのIPアドレス/
-# @sacloud-desc ※アカウント・パスワードは管理者メールアドレスにメールされます。（環境によりスパムフィルター等でフィルタされる場合があります。）
-# @sacloud-desc サーバ上の /home/ubuntu/info.txt にも保存されているため確認後削除してください。
-# @sacloud-desc （このスクリプトは、Ubuntu16.04.* LTSでのみ動作します）
-# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
+# @sacloud-desc ※アカウント・パスワードはサーバ上の /home/ubuntu/info.txt に保存されるため、確認後に削除してください。
+# @sacloud-desc （このスクリプトは、Ubuntu18.04.* LTSでのみ動作します）
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 # @sacloud-tag @require-core>=4 @require-memory-gib>=8
 # @sacloud-text required shellarg maxlen=100 admin_email "Magento管理者アカウントのメールアドレス"
 # @sacloud-text required shellarg maxlen=100 marketplace_public "Magento Marketplaceのpublic key"
@@ -24,7 +23,6 @@ ADMIN_EMAIL=@@@admin_email@@@
 MM_PUBLIC=@@@marketplace_public@@@
 MM_PRIVATE=@@@marketplace_private@@@
 MAGENTO_INSTALL_SAMPLE=@@@deploy_sample_data@@@
-POSTFIX_HOST_NAME=`uname -n`
 
 export HOME=/root
 export DEBIAN_FRONTEND=noninteractive
@@ -55,15 +53,10 @@ echo "ログインURLにアクセスして管理者IDとパスワードでアク
 echo "ログインURL:http://$IP_ADDR/index.php/$ADMIN_PATH" >> /home/ubuntu/info.txt || exit 1
 echo "管理者ID: $ADMIN_USER" >> /home/ubuntu/info.txt || exit 1
 echo "管理者パスワード: $ADMIN_PASSWORD" >> /home/ubuntu/info.txt || exit 1
-/bin/cp  /home/ubuntu/info.txt  /home/ubuntu/info2.txt || exit 1
-chown ubuntu. /home/ubuntu/info2.txt || exit 1
-chmod 600 /home/ubuntu/info2.txt || exit 1
-echo "その他のパスワードは /home/ubuntu/info.txt を参照してください" >> /home/ubuntu/info2.txt || exit 1
-
 echo "MySQLのrootパスワード: $NEWMYSQLPASSWORD" >> /home/ubuntu/info.txt || exit 1
 echo "Magentoをインストールしたデータベーススキーマ: $MAGENTO_DB_SCHEMA" >> /home/ubuntu/info.txt || exit 1
-echo "MySQLのMAGENTO　ユーザ: $MAGENTO_DB_USER" >> /home/ubuntu/info.txt || exit 1
-echo "MySQLのMAGENTO　パスワード: $MAGENTO_DB_PASSWORD" >> /home/ubuntu/info.txt || exit 1
+echo "MySQLのMAGENTO ユーザ: $MAGENTO_DB_USER" >> /home/ubuntu/info.txt || exit 1
+echo "MySQLのMAGENTO パスワード: $MAGENTO_DB_PASSWORD" >> /home/ubuntu/info.txt || exit 1
 echo "本ファイルは確認後、削除してください" >> /home/ubuntu/info.txt || exit 1
 chown ubuntu. /home/ubuntu/info.txt || exit 1
 chmod 600 /home/ubuntu/info.txt || exit 1
@@ -72,10 +65,6 @@ echo "## Install MySQL"
 debconf-set-selections <<< "mysql-server mysql-server/root_password password $NEWMYSQLPASSWORD" || exit 1
 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $NEWMYSQLPASSWORD" || exit 1
 apt-get install -y mysql-server-5.7 mysql-client-5.7 || exit 1
-apt-get install -y software-properties-common || exit 1
-apt-get install -y python-software-properties || exit 1
-add-apt-repository ppa:ondrej/php || exit 1
-apt-get update || exit 1
 cat << EOT > /etc/mysql/my.cnf || exit 1
 [client]
 port  = 3306
@@ -105,7 +94,7 @@ mysql $MYSQLAUTH -e "GRANT ALL ON $MAGENTO_DB_SCHEMA.* TO '$MAGENTO_DB_USER'@'12
 mysql $MYSQLAUTH -e "FLUSH PRIVILEGES;"
 
 echo "## Install packages"
-apt-get install -y apache2 libapache2-mod-php7.1 php7.1 php7.1-gd php7.1-mysql php7.1-cli php7.1-curl php7.1-mbstring php7.1-xml php7.1-zip php7.1-intl php7.1-mcrypt php7.1-json php7.1-soap php7.1-bcmath curl git || exit 1
+apt-get install -y apache2 libapache2-mod-php php php-gd php-mysql php-cli php-curl php-mbstring php-xml php-zip php-intl php-json php-soap php-bcmath curl git unzip || exit 1
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
@@ -212,17 +201,6 @@ echo "## cron Restart"
 systemctl restart cron || exit 1
 chown -Rf www-data. /var/www/magento/* || exit 1
 
-
-echo "## Install Postfix"
-debconf-set-selections <<< "postfix postfix/mailname string $POSTFIX_HOST_NAME" || exit 1
-debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'" || exit 1
-apt-get install -y postfix mailutils || exit 1
-
-
 echo "Magentoのインストールが完了しました。" >> /home/ubuntu/info.txt || exit 1
-
-echo "## sent finish email."
-cat /home/ubuntu/info2.txt | mail -s "Magento install finished on $IP_ADDR" @@@admin_email@@@
-/bin/rm /home/ubuntu/info2.txt || exit 1
 
 echo "## Magento install completely finished!"

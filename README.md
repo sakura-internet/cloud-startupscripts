@@ -22,7 +22,7 @@
 | --- | --- | :--- |
 | メール | [メールシステム](./publicscript/mailsystem/mailsystem.sh) | スタートアップスクリプトを実行するだけで、メールサーバやWeb UIのセットアップ、DNS設定、メールアドレス発行を自動的に行えるスクリプトです。詳しくは [ドキュメント](./publicscript/mailsystem/README.md) をご覧ください。 <br />※CentOS 7でのみ動作します |
 | Wiki | [Restyaboard](./publicscript/restyaboard/restyaboard.sh) |オープンソースのカンバンボードであるRestyaboard をセットアップします<br />サーバ作成後はブラウザより `http://サーバIPアドレス/` にアクセスすることで設定が行えます。<br />※CentOS7系のみで動作します |
-| CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 16.04 でのみ動作します |
+| CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 18.04 でのみ動作します |
 | CMS | [Drupal for CentOS 7](./publicscript/drupal_for_centos7/drupal_for_centos7.sh) | 高機能CMSであるDrupalをインストールします。<br />※CentOS 7でのみ動作します |
 | CMS | [SHIRASAGI](./publicscript/shirasagi/shirasagi.sh) | Ruby、Ruby on Rails、MongoDBで動作する中・大規模サイト向けCMS「SHIRASAGI」をインストールします。 [公式サイトはこちら](http://www.ss-proj.org/)です。<br />※CentOS7系のみで動作します |
 | CMS | [WordPress](./publicscript/wordpress_for_centos7/wordpress_for_centos7.sh) | yumにより、ApacheとMySQLをインストール・WordPress向けの設定を自動的に行い、WordPress最新バージョンをインストールします。<br />サーバ作成後はサーバのIPアドレスにWebブラウザでアクセスするとWordPress初期画面が表示される状態となります。 |
@@ -30,7 +30,7 @@
 | CMS | [baserCMS](./publicscript/basercms/basercms.sh) | Webサイト製作プラットフォーム、[baser CMS](https://basercms.net/) をインストールします。 |
 | オンラインストレージ | [ownCloud](./publicscript/owncloud/owncloud.sh) | ownCloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「`http://サーバIPアドレス/owncloud/`」にアクセスすることでownCloudの設定が行えます。<br />※ownCloudのスタートアップスクリプトでインストールされるPHPのバージョンはownCloudの推奨バージョンより低くなっているため、5.3.8以降のバージョンにアップデートすることを推奨します。 |
 | オンラインストレージ | [Nextcloud](./publicscript/nextcloud/nextcloud.sh) | Nextcloudをセットアップするスクリプトです。<br />サーバ作成後はブラウザより「`http://サーバIPアドレス/nextcloud/`」にアクセスすることでNextcloudの設定が行えます。<br />*CentOS 7でのみ動作します |
-| ECプラットフォーム | [Magento](./publicscript/magento/magento.sh) | 越境ECプラットフォームであるMagentoをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/magento/)を参照ください。<br />※Ubuntu 16系のみで動作します |
+| ECプラットフォーム | [Magento](./publicscript/magento/magento.sh) | 越境ECプラットフォームであるMagentoをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/magento/)を参照ください。<br />※Ubuntu 18.04 のみで動作します |
 | SNS | [Mastodon](./publicscript/mastodon/mastodon.sh) | Twitterライクな投稿ができる分散型ソーシャルネットワーク「Mastodon」のインスタンス（サーバ）をセットアップします。<br />※CentOS7系のみで動作します |
 | コミュニケーション | [Mattermost](./publicscript/mattermost/mattermost.sh) | オープンソースのチャット型コミュニケーションツール「 [Mattermost](https://github.com/mattermost/platform/blob/master/README.md) 」サーバや MySQL、DNS を同時にセットアップします。<br />※ CentOS7 系のみで動作します |
 | 科学計算 | [Jupyter Notebook](./publicscript/jupyter_notebook/jupyter_notebook.sh) | データサイエンス環境としてAnacondaとウェブブラウザ上から手軽にプログラムを実行できるJupyter Notebookを一括でセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloud-startup-script-jupyter-notebook)をご参照ください。<br />※CentOS7系のみで動作します |
