@@ -42,7 +42,8 @@ function centos7(){
 	fi
 	set -e
 
-	echo 'gem: --no-rdoc --no-ri' > /etc/gemrc
+	echo 'install: --no-document' > ~/.gemrc
+	echo 'update: --no-document' >> ~/.gemrc
 
 	yum clean all
 	yum -y install readline-devel zlib-devel libyaml-devel libyaml openssl-devel libxml2-devel libxslt libxslt-devel libcurl-devel sqlite-devel
@@ -52,7 +53,7 @@ function centos7(){
 	set -e
 	rvm install ${RUBY}
 	rvm use ${RUBY}
-	gem install rails --no-ri --no-rdoc
+	gem install rails
 
 	yum -y install expect httpd-devel mod_ssl postgresql-server postgresql-devel ImageMagick-devel
 
@@ -96,7 +97,7 @@ function centos7(){
 	</Directory>
 	EOF
 
-	gem install passenger --no-rdoc --no-ri
+	gem install passenger
 	passenger-install-apache2-module -a
 	passenger-install-apache2-module --snippet > /etc/httpd/conf.d/passenger.conf
 	chown -R apache:apache /var/lib/redmine
