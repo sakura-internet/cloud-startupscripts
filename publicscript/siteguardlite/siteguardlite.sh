@@ -1,12 +1,12 @@
 #!/bin/bash
-# @sacloud-name "SiteGuardLite for CentOS"
+# @sacloud-name "SiteGuard Server Edition for CentOS"
 # @sacloud-once
 # @sacloud-desc 完了後自動再起動します。
 # @sacloud-desc （このスクリプトは、CentOS6.X, 7.Xでのみ動作します）
 # @sacloud-desc セットアップ完了後、ご利用ガイド、管理者用ガイド5.1～を参照し初期設定を実施してください。
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
-## ScriptName : CentOS_SiteGuardLite-Apache
+## ScriptName : CentOS_SiteGuardServerEdition-Apache
 #===== Startup Script Motd Monitor =====#
 _motd() {
 	LOG=$(ls /root/.sacloud-api/notes/*log)
@@ -28,8 +28,8 @@ _motd() {
 function centos6(){
 	trap '_motd fail' ERR
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-	wget -q http://progeny.sakura.ad.jp/siteguard/3.4.0/apache/siteguardlite-3.40-2.apache.x86_64.rpm -P /root/.sakuracloud
-	rpm -Uvh /root/.sakuracloud/siteguardlite-3.40-2.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-0.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-0.apache.x86_64.rpm
 
 	chkconfig httpd on
 
@@ -58,8 +58,8 @@ function centos7(){
 	firewall-cmd --reload
 
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-	wget -q http://progeny.sakura.ad.jp/siteguard/3.4.0/apache/siteguardlite-3.40-2.apache.x86_64.rpm -P /root/.sakuracloud
-	rpm -Uvh /root/.sakuracloud/siteguardlite-3.40-2.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-0.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-0.apache.x86_64.rpm
 
 	systemctl enable httpd.service
 
