@@ -3,30 +3,27 @@ DOMAIN_LIST=example.com
 FIRST_DOMAIN=example.com
 FIRST_ADDRESS=foo@example.com
 ### ldap
-ROOT_DN="cn=admin,dc=sacloud"
+ROOT_DN="cn=config"
 ROOT_PASSWORD=dummy
 LDAP_MASTER=127.0.0.1
 LDAP_SERVER=127.0.0.1
 ### mail
-ADMINS=" admin root postmaster abuse virus-report nobody "
+ADMINS=" admin root postmaster abuse nobody dmarc-report "
 DOVECOT_SERVER=127.0.0.1
 LMTP_PORT=24
 XAUTH_HOST=127.0.0.1
 OUTBOUND_MTA_SERVER=127.0.0.1
 STORE_SERVER=127.0.0.1
+REDIS_SERVER=127.0.0.1
 ### milter
-ENMA_SERVER=127.0.0.1
-ENMA_PORT=10025
-CLAMAV_SERVER=127.0.0.1
-CLAMAV_PORT=10026
-DKIM_SERVER=127.0.0.1
-DKIM_PORT=8891
+RSPAMD_SERVER=127.0.0.1
+RSPAMD_PORT=11332
 ### web
 HTTP_DOCROOT=/var/www/html/http_root
 HTTPS_DOCROOT=/var/www/html/https_root
 ### dns zone
 IPADDR=dummy
-### thunderbird
-TYPE=SSL
 ### working directory
 WORKDIR=~/startup-script-mailsystem
+### cron file
+CRONFILE=/etc/cron.d/startup-script-cron
