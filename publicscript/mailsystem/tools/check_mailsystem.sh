@@ -1,5 +1,4 @@
-#!/bin/bash 
-set -e
+#!/bin/bash -e
 
 source $(dirname $0)/../config.source
 
@@ -38,7 +37,7 @@ check_version() {
 			VERSION=$(/usr/bin/mysql --version | sed -e 's/, .*//' -e 's/^.*Ver/Ver/')
 			;;
 		php-fpm)
-			VERSION=$(/usr/sbin/php-fpm -v | awk '/^PHP/{print $2}')
+			VERSION=$(/opt/remi/php73/root/usr/sbin/php-fpm -v | awk '/^PHP/{print $2}')
 			;;
 		nginx)
 			VERSION=$(/usr/sbin/nginx -v 2>&1 | awk -F\/ '{print $NF}')
@@ -47,10 +46,25 @@ check_version() {
 			VERSION=$(awk '/Version/{print $3}' ${HTTPS_DOCROOT}/roundcube/index.php)
 			;;
 		phpldapadmin)
-			VERSION=$(awk -F- '{print $NF}' /usr/share/phpldapadmin/VERSION)
+			VERSION=$(awk -F- '{print $NF}' ${HTTPS_DOCROOT}/phpldapadmin/VERSION)
 			;;
 		rainloop)
 			VERSION=$(ls -dtr ${HTTPS_DOCROOT}/rainloop/rainloop/v/* | awk -F\/ '{print $NF}' | tail -1)
+			;;
+		rspamd)
+			VERSION=$(rspamd --version | awk '{print $NF}')
+			;;
+		redis)
+			VERSION=$(redis-server -v | awk '{print $3}' | awk -F= '{print $2}')
+			;;
+		sympa)
+			which sympa.pl > /dev/null 2>&1
+			if [ $? -eq 0 ]
+			then
+				VERSION=$(sympa.pl --version | awk '{print $NF}')
+			else
+				VERSION="not installed"
+			fi
 			;;
 	esac
 	echo "${PROC}: ${VERSION}"
@@ -84,7 +98,7 @@ check_dns() {
 
 check_cert() {
 	DOMAIN=$1
-	RESULT=$(openssl s_client -connect ${DOMAIN}:443 < /dev/null 2>/dev/null | openssl x509 -text 2>&1 | egrep "Before|After")
+	RESULT=$(openssl s_client -connect ${DOMAIN}:443 < /dev/null 2>/dev/null | openssl x509 -text 2>&1 | egrep "Before|After|DNS:" | sed -e 's/^ \+/ /' -e '1i Validity:' -e 's/^ DNS:/Subject Alternative Name:\n DNS:/')
 	if [ "${RESULT}x" = "x" ]
 	then
 		echo "ERROR"
@@ -95,15 +109,22 @@ check_cert() {
 
 echo "-- Process Check --"
 check_proc slapd ldap
-check_proc opendkim opendkim
 check_proc dovecot dovecot
-check_proc clamav-milter clamilt
-check_proc clamd clamilt
-check_proc yenma yenma
+check_proc clamd clamscan
+check_proc rspamd _rspamd
+check_proc redis-server redis
 check_proc master root
 check_proc mysqld mysql
 check_proc php-fpm nginx
 check_proc nginx nginx
+
+echo
+
+echo "-- Application Version --"
+for x in os slapd dovecot clamd rspamd redis postfix mysql php-fpm nginx roundcube phpldapadmin
+do
+	check_version ${x}
+done
 
 echo
 
@@ -115,7 +136,10 @@ do
 	check_dns ${x} MX
 	check_dns ${x} TXT
 	check_dns ${HOST} A
-	check_dns autoconfig.${x} A
+	if [ "${FIRST_DOMAIN}" = "${x}" ]
+	then
+		check_dns autoconfig.${x} A
+	fi
 	check_dns _dmarc.${x} TXT
 	check_dns _adsp._domainkey.${x} TXT
 	check_dns default._domainkey.${x} TXT
@@ -123,12 +147,7 @@ do
 done
 
 echo "-- ${FIRST_DOMAIN} TLS Check --"
-check_cert ${x}
+check_cert ${FIRST_DOMAIN}
 
 echo
 
-echo "-- print_version --"
-for x in os slapd opendkim dovecot clamav-milter clamd yenma postfix mysql php-fpm nginx roundcube phpldapadmin rainloop
-do
-	check_version ${x}
-done

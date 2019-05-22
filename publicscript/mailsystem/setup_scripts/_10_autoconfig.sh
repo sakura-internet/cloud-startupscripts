@@ -1,6 +1,16 @@
+#!/bin/bash -ex
+
+source $(dirname $0)/../config.source
+echo "---- $0 ----"
+
+#-- thunderbird 用 autoconfig を作成
+mkdir -p ${HTTPS_DOCROOT}/.well-known/autoconfig/mail
+chown -R nginx. ${HTTPS_DOCROOT}/.well-known
+
+cat <<'_EOL_'>${HTTPS_DOCROOT}/.well-known/autoconfig/mail/config-v1.1.xml
 <?xml version="1.0"?>
 <clientConfig version="1.1">
-    <emailProvider id="sacloud">
+    <emailProvider id="sakuravps">
       <domain>_DOMAIN_</domain>
       <displayName>_DOMAIN_</displayName>
       <displayShortName>_DOMAIN_</displayShortName>
@@ -31,5 +41,9 @@
          <authentication>password-cleartext</authentication>
       </outgoingServer>
     </emailProvider>
-    <clientConfigUpdate url="http://_DOMAIN_/mail/config-v1.1.xml" />
+    <clientConfigUpdate url="https://_DOMAIN_/.well-known/autoconfig/mail/config-v1.1.xml" />
 </clientConfig>
+_EOL_
+
+sed -i "s/_DOMAIN_/${FIRST_DOMAIN}/g" ${HTTPS_DOCROOT}/.well-known/autoconfig/mail/config-v1.1.xml
+
