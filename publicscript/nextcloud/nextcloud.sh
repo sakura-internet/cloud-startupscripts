@@ -45,6 +45,15 @@ git checkout v${VERSION}
 git submodule update --init
 chown -R apache. /var/www/html/nextcloud/
 
+# apacheの設定
+cat > /etc/httpd/conf.d/nextcloud.conf <<'_EOF_'
+<Directory "/var/www/html/nextcloud">
+  Require all granted
+  Options FollowSymlinks MultiViews
+  AllowOverride All
+</Directory>
+_EOF_
+
 systemctl enable httpd
 systemctl start httpd
 
