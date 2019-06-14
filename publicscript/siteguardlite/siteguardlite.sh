@@ -1,6 +1,8 @@
 #!/bin/bash
 # @sacloud-name "SiteGuard Server Edition for CentOS"
 # @sacloud-once
+# @sacloud-desc WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。
+# @sacloud-desc さくらのクラウドではJP-Secure社が開発する純国産のホスト型WAF製品「SiteGuard Server Edition」をさくらのクラウド向け特別版として無料で提供しています。
 # @sacloud-desc 完了後自動再起動します。
 # @sacloud-desc （このスクリプトは、CentOS6.X, 7.Xでのみ動作します）
 # @sacloud-desc セットアップ完了後、ご利用ガイド、管理者用ガイド5.1～を参照し初期設定を実施してください。
