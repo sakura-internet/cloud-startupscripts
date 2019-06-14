@@ -1,6 +1,7 @@
 #!/bin/bash
 # @sacloud-name "SiteGuard Server Edition for CentOS"
 # @sacloud-once
+# @sacloud-desc WAFソフトウェア「SiteGuard Server Edition」をインストールします。
 # @sacloud-desc 完了後自動再起動します。
 # @sacloud-desc （このスクリプトは、CentOS6.X, 7.Xでのみ動作します）
 # @sacloud-desc セットアップ完了後、ご利用ガイド、管理者用ガイド5.1～を参照し初期設定を実施してください。
