@@ -3,7 +3,8 @@
 # @sacloud-name "Let's Encrypt"
 # @sacloud-once
 # @sacloud-desc-begin
-# このスクリプトは nginx と certbot-auto をインストールし、入力したドメインでLet's EncryptのTLS証明書を取得します。
+# このスクリプトは usacloud, certbot-auto をインストールし、Let's Encryptで "指定ドメイン" と "*.指定ドメイン" のTLS証明書を取得します
+# CAA レコードを登録する場合は、 issue と issuewild タグを登録します。
 # (CentOS7.X でのみ動作します)
 #
 # 事前作業として以下の2つが必要となります
@@ -11,12 +12,11 @@
 # ・さくらのクラウドAPIのアクセストークンを取得していること
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
-# @sacloud-text required ZONE "さくらのクラウドDNSで管理しているDNSゾーン" ex="example.com"
-# @sacloud-text DOMAIN "登録ドメイン(DNSゾーン名が含まれている必要があります。空の場合はDNSゾーン名でセットアップします)" ex="www.example.com"
-# @sacloud-text required MAILADDRESS "Let's Encryptから連絡を受信するメールアドレス" ex="sakura@example.com"
+# @sacloud-text required DOMAIN "さくらのクラウドDNSで管理しているDNSゾーン" ex="example.com"
+# @sacloud-text required MAILADDR "Let's Encryptから連絡を受信するメールアドレス" ex="sakura@example.com"
+# @sacloud-checkbox default= CAA "CAAレコードを登録する"
 # @sacloud-apikey required permission=create AK "APIキー"
 
-#===== Startup Script Motd Monitor =====#
 _motd() {
 	LOG=$(ls /root/.sacloud-api/notes/*log)
 	case $1 in
@@ -33,210 +33,67 @@ _motd() {
 	esac
 }
 
-_check_var() {
-	if [ -z $2 ]
-	then
-		echo "$1 is not defined."
-		return 1
-	else
-		return 0
-	fi
-}
+set -ex
 
-KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
-
-set -xe
+#-- スタートアップスクリプト開始
 _motd start
-set -e
 trap '_motd fail' ERR
 
-source /etc/sysconfig/network-scripts/ifcfg-eth0
-ZONE=@@@ZONE@@@
-DOMAIN=@@@DOMAIN@@@
-MADDR=@@@MAILADDRESS@@@
-NAME="@"
-
-yum install -y yum-utils
-yum-config-manager --enable epel
-yum install -y bind-utils jq
-
-# Check input data
-_check_var ZONE "${ZONE}"
-_check_var MADDR "${MADDR}"
-
-if [ -n "${DOMAIN}" ]
-then
-	if [ $(echo ${DOMAIN} | grep -c "\.${ZONE}$") -eq 1 ]
-	then
-		NAME=$(echo ${DOMAIN} | sed "s/\.${ZONE}$//")
-	elif [ "${DOMAIN}" != "${ZONE}" ]
-	then
-		echo "ドメインにゾーンが含まれていません"
-		_motd fail
-	fi
-else
-	DOMAIN=${ZONE}
-fi
-
-if [ $(dig ${ZONE} ns +short | egrep -c "^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$") -ne 2 ]
-then
-	echo "${ZONE} はさくらのクラウドDNSで管理していません"
-	_motd fail
-fi
-
-if [ $(dig ${DOMAIN} A +short | grep -vc "^$") -ne 0 ]
-then
-	echo "${DOMAIN} の A レコードがDNSに登録されています"
-	_motd fail
-fi
-
-MDOMAIN=$(echo ${MADDR} | awk -F@ '{print $2}')
-if [ $(dig ${MDOMAIN} MX +short | grep -vc "^$") -eq 0 ]
-then
-	echo "${MDOMAIN} の MX レコードがDNSに登録されていません"
-	_motd fail
-fi
-
-# DNS registration for your domain names.
-SITE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
-BASE=https://secure.sakura.ad.jp/cloud/zone/${SITE}/api/cloud/1.1
-GETURL=${BASE}/commonserviceitem/
-
-STATUS=status.txt
-RESOURCE=resource.json
-ADD=add.json
-REGIST=regist.json
+#-- usacloud のインストール
+curl -fsSL http://releases.usacloud.jp/usacloud/repos/setup-yum.sh | sh
+zone=$(dmidecode -t system | awk '/Family/{print $NF}')
 
 set +x
-if [ "${KEY}x" = "x" ]
-then
-	echo "API KEYが設定されていません"
-	_motd fail
-fi
 
-curl -s -v --user "${KEY}" ${GETURL} 2>${STATUS} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${ZONE}\")" > ${RESOURCE}
+#-- usacloud の設定
+usacloud config --token ${SACLOUD_APIKEY_ACCESS_TOKEN}
+usacloud config --secret ${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}
+usacloud config --zone ${zone}
+
+#-- certbot で使用する token と secret の設定
+cat <<_EOL_> ~/.sakura
+dns_sakuracloud_api_token = "${SACLOUD_APIKEY_ACCESS_TOKEN}"
+dns_sakuracloud_api_secret = "${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
+_EOL_
+chmod 600 ~/.sakura
+
 set -x
 
-RESID=$(jq -r .ID ${RESOURCE})
-PUTURL=${GETURL}${RESID}
-RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESOURCE})
-if [ $(grep -c "^< Status: 200 OK" ${STATUS}) -ne 1 ]
-then
-	echo "API接続エラー"
-	_motd fail
+#-- 変数のセット
+domain="@@@DOMAIN@@@"
+mail_addr="@@@MAILADDR@@@"
+caa_flag=@@@CAA@@@
+cat > domain.list @@@ADDR@@@
+
+if [ -z ${caa_flag} ]; then
+	caa_flag="0"
 fi
 
-cat <<-_EOF_> ${ADD}
-[
-	{ "Name": "${NAME}", "Type": "A", "RData": "${IPADDR}" }
-]
-_EOF_
+#-- certbot のインストール
+yum install -y certbot certbot-dns-sakuracloud expect
 
-RRS=$(echo "${RECODES}" | jq -r ".+$(cat ${ADD})")
-cat <<_EOF_> ${REGIST}
-{
-	"CommonServiceItem": {
-		"Settings": {
-			"DNS":  {
-				"ResourceRecordSets": $(echo ${RRS})
-			}
-		}
-	}
-}
-_EOF_
+#-- 証明書のインストール
+expect -c "
+set timeout 180
+spawn certbot certonly --dns-sakuracloud --dns-sakuracloud-credentials /root/.sakura --dns-sakuracloud-propagation-seconds 90 -d *.${domain} -d ${domain} -m ${mail_addr} --manual-public-ip-logging-ok --agree-tos
+expect \"(Y)es/(N)o:\"
+send -- \"Y\n\"
+expect \"Congratulations\"
+"
 
-set +x
-curl -s -v --user "${KEY}" -X PUT -d "$(cat ${REGIST} | jq -c .)" ${PUTURL} 2>${STATUS} | jq "."
-set -x
+#-- 証明書が取得できたか確認
+ls -l /etc/letsencrypt/live/${domain}/fullchain.pem
 
-if [ $(grep -c "^< Status: 200 OK" ${STATUS}) -ne 1 ]
+#-- cron に証明書の更新処理を設定
+echo "$((${RANDOM}%60)) $((${RANDOM}%24)) * * $((${RANDOM}%7)) root certbot renew " >> /etc/cron.d/update-sacloud-certbot
+
+#-- CAA レコードの登録
+if [ ${caa_flag} -ne 0 ]
 then
-	echo "API接続エラー"
-	_motd fail
+	usacloud dns record-add -y --name @ --type CAA --value '0 issue "letsencrypt.org"' ${domain}
+	usacloud dns record-add -y --name @ --type CAA --value '0 issuewild "letsencrypt.org"' ${domain}
 fi
-
-# Install nginx
-OS_MAJOR_VERSION=$(rpm -q --queryformat '%{VERSION}' centos-release)
-ARCH=$(arch)
-
-cat <<_EOF_> /etc/yum.repos.d/nginx.repo
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/${OS_MAJOR_VERSION}/${ARCH}/
-gpgcheck=0
-enabled=1
-_EOF_
-
-yum clean all
-yum install nginx -y
-
-# Install cert-bot
-CPATH=/usr/local/certbot
-git clone https://github.com/certbot/certbot ${CPATH}
-
-# Configure firewall
-firewall-cmd --permanent --add-port={80,443}/tcp
-firewall-cmd --reload
-
-# Configure nginx
-LD=/etc/letsencrypt/live/${DOMAIN}
-CERT=${LD}/fullchain.pem
-PKEY=${LD}/privkey.pem
-
-cat << _EOF_ > https.conf
-server {
-	listen 443 ssl http2;
-	server_name ${DOMAIN};
-
-	location / {
-		root   /usr/share/nginx/html;
-		index  index.html index.htm;
-	}
-
-	ssl_protocols TLSv1.2;
-	ssl_ciphers EECDH+AESGCM:EECDH+AES;
-	ssl_ecdh_curve prime256v1;
-	ssl_prefer_server_ciphers on;
-	ssl_session_cache shared:SSL:10m;
-
-	ssl_certificate ${CERT};
-	ssl_certificate_key ${PKEY};
-
-	error_page   500 502 503 504  /50x.html;
-	location = /50x.html {
-		root   /usr/share/nginx/html;
-	}
-}
-_EOF_
-
-systemctl enable nginx
-
-# Configure Let's Encrypt
-WROOT=/usr/share/nginx/html
-systemctl start nginx
-CA="${CPATH}/certbot-auto -n certonly --webroot -w ${WROOT} -d ${DOMAIN} -m ${MADDR} --agree-tos --server https://acme-v02.api.letsencrypt.org/directory"
-
-for x in 1 2 3 4
-do
-	${CA}
-	if [ -f ${CERT} ]
-	then
-		break
-	elif [ ${x} -eq 4 ]
-	then
-		echo "証明書の取得に失敗しました"
-		_motd fail
-	else
-		sleep 300
-	fi
-done
-
-# Configure SSL Certificate Renewal
-mv https.conf /etc/nginx/conf.d/
-R=${RANDOM}
-echo "$((R%60)) $((R%24)) * * $((R%7)) root ${CPATH}/certbot-auto renew --webroot -w ${WROOT} --post-hook 'systemctl reload nginx'" > /etc/cron.d/certbot-auto
-
-systemctl restart nginx
 
 _motd end
 
+exit 0
