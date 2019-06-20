@@ -11,9 +11,31 @@
 #    （このスクリプトは、CentOS7.Xで動作します）
 # @sacloud-desc-end
 
+_motd() {
+	LOG=$(ls /root/.sacloud-api/notes/*log)
+	case $1 in
+		start)
+			echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+		;;
+		fail)
+			echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+			exit 1
+		;;
+		end)
+			cp -f /dev/null /etc/motd
+		;;
+	esac
+}
+
+set -ex
+
+#-- スタートアップスクリプト開始
+_motd start
+trap '_motd fail' ERR
+
 # install packages
-yum -y install expect httpd httpd-devel mod_ssl php php-devel php-pear mariadb-server php-xml php-mysql php-fpm php-mcrypt|| exit 1
-yum -y install php-gd php-mbstring|| exit 1
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+yum -y install expect httpd httpd-devel mod_ssl php73-php php73-php-{devel,pear,xml,mysqlnd,fpm,mcrypt,gd,mbstring} mariadb-server
 
 # init variables
 MYSQLPASSWORD=$(mkpasswd -l 32 -d 9 -c 9 -C 9 -s 0 -2)
@@ -22,7 +44,7 @@ DBPASS=$(mkpasswd -l 32 -d 9 -c 9 -C 9 -s 0 -2)
 ZIPFILE=$(mktemp)
 
 # set php timezone
-cat >/etc/php.d/timezone.ini <<EOL
+cat >/etc/opt/remi/php73/php.d/timezone.ini <<EOL
 date.timezone = "Asia/Tokyo"
 EOL
 
@@ -31,12 +53,12 @@ systemctl start mariadb
 for i in {1..5}; do
   sleep 1
   systemctl status mariadb >/dev/null 2>&1 && break
-  [ "$i" -lt 5 ] || exit 1
+  [ "$i" -lt 5 ]
 done
 systemctl enable mariadb
 
 # init mysql/mariadb
-/usr/bin/mysqladmin -u root password "$MYSQLPASSWORD" || exit 1
+/usr/bin/mysqladmin -u root password "$MYSQLPASSWORD"
 cat <<EOL > /root/.my.cnf
 [client]
 host     = localhost
@@ -72,7 +94,7 @@ AllowEncodedSlashes On
 EOL
 
 # fetch WordPress
-curl -L http://ja.wordpress.org/latest-ja.tar.gz | tar zxf - -C /var/www/ || exit 1
+curl -L http://ja.wordpress.org/latest-ja.tar.gz | tar zxf - -C /var/www/ 
 mv /var/www/wordpress /var/www/$DBNAME
 cat <<EOL > /var/www/$DBNAME/wp-config.php
 <?php
@@ -105,14 +127,14 @@ systemctl start httpd
 for i in {1..5}; do
   sleep 1
   systemctl status httpd >/dev/null 2>&1 && break
-  [ "$i" -lt 5 ] || exit 1
+  [ "$i" -lt 5 ]
 done
 systemctl enable httpd
-systemctl start php-fpm
-systemctl enable php-fpm
 
 # set firewalld
 firewall-cmd --permanent --add-service http --zone=public
 firewall-cmd --reload
 
 # end
+_motd end
+
