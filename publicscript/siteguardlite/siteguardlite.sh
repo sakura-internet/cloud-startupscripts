@@ -30,8 +30,8 @@ _motd() {
 function centos6(){
 	trap '_motd fail' ERR
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-0.apache.x86_64.rpm -P /root/.sakuracloud
-	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-0.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-2.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-2.apache.x86_64.rpm
 
 	chkconfig httpd on
 
@@ -60,8 +60,8 @@ function centos7(){
 	firewall-cmd --reload
 
 	yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-0.apache.x86_64.rpm -P /root/.sakuracloud
-	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-0.apache.x86_64.rpm
+	wget -q http://progeny.sakura.ad.jp/siteguard/4.0.0/apache/siteguard-server-edition-4.00-2.apache.x86_64.rpm -P /root/.sakuracloud
+	rpm -Uvh /root/.sakuracloud/siteguard-server-edition-4.00-2.apache.x86_64.rpm
 
 	systemctl enable httpd.service
 
