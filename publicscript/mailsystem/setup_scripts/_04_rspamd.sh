@@ -11,7 +11,7 @@ yum install -y rspamd redis
 mkdir /etc/rspamd/local.d/keys
 
 #-- rspamd の設定
-cat <<'_EOL_'> /etc/rspamd/local.d/option.inc
+cat <<'_EOL_'> /etc/rspamd/local.d/options.inc
 filters = "chartable,dkim,spf,surbl,regexp,fuzzy_check";
 check_all_filters = true;
 _EOL_
