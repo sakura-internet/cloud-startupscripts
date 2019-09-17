@@ -65,7 +65,7 @@ yum install -y yum-utils
 yum-config-manager --enable epel
 yum remove -y mysql-community-release
 yum install -y https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
-yum install -y https://packages.groonga.org/centos/groonga-release-1.3.0-1.noarch.rpm
+yum install -y https://packages.groonga.org/centos/groonga-release-1.5.2-1.noarch.rpm
 
 # パッケージのインストールとアップデート
 yum install -y bind-utils jq expect nginx mysql57-community-mroonga
@@ -188,7 +188,7 @@ mysql -e "SET GLOBAL validate_password_policy=LOW;" ;
 mysql -e "SET GLOBAL validate_password_length=7;"
 
 # mattermost
-VERSION=4.9.1
+VERSION=5.15.0
 curl -O https://releases.mattermost.com/${VERSION}/mattermost-team-${VERSION}-linux-amd64.tar.gz
 tar xpf mattermost-team-${VERSION}-linux-amd64.tar.gz
 mv mattermost /opt/
