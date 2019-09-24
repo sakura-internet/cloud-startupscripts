@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 services = %w(nginx mysqld mattermost postfix)
-processes = %w(nginx mysqld platform master)
+processes = %w(nginx mysqld mattermost master)
 ports = %w(25 80 443 8065)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
@@ -27,4 +27,3 @@ end
 describe command(logchk) do
   its(:stdout) { should match /done$/ }
 end
-

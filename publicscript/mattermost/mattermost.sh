@@ -214,14 +214,15 @@ sed -i -e 's/dockerhost/127.0.0.1/' \
 cat <<_EOF_> /etc/systemd/system/mattermost.service
 [Unit]
 Description=Mattermost
-After=mysqld.service postfix.service
+After=network.target mysqld.service postfix.service
 
 [Service]
-Type=simple
-WorkingDirectory=/opt/mattermost/bin
+Type=notify
+WorkingDirectory=/opt/mattermost
 User=mattermost
-ExecStart=/opt/mattermost/bin/platform
+ExecStart=/opt/mattermost/bin/mattermost
 PIDFile=/var/spool/mattermost/pid/master.pid
+TimeoutStartSec=3600
 LimitNOFILE=49152
 
 [Install]
