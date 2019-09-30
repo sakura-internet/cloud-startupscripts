@@ -79,7 +79,7 @@ firewall-cmd --reload
 
 #===== Fluentd =====#
 echo "[*] Installing td-agent..."
-curl -L http://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
+curl -L http://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.5.sh | sh
 echo "[*] Installing td-agent-gem (fluent-plugin-elasticsearch)"
 td-agent-gem install fluent-plugin-elasticsearch
 
