@@ -38,4 +38,9 @@ chown clamscan /var/log/clamd
 
 #-- clamd の起動
 systemctl enable clamd@scan 
+
+#-- clamd の起動に 90秒以上かかる為、systemd のタイムアウトを 5分に変更する
+grep ^TimeoutSec /lib/systemd/system/clamd@.service >/dev/null || echo "TimeoutSec = 5min" >> /lib/systemd/system/clamd@.service
+systemctl daemon-reload
+
 systemctl start clamd@scan
