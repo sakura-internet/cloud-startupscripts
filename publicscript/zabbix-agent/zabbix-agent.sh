@@ -5,11 +5,10 @@
 # @sacloud-desc このスクリプトはZabbix Agentをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
 #
-# @sacloud-select-begin required default=4.0 ZV "Zabbix Version"
+# @sacloud-select-begin required default=4.4 ZV "Zabbix Version"
+#  4.4 "4.4"
+#  4.2 "4.2"
 #  4.0 "4.0"
-#  3.4 "3.4"
-#  3.0 "3.0"
-#  2.2 "2.2"
 # @sacloud-select-end
 # @sacloud-textarea heredoc ADDR "登録するZabbixサーバのIPアドレス(ipv4)を1行に1つ入力してください。" ex="127.0.0.1"
 # @sacloud-require-archive distro-centos distro-ver-7
@@ -42,7 +41,7 @@ cat > ${IPLIST} @@@ADDR@@@
 
 if [ -z "${ZABBIX_VERSION}" ]
 then
-	ZABBIX_VERSION=4.0
+	ZABBIX_VERSION=4.4
 fi
 
 #---------START OF zabbix-agent---------#

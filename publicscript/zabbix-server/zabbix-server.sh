@@ -5,11 +5,10 @@
 # @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
 # @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
 #
-# @sacloud-select-begin required default=4.0 ZV "Zabbix Version"
+# @sacloud-select-begin required default=4.4 ZV "Zabbix Version"
+#  4.4 "4.4"
+#  4.2 "4.2"
 #  4.0 "4.0"
-#  3.4 "3.4"
-#  3.0 "3.0"
-#  2.2 "2.2"
 # @sacloud-select-end
 # @sacloud-password ZP "Zabbix WebのAdminアカウントのパスワード変更"
 # @sacloud-text integer min=1024 max=65534 HPORT "httpdのport番号変更(1024以上、65534以下を指定してください)"
@@ -43,7 +42,7 @@ HTTPD_PORT=@@@HPORT@@@
 
 if [ -z "${ZABBIX_VERSION}" ]
 then
-	ZABBIX_VERSION=4.0
+	ZABBIX_VERSION=4.4
 fi
 
 #---------START OF mysql-server---------#
