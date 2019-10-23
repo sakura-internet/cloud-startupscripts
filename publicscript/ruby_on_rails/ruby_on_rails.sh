@@ -5,10 +5,11 @@
 #
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 #
 # @sacloud-desc-begin
 # rbenv、Bundler、Ruby on Rails をインストールするスクリプトです。
-# このスクリプトは、CentOS 6.X, 7.X でのみ動作します。
+# このスクリプトは、CentOS 6.X, 7.X, 8.X でのみ動作します。
 # このスクリプトは完了までに10分程度時間がかかります。
 # スクリプトの進捗状況は /root/.sacloud-api/notes/スタートアップスクリプトID.log をご確認ください。
 # @sacloud-desc-end
@@ -34,7 +35,7 @@ fi
 
 echo "[1/5] Ruby のインストールに必要なライブラリをインストール中..."
 # https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-yum install -y gcc-6
+yum install -y gcc
 yum install -y bzip2
 yum install -y openssl-devel
 yum install -y libyaml-devel

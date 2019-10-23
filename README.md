@@ -59,15 +59,15 @@
 | --- | --- | :--- |
 | 設定支援 | [lb-dsr](./publicscript/lb-dsr/lb-dsr.sh) | ロードバランス対象のサーバの初期設定を自動化するためのスクリプトです。<br />このスクリプトは、以下のアーカイブでのみ動作します<br />- CentOS 6.X<br />- CentOS 7.X |
 | 設定支援 | [switching consoles for RancherOS](./publicscript/switching_consoles_for_rancheros/switching_consoles_for_rancheros.yml) | Rancher OSの標準のコンソールを設定するサンプルスクリプトです<br />このスクリプトは、以下のアーカイブでのみ動作します<br />- RancherOS |
-| CLI | [Usacloud](./publicscript/usacloud/usacloud.sh) | さくらのクラウドをコマンドラインで操作する [Usacloud](https://github.com/sacloud/usacloud)  をインストールします。[Usacloud](https://github.com/sacloud/usacloud)  は、さくらインターネット公認のユーザーコミュニティが開発を進めているツールです 。<br />※CentOS7系のみで動作します |
-| CLI | [Terraform for さくらのクラウド](./publicscript/terraform_for_sacloud/terraform_for_sacloud.sh) | インフラ構築や構成変更をコードで管理する“Infrastructure as Code“を実現するための、オープンソースのコマンドラインツール「Terraform」およびさくらのクラウドを利用するためのプラグインを一括でインストールします。詳細は「[Terraform for さくらのクラウド](https://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/)」をご確認ください。<br />※CentOS7系のみで動作します |
+| CLI | [Usacloud](./publicscript/usacloud/usacloud.sh) | さくらのクラウドをコマンドラインで操作する [Usacloud](https://github.com/sacloud/usacloud)  をインストールします。[Usacloud](https://github.com/sacloud/usacloud)  は、さくらインターネット公認のユーザーコミュニティが開発を進めているツールです 。<br />※CentOS 7.X, 8.X で動作します |
+| CLI | [Terraform for さくらのクラウド](./publicscript/terraform_for_sacloud/terraform_for_sacloud.sh) | インフラ構築や構成変更をコードで管理する“Infrastructure as Code“を実現するための、オープンソースのコマンドラインツール「Terraform」およびさくらのクラウドを利用するためのプラグインを一括でインストールします。詳細は「[Terraform for さくらのクラウド](https://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/)」をご確認ください。<br />※CentOS 7.X, 8.X で動作します |
 
 
 ## <a name="admin">システム管理・運用</a>
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
-| パッケージ管理 | [yum update](./publicscript/yum_update/yum_update.sh) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS6系のみで動作します |
+| パッケージ管理 | [yum update](./publicscript/yum_update/yum_update.sh) | サーバ作成後の初回起動時のみ、コマンド”yum update”を実行します。実行完了後、サーバが再起動されます。<br />※CentOS 6.X, 7.X, 8.X で動作します |
 | パッケージ管理 | [apt-get update/upgrade](./publicscript/apt-get_update_upgrade/apt-get_update_upgrade.sh) | サーバ作成後の初回起動時のみ、コマンド”apt-get update”および”apt-get upgrade”を実行します。実行完了後、サーバが再起動されます。<br />※DebianまたはUbuntuのみで動作します |
 | コンテナ管理 | [Rancher2セットアップ](./publicscript/rancher2_setup/rancher2_setup.sh) | Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。ui-driver-sakuracloud がセットアップされ、さくらのクラウド上で Kubernetes クラスタを素早くセットアップできます。<br />※CentOS7系のみで動作します |
 | 監視 | [zabbix-server](./publicscript/zabbix-server/zabbix-server.sh) | 監視サーバであるzabbix-serverをインストールします。<br />本スクリプトの詳細は[マニュアル](https://cloud-news.sakura.ad.jp/startup-script/zabbix-server/)を参照ください。<br />※CentOS7系のみで動作します |

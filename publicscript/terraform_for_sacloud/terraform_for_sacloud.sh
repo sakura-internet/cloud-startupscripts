@@ -3,11 +3,12 @@
 # @sacloud-name "Terraform for さくらのクラウド"
 # @sacloud-once
 # @sacloud-desc-begin
-#  CentOS7.xに Terraform for さくらのクラウド をインストールします
+#  CentOS 7.X, 8.X に「Terraform for さくらのクラウド」をインストールします
 #  インストール完了後にターミナルでサーバにログインし、terraformコマンドをご利用ください
 #  詳細はクラウドニュースを参照ください：https://cloud-news.sakura.ad.jp/startup-script/terraform-for-sakuracloud/
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 # @sacloud-select-begin required default=tk1v default_zone "Terraform for さくらのクラウドで操作するデフォルトゾーン"
 #   is1a "石狩第1ゾーン"
 #   is1b "石狩第2ゾーン"

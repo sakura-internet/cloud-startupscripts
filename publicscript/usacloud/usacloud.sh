@@ -4,12 +4,13 @@
 # @sacloud-once
 # @sacloud-desc-begin
 # このスクリプトは usacloud をセットアップします
-# （このスクリプトは、CentOS7.X で動作します）
+# （このスクリプトは CentOS 7.X, 8.X で動作します）
 #
 # 事前作業として以下の1つが必要となります
 # ・さくらのクラウドAPIのアクセストークンを取得していること
 # @sacloud-desc-end
 # @sacloud-require-archive distro-centos distro-ver-7
+# @sacloud-require-archive distro-centos distro-ver-8
 # @sacloud-select-begin required default=default ZONE "操作対象ゾーンを選択してください。(defaultはサーバを作成したゾーンになります)
 #  default "default"
 #  is1a "is1a"
