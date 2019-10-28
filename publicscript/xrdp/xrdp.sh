@@ -2,10 +2,11 @@
 # @sacloud-once
 # @sacloud-name "GNOME-xrdp"
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 #
 # @sacloud-desc-begin
 #   GNOMEデスクトップ環境とTigerVNC、xrdp をインストールし、リモートデスクトップ接続をできるようにします。
-#   （このスクリプトは、CentOS7.Xでのみ動作します）
+#   （このスクリプトは、CentOS 7.X, 8.X でのみ動作します）
 # @sacloud-desc-end
 # @sacloud-textarea heredoc ADDR "xrdp に接続するクライアントのIPアドレス(ipv4)を制限する場合は、1行に1つIPアドレスを入力してください。" ex="127.0.0.1"
 
@@ -30,6 +31,16 @@ _motd start
 set -e
 trap '_motd fail' ERR
 
+CENTOS_VERSION=$(rpm -q centos-release --qf "%{VERSION}" | cut -c 1-1)
+GUI="GNOME Desktop"
+FONT="vlgothic-*"
+if [ "${CENTOS_VERSION}" = "8" ]; then
+  # RHEL 7 から RHEL 8 のパッケージの置き換えについては下記リンクを参照
+  # https://access.redhat.com/documentation/ja-jp/red_hat_enterprise_linux/8/html-single/considerations_in_adopting_rhel_8/index
+  GUI="Server with GUI"
+  FONT="google-noto-sans-cjk-ttc-fonts"
+fi
+
 yum -y install yum-utils
 yum -y install epel-release
 yum-config-manager --enable epel
@@ -38,15 +49,18 @@ yum -y update grub2-common
 # install XRDP
 yum --enablerepo=cr -y install xrdp
 yum -y install tigervnc-server
-# install GNOME
-yum -y groups install "GNOME Desktop"
+
+# install GUI
+yum groupinstall -y "${GUI}"
 systemctl set-default graphical.target
 
 # XRDP color change: 32bit -> 64bit
 sed -i -e 's/max_bpp=32/max_bpp=24/g' /etc/xrdp/xrdp.ini
 
 # install and config japanese environment
-yum -y install ibus-kkc vlgothic-*
+yum -y install ibus-kkc
+yum -y install ${FONT}
+
 localectl set-locale LANG=ja_JP.UTF-8
 source /etc/locale.conf
 
