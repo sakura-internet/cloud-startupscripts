@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # @sacloud-name "Node-RED"
 # @sacloud-once
 # @sacloud-desc NVM/Node.js/Node-REDのインストールを実行します。
@@ -12,7 +12,9 @@
 
 # @sacloud-text shellarg maxlen=5 ex=1880 integer min=80 max=65535 ui_port "Node-REDのWeb UIポート番号"
 UI_PORT=@@@ui_port@@@
-${UI_PORT:=1880}
+if [ "${UI_PORT}" == "" ]; then
+	UI_PORT="1880"
+fi
 # @sacloud-text shellarg minlen=5 maxlen=20 ex=username nodered_id "Node-REDのログインID（５文字以上）"
 UI_NODERED_ID=@@@nodered_id@@@
 # @sacloud-password shellarg minlen=8 maxlen=20 ex=password nodered_password "Node-REDのログインパスワード（８文字以上）"
@@ -47,7 +49,7 @@ yum -y update
 
 # リポジトリ登録
 echo "# add nodesource"
-curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 # Node.jsとNode-Redのセットアップ
 echo "# nodejs / node-red install"
@@ -66,13 +68,11 @@ echo "# firewalld setting"
 firewall-cmd --add-port=$UI_PORT/tcp --permanent
 firewall-cmd --reload
 
-if [ -n "${UI_NODERED_ID}" ] && [ -n "${UI_NODERED_PASSWORD}" ]
-then
-
+if [ -n "${UI_NODERED_ID}" ] && [ -n "${UI_NODERED_PASSWORD}" ]; then
 	# パスワード抽出
 	echo "# nodered password crypt make"
 	npm install bcryptjs
-	UI_NODERED_PASSWORD_CRYPT=`node -e "console.log(require('bcryptjs').hashSync(process.argv[1], 8));" "${UI_NODERED_PASSWORD}"`
+	UI_NODERED_PASSWORD_CRYPT=$(node -e "console.log(require('bcryptjs').hashSync(process.argv[1], 8));" "${UI_NODERED_PASSWORD}")
 
 	# パスワード変更　事前置き換え
 	echo "# nodered password template push"
