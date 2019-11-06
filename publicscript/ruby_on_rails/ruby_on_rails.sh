@@ -48,8 +48,8 @@ yum install -y ncurses-devel
 echo "[1/5] Ruby のインストールに必要なライブラリをインストールしました"
 
 echo "[2/5] rbenv をインストール中..."
-git clone https://github.com/sstephenson/rbenv.git      $home/.rbenv
-git clone https://github.com/sstephenson/ruby-build.git $home/.rbenv/plugins/ruby-build
+git clone https://github.com/rbenv/rbenv.git      $home/.rbenv
+git clone https://github.com/rbenv/ruby-build.git $home/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $home/.bash_profile
 echo 'eval "$(rbenv init -)"'               >> $home/.bash_profile
 chown -R $user:$user $home/.rbenv
