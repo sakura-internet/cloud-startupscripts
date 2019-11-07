@@ -4,10 +4,10 @@
 # @sacloud-desc NVM/Node.js/Node-REDのインストールを実行します。
 # @sacloud-desc このスクリプトは、CentOS 7.xでのみ動作します。
 # @sacloud-desc nodesourceリポジトリを追加登録します。
-# @sacloud-desc 完了後「http://<IPアドレス>:1880/」にWebブラウザからアクセスできます。
+# @sacloud-desc 完了後「http://IPアドレス:1880/」にWebブラウザからアクセスできます。
 # @sacloud-desc UIポート番号を指定した場合は、指定したポート番号でアクセスできます。
 # @sacloud-desc ログイン画面を有効にする場合は、ログインIDとパスワードを入力してください。
-# @sacloud-desc Node-Redのログを確認するには「 pm2 logs node-red」コマンドを実行します。
+# @sacloud-desc Node-Redのログを確認するには「pm2 logs node-red」コマンドを実行します。
 # @sacloud-require-archive distro-centos distro-ver-7.*
 
 # @sacloud-text shellarg maxlen=5 ex=1880 integer min=80 max=65535 ui_port "Node-REDのWeb UIポート番号"
