@@ -10,14 +10,11 @@
 #   このスクリプトを使うと kusanagi ユーザで ssh ログイン可能になります。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   https://サーバのIPアドレス/
-#   ※ セットアップには5?10分程度時間がかかります。
-#   セットアップが正常に完了すると、 管理ユーザーのメールアドレス宛に完了メールが送付されます（お使いの環境によってはスパムフィルタにより受信されない場合があります）
-#   メール送信後、サーバを再起動をしますのメールを受信したら1分ほど待ってアクセスください。
-#   （このスクリプトは、KUSANAGI8.xでのみ動作します）
+#   ※ セットアップには10分程度時間がかかります。
+#   ※ このスクリプトは KUSANAGI 8.x でのみ動作します。
 #
-#   セットアップ後は、kusanagiのSSL(Let's Encrypt)設定や、WordPress のURL設定をIPアドレスからドメイン名に変更する設定の実施をおすすめします。
-#   詳細は詳細は以下のページを詳細は以下のページをご覧ください
-#    http://cloud-news.sakura.ad.jp/wordpress-for-kusanagi8/
+#   セットアップ後の推奨設定等の詳細は KUSANAGI 公式サイトのドキュメントをご覧ください。
+#   https://kusanagi.tokyo/document/
 # @sacloud-desc-end
 #
 # 管理ユーザーの入力フォームの設定
@@ -26,7 +23,7 @@
 # @sacloud-text     required shellarg maxlen=60 WP_ADMIN_USER    "WordPress 管理者ユーザ名 (半角英数字、下線、ハイフン、ピリオド、アットマーク (@) のみが使用可能)"
 # @sacloud-password required shellarg maxlen=60 minlen=6 WP_ADMIN_PASSWD  "WordPress 管理者パスワード"
 # @sacloud-text     required shellarg maxlen=256 WP_TITLE        "WordPress サイトのタイトル"
-# @sacloud-text     required  maxlen=128 WP_ADMIN_MAIL   "WordPress 管理者メールアドレス (インストール完了時にメールが送信されます)" ex="user@example.com"
+# @sacloud-text     required  maxlen=128 WP_ADMIN_MAIL   "WordPress 管理者メールアドレス" ex="user@example.com"
 
 echo "## set default variables";
 TERM=xterm
@@ -44,7 +41,7 @@ echo "## Kusanagi init";
 kusanagi init --tz Asia/Tokyo --lang ja --keyboard ja \
   --passwd @@@KUSANAGI_PASSWD@@@ --no-phrase \
   --dbrootpass @@@DBROOT_PASSWD@@@ \
-  --nginx --hhvm --ruby24 \
+  --nginx --php7 --ruby24 \
   --dbsystem mariadb || exit 1
 
 echo "## Kusanagi provision";
@@ -85,28 +82,6 @@ sudo -u kusanagi  -i /usr/local/bin/wp core install \
 /bin/cp /etc/sudoers.bk /etc/sudoers  || exit 1
 
 #---------END OF WordPrss---------#
-
-# いつ完了しているか分からないため、WP管理者メールアドレスに完了メールを送信
-
-# 必要な情報を集める
-SYSTEMINFO=`dmidecode -t system`
-
-# フォームで設定した管理者のアドレスへメールを送信
-echo "## send email.";
-/usr/sbin/sendmail -t -i -o -f @@@WP_ADMIN_MAIL@@@ << EOF From: @@@WP_ADMIN_MAIL@@@
-Subject: finished Wordpress install on $IPADDRESS0
-To: @@@WP_ADMIN_MAIL@@@
-
-Finish WordPress install on $IPADDRESS0
-
-Please access to https://$IPADDRESS0 after 1 min.
-
-Autogenerate DBname, DBUsername, DBpassword etc...
-You can find Wordpress DB Infomation in /home/kusanagi/default_profile/DocumentRoot/wp-config.php
-
-System Info:
-$SYSTEMINFO
-EOF
 
 echo "## finished!";
 echo "please access to https://$IPADDRESS0/";
