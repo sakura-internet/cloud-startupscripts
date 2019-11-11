@@ -4,10 +4,11 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 #
 # @sacloud-desc-begin
 # pyenv, Anaconda,Jupyterをインストールするスクリプトです。
-# このスクリプトは、CentOS7.Xでのみ動作します。
+# このスクリプトは CentOS 7.X, 8.X でのみ動作します。
 # サーバ作成後、Webブラウザで以下のURL（サーバのIPアドレスと設定したポート）にアクセスしてください。
 #   http://サーバのIPアドレス:設定したポート/
 # アクセスした後、設定したJupyterのパスワードでログインしてください。
