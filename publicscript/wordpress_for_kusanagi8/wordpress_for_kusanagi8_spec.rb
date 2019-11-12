@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-services = %w(mariadb monit nginx vsftpd xinetd hhvm)
-processes = %w(mysqld monit nginx vsftpd xinetd hhvm)
+services = %w(mariadb monit nginx vsftpd xinetd)
+processes = %w(mysqld monit nginx vsftpd xinetd php-fpm)
 ports = %w(21 80 443 2812 3306 9000)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
