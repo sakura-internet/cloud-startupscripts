@@ -13,7 +13,7 @@
 # @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
 # @sacloud-require-archive distro-centos distro-ver-6.*
-# @sacloud-tag @simplemode
+# @sacloud-tag @simplemode @logo-alphabet-l
 
 PASSWD=@@@mysql_password@@@
 
