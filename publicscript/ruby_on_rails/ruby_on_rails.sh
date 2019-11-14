@@ -5,10 +5,11 @@
 #
 # @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 #
 # @sacloud-desc-begin
 # rbenv、Bundler、Ruby on Rails をインストールするスクリプトです。
-# このスクリプトは、CentOS 6.X, 7.X でのみ動作します。
+# このスクリプトは、CentOS 6.X, 7.X, 8.X でのみ動作します。
 # このスクリプトは完了までに10分程度時間がかかります。
 # スクリプトの進捗状況は /root/.sacloud-api/notes/スタートアップスクリプトID.log をご確認ください。
 # @sacloud-desc-end
@@ -34,7 +35,7 @@ fi
 
 echo "[1/5] Ruby のインストールに必要なライブラリをインストール中..."
 # https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-yum install -y gcc-6
+yum install -y gcc
 yum install -y bzip2
 yum install -y openssl-devel
 yum install -y libyaml-devel
@@ -47,8 +48,8 @@ yum install -y ncurses-devel
 echo "[1/5] Ruby のインストールに必要なライブラリをインストールしました"
 
 echo "[2/5] rbenv をインストール中..."
-git clone https://github.com/sstephenson/rbenv.git      $home/.rbenv
-git clone https://github.com/sstephenson/ruby-build.git $home/.rbenv/plugins/ruby-build
+git clone https://github.com/rbenv/rbenv.git      $home/.rbenv
+git clone https://github.com/rbenv/ruby-build.git $home/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $home/.bash_profile
 echo 'eval "$(rbenv init -)"'               >> $home/.bash_profile
 chown -R $user:$user $home/.rbenv
