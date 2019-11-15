@@ -4,6 +4,7 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 #
 # @sacloud-desc-begin
 #   CakePHPで動作する、Webサイト開発プラットフォームとして最適な国産CMS「baserCMS」をインストールします。
@@ -18,7 +19,7 @@
 #
 #	※ アクセスするURLは、デフォルトでサーバのIPアドレスとなっていますが、
 #	  独自ドメイン利用時、「baserCMS サイトのURL」を設定すると独自ドメインのURLでアクセスする事ができます。
-#   ※ このスクリプトは、CentOS7.Xで動作します
+#   ※ このスクリプトは、CentOS 7.X, 8.X で動作します
 # @sacloud-desc-end
 #
 # @sacloud-text required shellarg maxlen=60 user_name "baserCMS 管理ユーザ名"
@@ -27,7 +28,7 @@
 # @sacloud-text shellarg maxlen=254 ex=http://example.jp site_url "baserCMS サイトのURL（省略するとサーバのIPアドレスになります）"
 
 # install packages
-yum -y install expect httpd-devel mod_ssl php php-devel php-pear mariadb-server php-mbstring php-xml php-gd php-mysql|| exit 1
+yum -y install expect httpd-devel mod_ssl php php-devel php-pear mariadb-server php-mbstring php-xml php-gd php-mysqlnd php-json || exit 1
 
 # init variables
 MYSQLPASSWORD=$(mkpasswd -l 32 -d 9 -c 9 -C 9 -s 0 -2)
