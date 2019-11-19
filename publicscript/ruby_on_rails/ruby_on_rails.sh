@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eux
+
 # @sacloud-name "Ruby on Rails"
 # @sacloud-once
 #
@@ -38,12 +40,18 @@ echo "[1/5] Ruby のインストールに必要なライブラリをインスト
 yum install -y gcc
 yum install -y bzip2
 yum install -y openssl-devel
-yum install -y libyaml-devel
 yum install -y libffi-devel
 yum install -y readline-devel
 yum install -y zlib-devel
 yum install -y gdbm-devel
 yum install -y ncurses-devel
+
+CENTOS_VERSION="$(rpm -q centos-release --qf '%{VERSION}' | cut -c 1-1)"
+if [ "${CENTOS_VERSION}" == "8" ]; then
+  yum install --enablerepo=PowerTools -y libyaml-devel
+else
+  yum install -y libyaml-devel
+fi
 
 echo "[1/5] Ruby のインストールに必要なライブラリをインストールしました"
 
