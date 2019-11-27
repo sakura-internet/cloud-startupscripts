@@ -2,18 +2,17 @@
 # @sacloud-name "Crowi"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-ubuntu distro-ver-16.04.*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 #
 # @sacloud-desc-begin
-#   Markdown形式で記述可能な組織用コミュニケーションツールCrowiをセットアップするスクリプトです。
-#   サーバ作成後はブラウザより「http://サーバのIPアドレス/installer」にアクセスすることで設定が行えます。
-#   （このスクリプトは、16.04 でのみ動作します）
-#   APIキーとさくらのクラウドDNSで管理しているゾーンを指定すれば、DNSのAレコードの登録とLets Encryptを使用したSSL証明書の設定も合わせて行えます。
-#   その場合、セットアップ後のURLは 「https://ドメイン/installer」になります。
+#   Crowiをセットアップします。
+#   サーバ作成後は「http://サーバのIPアドレス/installer」から初期設定できます。
+#   APIキーとさくらのクラウドDNSで管理しているゾーンを指定すれば、DNSのAレコードの登録と Let's Encrypt を使用したSSL証明書の設定も可能です。
+#   その場合、セットアップ後のURLは「https://ドメイン/installer」になります。
 # @sacloud-desc-end
 #
-# @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと、Lets Encryptの証明書をセットアップします)"
-# @sacloud-text ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須となります)" ex="example.com"
+# @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと Let's Encrypt の証明書をセットアップします)"
+# @sacloud-text ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須です)" ex="example.com"
 # @sacloud-text SUB "ドメイン(DNSゾーン名が含まれている必要があります。未入力の場合はDNSゾーン名でセットアップします)" ex="crowi.example.com"
 #
 #---------UPDATE /etc/motd----------#
@@ -46,15 +45,14 @@ then
 	SSL=0
 fi
 
-set -x
-set -e
+set -ex
 trap '_motd fail' ERR
 
 _motd start
 apt-get update
-apt install -y curl jq
+apt-get install -y curl jq
 
-IPADDR=$(awk '/^address/{print $2}' /etc/network/interfaces)
+IPADDR=$(hostname -i | awk '{ print  $1 }')
 if [ ${SSL} -eq 1 ]
 then
 	ZONE="@@@ZONE@@@"
@@ -77,7 +75,7 @@ then
 
 	if [ $(dig ${ZONE} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
 	then
-		echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されておりません"
+		echo "対象ゾーンのNSレコードにさくらのクラウドDNSが設定されていません"
 		_motd fail
 	fi
 
@@ -150,20 +148,19 @@ _EOF_
 fi
 
 # package update
-apt update
+apt-get update
 
 # install nodejs
-curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
-bash nodesource_setup.sh
-apt install -y nodejs
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+apt-get install -y nodejs
 
 npm install -g npm
 
 # install MongoDB
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
-apt update
-apt install -y mongodb-org
+wget -qO - https://www.mongodb.org/static/pgp/server-3.6.asc | apt-key add -
+echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+apt-get update
+apt-get install -y mongodb-org
 
 cat << EOF >> /etc/systemd/system/mongodb.service
 [Unit]
@@ -192,7 +189,7 @@ for i in {1..5}; do
 done
 systemctl enable mongodb.service
 
-apt install -y pwgen
+apt-get install -y pwgen
 PASSWD=$(pwgen -s 32 1)
 cat << EOF >> /tmp/mongobat.js
 db.createUser({user: "crowi", pwd: "$PASSWD", roles: [{role: "readWrite", db: "crowidb"}]});
@@ -201,12 +198,14 @@ mongo crowidb < /tmp/mongobat.js
 rm -rf /tmp/mongobat.js
 
 # install ElasticSerach
-apt install -y openjdk-8-jre
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add
-echo "deb https://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
-apt update
-apt install -y elasticsearch
-/usr/share/elasticsearch/bin/plugin install analysis-kuromoji
+apt-get install -y openjdk-8-jre
+apt-get install -y apt-transport-https
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-6.x.list
+
+apt-get update
+apt-get install -y elasticsearch
+/usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-kuromoji
 
 systemctl status elasticsearch.service >/dev/null 2>&1 || systemctl start elasticsearch.service
 for i in {1..5}; do
@@ -217,7 +216,7 @@ done
 systemctl enable elasticsearch.service
 
 # install Crowi
-apt install -y git build-essential libkrb5-dev
+apt-get install -y git build-essential libkrb5-dev
 
 git clone https://github.com/crowi/crowi.git /opt/crowi
 cd /opt/crowi
@@ -259,7 +258,7 @@ done
 systemctl enable crowi.service
 
 # nginx
-apt install -y nginx
+apt-get install -y nginx
 systemctl stop nginx.service
 
 if [ ${SSL} -eq 1 ]
@@ -281,7 +280,7 @@ sed -i -e "s@\(^pid.*$\)@# \1\npid        /run/nginx.pid;@g" "$NGINX_CONFIGPATH"
 sed -i -e "s@\(access_log.*access.log.*$\)@# \1\n  access_log   /var/log/nginx/access.log main;@g" "$NGINX_CONFIGPATH"
 sed -i -e "s@\(listen\s80\sdefault_server;$\)@# \1\n    listen 80 default_server deferred;@g" "$NGINX_CONFIGPATH"
 sed -i -e "s@\(server_name.*$\)@\1\n    server_name ${HOSTNAME};@g" "$NGINX_CONFIGPATH"
-sed -i -e "s@\(root\s/sites/example.com/public;$\)@# \1\n    root /opt/crowi/public;\n\n    location / {\n      proxy_pass http://127.0.0.1:3000;\n      proxy_set_header Host \$host;\n      proxy_set_header X-Forwarded-For \$remote_addr;\n    }@g" "$NGINX_CONFIGPATH"
+sed -i -e "s@\(root\s/sites/example.com/public;$\)@# \1\n    root /opt/crowi/public;\n\n    location / {\n      proxy_pass http://127.0.0.1:3000;\n      proxy_set_header Host \$host;\n      proxy_set_header X-Forwarded-For \$remote_addr;\n      proxy_set_header Upgrade \$http_upgrade;\n      proxy_set_header Connection \"upgrade\";\n      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;\n      proxy_set_header Host \$host;\n      proxy_http_version 1.1;\n    }\n@g" "$NGINX_CONFIGPATH"
 sed -i -e "s@\(access_log logs/static.log;$\)@# \1\n      access_log /var/log/nginx/static.log;@g" "$NGINX_CONFIGPATH"
 
 systemctl start nginx.service
@@ -329,4 +328,3 @@ fi
 ufw enable
 
 _motd end
-
