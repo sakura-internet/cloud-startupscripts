@@ -7,11 +7,11 @@
 # @sacloud-desc-begin
 #   Crowiをセットアップします。
 #   サーバ作成後は「http://サーバのIPアドレス/installer」から初期設定できます。
-#   APIキーとさくらのクラウドDNSで管理しているゾーンを指定すれば、DNSのAレコードの登録とLets Encryptを使用したSSL証明書の設定も可能です。
+#   APIキーとさくらのクラウドDNSで管理しているゾーンを指定すれば、DNSのAレコードの登録と Let's Encrypt を使用したSSL証明書の設定も可能です。
 #   その場合、セットアップ後のURLは「https://ドメイン/installer」になります。
 # @sacloud-desc-end
 #
-# @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと、Lets Encryptの証明書をセットアップします)"
+# @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと Let's Encrypt の証明書をセットアップします)"
 # @sacloud-text ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須です)" ex="example.com"
 # @sacloud-text SUB "ドメイン(DNSゾーン名が含まれている必要があります。未入力の場合はDNSゾーン名でセットアップします)" ex="crowi.example.com"
 #
