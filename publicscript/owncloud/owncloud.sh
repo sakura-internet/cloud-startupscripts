@@ -31,7 +31,7 @@ set -ex
 trap '_motd fail' ERR
 
 yum install -y wget
-wget http://download.owncloud.org/download/repositories/production/CentOS_7/ce:stable.repo -O /etc/yum.repos.d/ce:stable.repo
+wget http://download.owncloud.org/download/repositories/production/RHEL_7/ce:stable.repo -O /etc/yum.repos.d/ce:stable.repo
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 yum install -y --enablerepo=remi,remi-php71 php
 yum install -y --enablerepo=remi,remi-php71 php-gd php-pdo php-mbstring php-process php-xml php-ldap php-zip php-intl
