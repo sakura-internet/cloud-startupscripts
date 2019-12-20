@@ -41,7 +41,7 @@ DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
 yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql96-{server,contrib,devel} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
