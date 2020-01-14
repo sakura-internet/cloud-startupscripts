@@ -1,11 +1,11 @@
 #!/bin/bash
 #
 # @sacloud-once
-# @sacloud-name Docker Engine CE for CentOS 7
+# @sacloud-name "Docker Engine CE for CentOS 7"
 # @sacloud-desc Docker Engine Community Edition の最新安定版をインストールします。
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
-
+# @sacloud-tag @simplemode @logo-alphabet-d
 
 _motd() {
  LOG=$(ls /root/.sacloud-api/notes/*log)
