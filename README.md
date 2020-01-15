@@ -43,6 +43,7 @@
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
+| コンテナ | [Docker CE](./publicscript/docker_for_centos7/docker_for_centos7.sh) | Docker Engine Community Edition をセットアップします。<br />※CentOS7系のみで動作します。  |
 | SSL環境 | [Let's Encrypt](./publicscript/letsencrypt/letsencrypt.sh) | usacloud, certbot-auto をインストールし、Let's Encryptで "指定ドメイン" と "*.指定ドメイン" のTLS証明書を取得します。さくらのクラウド DNS にドメインを登録しておく必要があります。<br />※CentOS7系のみで動作します。 |
 | 開発支援 | [Git Clone](./publicscript/git_clone/git_clone.sh) | 指定のGitリポジトリをcloneし、指定の実行ファイルを自動的に実行します。<br />拡張子が .yml のものは Ansible Playbook として解釈されます。 |
 | メッセージキュー管理 | [RabbitMQ](./publicscript/rabbitmq/rabbitmq.sh) | メッセージキュー管理システムであるRabbitMQをインストールします。 |
