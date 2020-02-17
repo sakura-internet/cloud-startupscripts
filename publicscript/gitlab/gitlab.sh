@@ -4,10 +4,10 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-tag @simplemode @require-core>=2 @require-memory-gib>=8
+# @sacloud-tag @simplemode @require-core>=2 @require-memory-gib>=4
 #
 # @sacloud-desc-begin
-#   GitLabをインストールします。
+#   GitLab Coreをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
 #   ※ セットアップには5分程度時間がかかります。
@@ -29,11 +29,12 @@ yum install postfix -y
 systemctl enable postfix
 systemctl start postfix
 firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
 firewall-cmd --reload
 
 # 2. Add the GitLab package server and install the package
-curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | bash
-yum install gitlab-ce -y
+curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | bash
+yum install gitlab-ee -y
 
 # 3. Configure and start GitLab
 gitlab-ctl reconfigure &
