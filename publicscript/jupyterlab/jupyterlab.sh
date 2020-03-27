@@ -16,6 +16,8 @@
 # @sacloud-password required JP "Jupyterのログインパスワード設定"
 # @sacloud-text required default=49152 integer min=49152 max=65534 JPORT "port番号変更(49152以上、65534以下を指定してください)"
 
+set -x
+
 # コントロールパネルの入力値を変数へ代入
 password=@@@JP@@@
 port=@@@JPORT@@@
