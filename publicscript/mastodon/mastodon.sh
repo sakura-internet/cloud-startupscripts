@@ -47,40 +47,30 @@ yum update -y
 yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql96-{server,contrib,devel} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
 npm install -g yarn
 
-if [ $(dig ${DOMAIN} ns +short | egrep -c '^ns[0-9]+.gslb[0-9]+.sakura.ne.jp.$') -ne 2 ]
+#-- usacloud のインストール
+curl -fsSL http://releases.usacloud.jp/usacloud/repos/setup-yum.sh | sh
+zone=$(dmidecode -t system | awk '/Family/{print $NF}')
+
+set +x
+
+#-- usacloud の設定
+usacloud config --token ${SACLOUD_APIKEY_ACCESS_TOKEN}
+usacloud config --secret ${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}
+usacloud config --zone ${zone}
+
+set -x
+
+#-- DNSレコードの登録
+if [ $(usacloud dns record-list ${DOMAIN} 2>&1 | fgrep -c "DNS zone don't have any records") -eq 1 ]
 then
-	echo "${DOMAIN} はさくらのクラウドDNSで管理していません"
+	usacloud dns record-add -y --name @ --type A --value ${IPADDR} ${DOMAIN}
+	usacloud dns record-add -y --name @ --type MX --value ${DOMAIN}. ${DOMAIN}
+	usacloud dns record-add -y --name @ --type TXT --value "v=spf1 +ip4:${IPADDR} -all" ${DOMAIN}
+else
+	echo "さくらのクラウドDNSで管理しているレコードが未登録のドメインを指定してください"
 	_motd fail
 fi
-ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
-BASE=https://secure.sakura.ad.jp/cloud/zone/${ZONE}/api/cloud/1.1
-API=${BASE}/commonserviceitem/
-RESJS=resource.json
-DNSJS=dns.json
-curl -s --user "${KEY}" ${API} | jq -r ".CommonServiceItems[] | select(.Status.Zone == \"${DOMAIN}\")" > ${RESJS} 2>/dev/null
-RESID=$(jq -r .ID ${RESJS})
-RECODES=$(jq -r ".Settings.DNS.ResourceRecordSets" ${RESJS})
-if [ $(echo "${RECODES}" | egrep -c "^(\[\]|null)$") -ne 1 ]
-then
-	if [ "${RECODES}x" = "x" ]
-	then
-		echo "ドメインのリソースIDが取得不可"
-	else
-		echo "レコードを未登録のドメインを指定してください"
-	fi
-	_motd fail
-fi
-API=${API}${RESID}
-cat <<_EOL_> ${DNSJS}
-{
-	"CommonServiceItem": { "Settings": { "DNS":  { "ResourceRecordSets": [
-	{ "Name": "@", "Type": "A", "RData": "${IPADDR}" },
-	{ "Name": "@", "Type": "MX", "RData": "10 ${DOMAIN}." },
-	{ "Name": "@", "Type": "TXT", "RData": "v=spf1 +ip4:${IPADDR} -all" }
-	]}}}
-}
-_EOL_
-curl -s --user "${KEY}" -X PUT -d "$(cat ${DNSJS} | jq -c .)" ${API}
+
 export PGSETUP_INITDB_OPTIONS="--encoding=UTF-8 --no-locale"
 /usr/pgsql-9.6/bin/postgresql96-setup initdb
 sed -i "s/ident/trust/" /var/lib/pgsql/9.6/data/pg_hba.conf
@@ -108,7 +98,9 @@ rbenv global \${RV}
 rbenv rehash
 cd live
 gem update --system
-gem install bundler -v \$(cat Gemfile.lock|grep -A 1 'BUNDLED WITH'|tail -n 1)
+gem install bundler
+#-- https://github.com/tootsuite/mastodon/pull/13294
+sed -i 's/sidekiq-unique-jobs (6.0.18)/sidekiq-unique-jobs (6.0.20)/' Gemfile.lock
 bundle install --deployment --without development test
 yarn install --pure-lockfile
 cp .env.production{.sample,}
@@ -318,19 +310,8 @@ mv https.conf /etc/nginx/conf.d/
 R=${RANDOM}
 echo "$((${R}%60)) $((${R}%24)) * * $((${R}%7)) root ${CPATH}/certbot-auto renew --webroot -w ${WROOT} --post-hook 'systemctl reload nginx'" > /etc/cron.d/certbot-auto
 
-API=${BASE}/ipaddress/${IPADDR}
-PTRJS=ptr.json
-cat <<_EOL_> ${PTRJS}
-{"IPAddress": { "HostName": "${DOMAIN}" }}
-_EOL_
-
-curl -s --user "${KEY}" -X PUT -d "$(cat ${PTRJS} | jq -c .)" ${API}
-RET=$(curl -s --user "${KEY}" -X GET ${API} | jq -r "select(.IPAddress.HostName == \"${DOMAIN}\") | .is_ok")
-if [ "${RET}x" != "truex" ]
-then
-	echo "逆引き登録に失敗"
-	_motd fail
-fi
+#-- DNS 逆引きレコード設定
+usacloud ipv4 ptr-add -y --hostname ${DOMAIN} ${IPADDR}
 
 shutdown -r 1
 echo "セットアップ完了"
