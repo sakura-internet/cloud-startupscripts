@@ -47,7 +47,8 @@ echo "[2/5] pyenvをインストールしました"
 
 echo "[3/5] Anaconda,chainerのインストール中..."
 #Anaconda3系
-su -l $user -c "yes | pyenv install anaconda3-2019.10"
+# anacondaのインストールは時間がかかるためtimeoutを設定する (15分)
+timeout 900 su -l $user -c "yes | pyenv install anaconda3-2019.10"
 su -l $user -c "pyenv global anaconda3-2019.10"
 su -l $user -c "pyenv rehash"
 su -l $user -c "yes | conda create --name py3.5 python=3.5 anaconda"
