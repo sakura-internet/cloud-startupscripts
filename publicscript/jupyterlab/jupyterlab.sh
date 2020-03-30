@@ -11,7 +11,7 @@
 # サーバ作成後、Webブラウザで以下のURL（サーバのIPアドレスと設定したポート）にアクセスしてください。
 #   http://サーバのIPアドレス:設定したポート/
 # アクセスした後、設定したJupyterLabのパスワードでログインしてください。
-# このスクリプトは完了までに20分程度時間がかかります
+# このスクリプトは完了までに20分程度時間がかかります (推奨プラン 2コア / 4GB選択時)
 # @sacloud-desc-end
 # @sacloud-password required JP "Jupyterのログインパスワード設定"
 # @sacloud-text required default=49152 integer min=49152 max=65534 JPORT "port番号変更(49152以上、65534以下を指定してください)"
