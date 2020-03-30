@@ -32,7 +32,8 @@ fi
 
 echo "[1/5] Pythonのインストールに必要なライブラリをインストール中"
 yum update -y
-yum -y install git readline-devel zlib-devel bzip2-devel sqlite-devel openssl-devel
+# 推奨ビルド環境のパッケージをインストール https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+yum -y install git gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
 echo "[1/5] Pythonのインストールに必要なライブラリをインストールしました"
 
 echo "[2/5] pyenvをインストール中..."
