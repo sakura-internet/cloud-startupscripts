@@ -71,9 +71,9 @@ echo "[3/5] Anaconda,chainerのインストール中..."
 timeout 900 su -l $user -c "yes | pyenv install anaconda3-2019.10" || _motd fail
 su -l $user -c "pyenv global anaconda3-2019.10"
 su -l $user -c "pyenv rehash"
-su -l $user -c "yes | conda create --name py3.5 python=3.5 anaconda" || _motd fail
+su -l $user -c "yes | conda create --name py3.7 python=3.7 anaconda" || _motd fail
 cat << EOF > /tmp/ana3.sh
-source /home/$user/.pyenv/versions/anaconda3-2019.10/bin/activate py3.5
+source /home/$user/.pyenv/versions/anaconda3-2019.10/bin/activate py3.7
 conda install -c conda-forge jupyterlab ipykernel
 jupyter kernelspec install-self --user
 pip install chainer
