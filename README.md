@@ -36,6 +36,7 @@
 | SNS | [Mastodon](./publicscript/mastodon/mastodon.sh) | Twitterライクな投稿ができる分散型ソーシャルネットワーク「Mastodon」のインスタンス（サーバ）をセットアップします。<br />※CentOS7系のみで動作します |
 | コミュニケーション | [Mattermost](./publicscript/mattermost/mattermost.sh) | オープンソースのチャット型コミュニケーションツール「 [Mattermost](https://github.com/mattermost/platform/blob/master/README.md) 」サーバや MySQL、DNS を同時にセットアップします。<br />※ CentOS7 系のみで動作します |
 | 科学計算 | [Jupyter Notebook](./publicscript/jupyter_notebook/jupyter_notebook.sh) | データサイエンス環境としてAnacondaとウェブブラウザ上から手軽にプログラムを実行できるJupyter Notebookを一括でセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloud-startup-script-jupyter-notebook)をご参照ください。<br />※CentOS 7.X, 8.X のみで動作します |
+| 科学計算 | [Jupyter Lab](./publicscript/jupyterlab/jupyterlab.sh) | 統合データ解析環境のJupyterLabをセットアップすることの出来るスタートアップスクリプトです。<br />※CentOS 7.X, 8.X のみで動作します |
 | 分析基盤 | [kibana](./publicscript/kibana/kibana.sh) | 分析基盤としてElasticsearchとKibana、ログ収集のFluentdを一括しセットアップすることの出来るスタートアップスクリプトです。<br />インストール内容の詳細などは[SlideShare](https://www.slideshare.net/sakura_pr/sakura-cloudkibanaelasticsearchstartupscript)をご参照ください。<br />※CentOS7系のみで動作します |
 
 
