@@ -35,7 +35,7 @@ yum update -y
 yum install -y epel-release
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 yum install -y php72-php php72-php-{fpm,devel,cli,curl,pgsql,mbstring,ldap,pear,imap,xml,imagick,pecl-geoip} ImageMagick GeoIP-devel nginx expect
-yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 yum install -y postgresql96-server postgresql96-contrib
 
 # php の設定

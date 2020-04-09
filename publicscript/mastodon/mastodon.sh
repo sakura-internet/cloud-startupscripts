@@ -40,7 +40,7 @@ source /etc/sysconfig/network-scripts/ifcfg-eth0
 DOMAIN="@@@ZONE@@@"
 MADDR=mastodon@${DOMAIN}
 
-yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 yum update -y
@@ -99,8 +99,6 @@ rbenv rehash
 cd live
 gem update --system
 gem install bundler
-#-- https://github.com/tootsuite/mastodon/pull/13294
-sed -i 's/sidekiq-unique-jobs (6.0.18)/sidekiq-unique-jobs (6.0.20)/' Gemfile.lock
 bundle install --deployment --without development test
 yarn install --pure-lockfile
 cp .env.production{.sample,}
