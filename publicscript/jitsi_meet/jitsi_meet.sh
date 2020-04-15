@@ -23,7 +23,7 @@
 #
 # @sacloud-desc-end
 # @sacloud-require-archive distro-ubuntu distro-ver-18.04*
-# @sacloud-text required DNS_ZONE "さくらのクラウドDNSで管理しているDNSゾーン" ex="example.com"
+# @sacloud-text required DNS_ZONE "ホスト名（ドメインはDNSアプライアンスで管理されている必要があります）" ex="example.com"
 # @sacloud-apikey required permission=create API_KEY "APIキー"
 
 set -eux
