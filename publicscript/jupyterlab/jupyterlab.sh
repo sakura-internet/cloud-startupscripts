@@ -52,6 +52,7 @@ if ! cat /etc/passwd | awk -F : '{ print $1 }' | egrep ^$user$; then
 fi
 
 echo "[1/5] Pythonのインストールに必要なライブラリをインストール中"
+yum clean all
 yum update -y || _motd fail
 # 推奨ビルド環境のパッケージをインストール https://github.com/pyenv/pyenv/wiki#suggested-build-environment
 yum -y install git gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel || _motd fail
