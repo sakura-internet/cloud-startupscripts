@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-processes = %w(node-red)
+processes = %w(node)
 ports = %w(1880)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
