@@ -13,6 +13,7 @@
 #   is1a "石狩第1ゾーン"
 #   is1b "石狩第2ゾーン"
 #   tk1a "東京第1ゾーン"
+#   tk1b "東京第2ゾーン"
 #   tk1v "Sandbox"
 # @sacloud-select-end
 # @sacloud-apikey required permission=create SACLOUD_APIKEY "APIキー"
@@ -61,7 +62,7 @@ checksum_file="terraform-provider-sakuracloud_${version}_SHA256SUMS"
 curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/v${version}/${checksum_file}
 
 # Terraform for さくらのクラウド
-plugin_file="terraform-provider-sakuracloud_${version}_linux-amd64.zip"
+plugin_file="terraform-provider-sakuracloud_${version}_linux_amd64.zip"
 curl -sLO https://github.com/sacloud/terraform-provider-sakuracloud/releases/download/v${version}/${plugin_file}
 
 actual_checksum=$(openssl dgst -sha256 ${plugin_file} | awk -F '=' '{ gsub(" ","", $2); print $2 }')
