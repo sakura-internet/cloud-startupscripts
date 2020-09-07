@@ -16,6 +16,7 @@
 #  is1a "is1a"
 #  is1b "is1b"
 #  tk1a "tk1a"
+#  tk1b "tk1b"
 #  tk1v "tk1v"
 # @sacloud-select-end
 # @sacloud-apikey required permission=create AK "APIキー"
