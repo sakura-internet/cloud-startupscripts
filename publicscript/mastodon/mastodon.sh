@@ -44,7 +44,9 @@ yum install -y http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-releas
 curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 yum update -y
-yum install -y ImageMagick ffmpeg redis rubygem-redis postgresql96-{server,contrib,devel} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
+yum install -y ImageMagick ffmpeg postgresql96-{server,contrib,devel} authd nodejs {openssl,readline,zlib,libxml2,libxslt,protobuf,ffmpeg,libidn,libicu}-devel protobuf-compiler nginx jq bind-utils
+rpm -Uvh https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum install -y --enablerepo=remi redis rubygem-redis
 npm install -g yarn
 
 #-- usacloud のインストール
