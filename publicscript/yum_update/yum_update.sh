@@ -3,10 +3,8 @@
 # @sacloud-name "yum update"
 # @sacloud-once
 # @sacloud-desc yum updateを実行します。完了後自動再起動します。
-# @sacloud-desc （このスクリプトは CentOS 6.X, 7.X, 8.X でのみ動作します）
-# @sacloud-require-archive distro-centos distro-ver-6.*
-# @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-require-archive distro-centos distro-ver-8.*
+# @sacloud-desc （このスクリプトは CentOS でのみ動作します）
+# @sacloud-require-archive distro-centos
 # @sacloud-checkbox default= noreboot "yum update完了後に再起動しない"
 
 yum -y update || exit 1

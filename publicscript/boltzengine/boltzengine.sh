@@ -18,7 +18,7 @@
 #   ・さくらインターネット専用プラン : https://sakura.boltzengine.fenrir-inc.com/
 #
 #  - 動作推奨環境 -
-#  　　OS：			CentOS 6.5 ~ / 7.x ~
+#  　　OS：			CentOS 7.x ~
 #  　　CPU：		2 コア以上
 #  　　memory：	4 GB 以上
 #  　　Disk：		10 GB 以上の空き容量

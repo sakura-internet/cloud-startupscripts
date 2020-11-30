@@ -7,12 +7,11 @@
 #   Apache, PHP, MySQLをインストールします。
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   http://サーバのIPアドレス/
-#   （このスクリプトは、CentOS6.X,7.X,Ubuntu18.04で動作します）
+#   （このスクリプトは、CentOS 7.X, Ubuntu 18.04 で動作します）
 # @sacloud-desc-end
 # @sacloud-password shellarg mysql_password "MySQLに設定するパスワード(入力がない場合ランダム値がセットされます。)"
 # @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-require-archive distro-centos distro-ver-6.*
 # @sacloud-tag @simplemode @logo-alphabet-l
 
 PASSWD=@@@mysql_password@@@
@@ -71,68 +70,6 @@ password = ${PASSWD}
 socket   = /var/lib/mysql/mysql.sock
 _EOL_
     chmod 600 /root/.my.cnf
-
-  elif [ $DIST_VER = "6" ];then
-
-    #---------START OF iptables---------#
-    cat <<'EOT' > /etc/sysconfig/iptables
-*filter
-:INPUT DROP [0:0]
-:FORWARD DROP [0:0]
-:OUTPUT ACCEPT [0:0]
-:fail2ban-SSH - [0:0]
--A INPUT -p tcp -m multiport --dports 22 -j fail2ban-SSH
--A INPUT -p TCP -m state --state NEW ! --syn -j DROP
--A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
--A INPUT -p icmp -j ACCEPT
--A INPUT -i lo -j ACCEPT
--A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
--A INPUT -p udp --sport 123 --dport 123 -j ACCEPT
--A INPUT -p udp --sport 53 -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
--A fail2ban-SSH -j RETURN
-COMMIT
-EOT
-    service iptables restart
-    #---------END OF iptables---------#
-    #---------START OF LAMP---------#
-    yum -y install httpd mysql mysql-server expect || exit 1
-    yum -y install libwebp --enablerepo=epel
-    yum -y install --enablerepo=remi,remi-php70 php php-devel php-mbstring php-pdo php-gd php-mysql || exit 1
-    service httpd status >/dev/null 2>&1 || service httpd start
-
-    for i in {1..5}; do
-    sleep 1
-    service httpd status && break
-    [ "$i" -lt 5 ] || exit 1
-    done
-    chkconfig httpd on || exit 1
-
-    service mysqld status >/dev/null 2>&1 || service mysqld start
-    for i in {1..5}; do
-    sleep 1
-    service mysqld status && break
-    [ "$i" -lt 5 ] || exit 1
-    done
-    chkconfig mysqld on || exit 1
-
-    if [ -z "$PASSWD" ]; then
-        PASSWD=`mkpasswd -l 32 -d 9 -c 9 -C 9 -s 0 -2`
-    fi
-
-    /usr/bin/mysqladmin -u root password "$PASSWD" || exit 1
-
-    cat <<EOT > /root/.my.cnf
-[client]
-host     = localhost
-user     = root
-password = $PASSWD
-socket   = /var/lib/mysql/mysql.sock
-EOT
-    chmod 600 /root/.my.cnf
-    #---------END OF LAMP---------#
-
   fi
 elif [ $DIST = "lsb" ]; then
 

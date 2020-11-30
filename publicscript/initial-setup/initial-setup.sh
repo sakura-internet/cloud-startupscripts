@@ -3,10 +3,9 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-require-archive distro-centos distro-ver-6.*
 #
 # @sacloud-desc-begin
-#    CentOS 7.x or 6.xの初期設定をします
+#    CentOS 7.x の初期設定をします
 #    * パッケージの最新化
 #    * 新規ユーザの作成
 #    * suコマンドの制限
@@ -84,11 +83,6 @@ chown -R $USER:$USER /home/$USER/.ssh/
 
 
 # sshd service restart
-CENTOS_VERSION=$(cat /etc/redhat-release | sed -e 's/.*\s\([0-9]\)\..*/\1/')
-if [ $CENTOS_VERSION = "7" ]; then
-  systemctl restart sshd
-elif [ $CENTOS_VERSION = "6" ]; then
-  service sshd restart
-fi
+systemctl restart sshd
 
 exit 0
