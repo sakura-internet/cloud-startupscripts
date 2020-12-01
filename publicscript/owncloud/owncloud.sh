@@ -53,4 +53,3 @@ systemctl enable httpd
 systemctl start httpd
 
 _motd end
-
