@@ -15,14 +15,14 @@ _motd() {
   case $1 in
     start)
       echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-    ;;
+      ;;
     fail)
       echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-    exit 1
-    ;;
+      exit 1
+      ;;
     end)
       cp -f /dev/null /etc/motd
-    ;;
+      ;;
   esac
 }
 
@@ -36,7 +36,7 @@ firewall-cmd --add-port=9443/tcp --zone=public --permanent
 firewall-cmd --reload
 
 yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-file_name="siteguard-server-edition-4.10-0.apache.x86_64.rpm"
+file_name="siteguard-server-edition-4.10-1.apache.x86_64.rpm"
 wget -q "http://progeny.sakura.ad.jp/siteguard/4.1.0/apache/${file_name}" -P /root/.sakuracloud
 rpm -Uvh "/root/.sakuracloud/${file_name}"
 
