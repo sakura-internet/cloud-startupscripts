@@ -25,7 +25,7 @@ yum install -y yum-utils bash-completion
 yum-config-manager --enable epel
 yum install -y jq
 # usacloud install
-curl -fsSL http://releases.usacloud.jp/usacloud/repos/setup-yum.sh | sh
+curl -fsSL https://github.com/sacloud/usacloud/releases/latest/download/install.sh | sh
 # get zone name
 ZONE=@@@ZONE@@@
 if [ "${ZONE}" = "default" ]
@@ -33,7 +33,7 @@ then
   ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
 fi
 # setup usacloud
-usacloud config --token ${SACLOUD_APIKEY_ACCESS_TOKEN}
-usacloud config --secret ${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}
-usacloud config --zone ${ZONE}
+usacloud config --token ${SACLOUD_APIKEY_ACCESS_TOKEN} --secret ${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET} --zone ${ZONE} --default-output-type "table"
+# setup bash completion
+usacloud completion bash > /etc/bash_completion.d/usacloud
 exit 0
