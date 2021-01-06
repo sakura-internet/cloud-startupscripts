@@ -6,7 +6,7 @@ echo "---- $0 ----"
 git clone https://github.com/roundcube/roundcubemail.git ${WORKDIR}/git/roundcubemail
 cd ${WORKDIR}/git/roundcubemail
 base_version=1.4
-version=$(git tag | grep "^${base_version}" | tail -1)
+version=$(git tag | grep "^${base_version}" | sort --version-sort | tail -1)
 
 git checkout ${version}
 cp -pr ../roundcubemail ${HTTPS_DOCROOT}/roundcubemail-${version}
@@ -65,7 +65,7 @@ mv ${HTTPS_DOCROOT}/roundcube/installer ${HTTPS_DOCROOT}/roundcube/_installer
 
 #-- elastic テーマを使用するため、lessc コマンドをインストール
 yum install -y npm
-npm install -g less
+npm install -g less@3.13.1
 
 cd ${HTTPS_DOCROOT}/roundcube/skins/elastic
 lessc -x styles/styles.less > styles/styles.css
