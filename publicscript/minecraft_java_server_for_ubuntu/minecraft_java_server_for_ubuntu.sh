@@ -16,20 +16,24 @@
 # @sacloud-require-archive distro-ubuntu distro-ver-20.04.*
 
 _motd() {
-    LOG=$(ls /root/.sacloud-api/notes/*log)
-
-    case $1 in
-        start)
-            echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-        ;;
-        fail)
-            echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-            exit 1
-        ;;
-        end)
-            cp -f /dev/null /etc/motd
-        ;;
-    esac
+	log=$(ls /root/.sacloud-api/notes/*log)
+	motsh=/etc/update-motd.d/99-startup
+	status=/tmp/startup.status
+	echo "#!/bin/bash" > ${motsh}
+	echo "cat $status" >> ${motsh}
+	chmod 755 ${motsh}
+	case $1 in
+	start)
+		echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > ${status}
+	;;
+	fail)
+		echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the logfile: ${log}\n" > ${status}
+		exit 1
+	;;
+	end)
+		rm -f ${motsh}
+	;;
+	esac
 }
 
 _motd start
