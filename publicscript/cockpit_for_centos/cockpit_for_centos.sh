@@ -4,13 +4,13 @@
 # @sacloud-name "Cockpit for CentOS"
 # @sacloud-desc Cockpit の最新安定版をインストールします。
 #
-# @sacloud-require-archive distro-centos distro-ver-7.*
-# @sacloud-require-archive distro-centos distro-ver-8.*
+# @sacloud-require-archive distro-centos distro-ver-7
+# @sacloud-require-archive distro-centos distro-ver-8
 
-set -x
+set -eux
 
 yum clean all && sleep 1
-yum install -y cockpit || exit 1
+yum install -y cockpit
 
 sed 's/9090/0.0.0.0:9090/' /usr/lib/systemd/system/cockpit.socket >/etc/systemd/system/cockpit.socket
 systemctl daemon-reload
@@ -25,8 +25,4 @@ if [ "${FWSTAT}" = "inactive" ]; then
 fi
 
 firewall-cmd --permanent --zone=public --add-service=cockpit
-
-echo "reboot after 10 seconds.";
-sh -c 'sleep 10; reboot' &
-
-exit 0
+firewall-cmd --reload
