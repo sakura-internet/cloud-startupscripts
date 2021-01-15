@@ -3,7 +3,7 @@
 # @sacloud-name "Rancher2セットアップ"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-7
 #
 # @sacloud-desc-begin
 #   さくらのクラウド上で Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。
@@ -11,6 +11,21 @@
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   https://サーバのIPアドレス/
 #   (ユーザー名: admin, パスワード: 入力したRancher管理ユーザーのパスワード)
+#
+#  - 動作推奨環境 -
+# 
+#  デプロイサイズ (小)
+#  　　クラスタ数:　~ 5 まで
+#  　　ノード数:　~ 50 まで
+#  　　CPU:　1 コア 以上
+#  　　Memory:　4GB 以上
+#
+#  デプロイサイズ (中)
+#  　　クラスタ数: ~ 15 まで
+#  　　ノード数: ~ 200 まで
+#  　　CPU: 2 コア 以上
+#  　　Memory: 8 GB 以上
+#
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
 #   ※ 事前に「作成・削除」の権限を持つAPIキーの登録が必要です。
@@ -166,4 +181,3 @@ echo "Rancher server URL: ${RANCHER_SERVER}"
 echo "========================================================================="
 
 _motd end
-
