@@ -4,6 +4,9 @@
 # @sacloud-once
 #
 # @sacloud-require-archive distro-centos distro-ver-7
+# 
+# 動作環境 https://rancher.com/docs/rancher/v2.x/en/installation/requirements/#cpu-and-memory
+# @sacloud-tag @require-memory-gib>=4
 #
 # @sacloud-desc-begin
 #   さくらのクラウド上で Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。
@@ -11,20 +14,6 @@
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   https://サーバのIPアドレス/
 #   (ユーザー名: admin, パスワード: 入力したRancher管理ユーザーのパスワード)
-#
-#  - 動作推奨環境 -
-# 
-#  デプロイサイズ (小)
-#  　　クラスタ数:　~ 5 まで
-#  　　ノード数:　~ 50 まで
-#  　　CPU:　1 コア 以上
-#  　　Memory:　4GB 以上
-#
-#  デプロイサイズ (中)
-#  　　クラスタ数: ~ 15 まで
-#  　　ノード数: ~ 200 まで
-#  　　CPU: 2 コア 以上
-#  　　Memory: 8 GB 以上
 #
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
