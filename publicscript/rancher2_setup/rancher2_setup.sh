@@ -3,7 +3,10 @@
 # @sacloud-name "Rancher2セットアップ"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-7
+# 
+# 動作環境 https://rancher.com/docs/rancher/v2.x/en/installation/requirements/#cpu-and-memory
+# @sacloud-tag @require-memory-gib>=4
 #
 # @sacloud-desc-begin
 #   さくらのクラウド上で Rancher サーバとウェブ UI を自動的にセットアップするスクリプトです。
@@ -11,6 +14,7 @@
 #   サーバ作成後、WebブラウザでサーバのIPアドレスにアクセスしてください。
 #   https://サーバのIPアドレス/
 #   (ユーザー名: admin, パスワード: 入力したRancher管理ユーザーのパスワード)
+#
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、CentOS7.Xでのみ動作します）
 #   ※ 事前に「作成・削除」の権限を持つAPIキーの登録が必要です。
@@ -66,7 +70,6 @@ if [ "${ZONE}" = "default" ]; then
   ZONE=$(jq -r ".Zone.Name" /root/.sacloud-api/server.json)
 fi
 
-
 # ファイアウォールに対し http/https プロトコルでのアクセスを許可する
 firewall-cmd --permanent --add-service=http || _motd fail
 firewall-cmd --permanent --add-service=https || _motd fail
@@ -76,7 +79,8 @@ firewall-cmd --reload
 IP=`ip -f inet -o addr show eth0|cut -d\  -f 7 | cut -d/ -f 1`
 
 # Rancherサーバ起動
-docker run -d --restart=unless-stopped \
+docker run -d --privileged \
+              --restart=unless-stopped \
               -p 80:80 \
               -p 443:443 \
               -v /host/rancher:/var/lib/rancher \
@@ -114,7 +118,7 @@ docker exec rancher-server kubectl apply -f https://sacloud.github.io/ui-driver-
 sleep 5
 
 # ノードテンプレートの登録
-ADMIN_USER_NAME=`docker exec rancher-server kubectl get users.management.cattle.io -o "custom-columns=NAME:.metadata.name" --no-headers`
+ADMIN_USER_NAME=`docker exec rancher-server kubectl get users.management.cattle.io -o "custom-columns=NAME:.metadata.name" --no-headers | grep -Po 'user.+'`
 
 cat << EOS > nodeTemplate.yaml
 apiVersion: v1
@@ -166,4 +170,3 @@ echo "Rancher server URL: ${RANCHER_SERVER}"
 echo "========================================================================="
 
 _motd end
-
