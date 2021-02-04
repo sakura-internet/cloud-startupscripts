@@ -3,6 +3,7 @@
 # @sacloud-once
 # @sacloud-name "Cockpit"
 # @sacloud-desc Cockpit の最新安定版をインストールします。
+# @sacloud-desc 完了後「https://IPアドレス:9090」にWebブラウザからアクセスできます。
 #
 # @sacloud-require-archive distro-centos distro-ver-7
 # @sacloud-require-archive distro-centos distro-ver-8
