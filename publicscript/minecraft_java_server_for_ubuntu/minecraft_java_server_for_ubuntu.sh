@@ -8,9 +8,11 @@
 #   このスクリプトは、Ubuntu 18.04, 20.04 系でのみ動作します。
 #
 #   Minecraft Server（Java版）のご利用に当たり、
-#   事前に以下URLの Minecraft使用許諾契約書 への承諾をお願いします。
+#   事前に以下URLの Minecraft使用許諾契約書 (EULA) への承諾をお願いします。
 #   https://account.mojang.com/documents/minecraft_eula
 # @sacloud-desc-end
+#
+# @sacloud-checkbox required EULA_ACCEPTED "Minecraft使用許諾契約 (EULA) に同意して利用する"
 #
 # @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
 # @sacloud-require-archive distro-ubuntu distro-ver-20.04.*
@@ -38,6 +40,15 @@ _motd() {
 
 _motd start
 set -x
+
+: "pre check" && {
+    : "EULA" && {
+        if [[ -z '@@@EULA_ACCEPTED@@@' ]]; then
+            echo "You must agree to the EULA" >&2
+            exit 2
+        fi
+    }
+}
 
 # Open port 25565/tcp
 if [ -e "/etc/network/if-pre-up.d/iptables" ]; then
@@ -116,7 +127,7 @@ LATEST_RELEASE=`echo $MANIFEST | jq -r '.latest.release'`
 CURRENT_RELEASE=`cat .server_current`
 if [ $LATEST_RELEASE != "$CURRENT_RELEASE" ]; then
   URL_ARGUMENTS=`echo $MANIFEST | jq -r ".versions | map(select(.id == \"${LATEST_RELEASE}\"))[0].url"`
-  
+
   URL_SERVER_DL=`curl $URL_ARGUMENTS | jq -r "select(.id == \"${LATEST_RELEASE}\").downloads.server.url"`
   wget -q $URL_SERVER_DL -O server.jar
   echo $LATEST_RELEASE > .server_current
