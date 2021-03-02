@@ -45,7 +45,7 @@ set -x
     : "EULA" && {
         if [[ -z '@@@EULA_ACCEPTED@@@' ]]; then
             echo "You must agree to the EULA" >&2
-            exit 2
+            exit 1
         fi
     }
 }
