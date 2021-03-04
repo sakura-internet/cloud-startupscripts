@@ -39,7 +39,7 @@ _motd() {
 }
 
 _motd start
-set -x
+set -eux
 
 : "pre check" && {
     : "EULA" && {
@@ -50,46 +50,20 @@ set -x
     }
 }
 
-# Open port 25565/tcp
-if [ -e "/etc/network/if-pre-up.d/iptables" ]; then
-    iptables -I INPUT -p tcp -m tcp --dport 25565 -j ACCEPT
-    iptables-save >/etc/iptables/iptables.rules
-else
-    cat <<-'EOF' >/etc/network/if-pre-up.d/iptables
-	#!/bin/sh
-	iptables-restore < /etc/iptables/iptables.rules
-	exit 0
-	EOF
-    chmod 755 /etc/network/if-pre-up.d/iptables
-
-    mkdir /etc/iptables
-    cat <<-'EOF' >/etc/iptables/iptables.rules
-	*filter
-	:INPUT ACCEPT [0:0]
-	:FORWARD ACCEPT [0:0]
-	:OUTPUT ACCEPT [0:0]
-	-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-	-A INPUT -p icmp -j ACCEPT
-	-A INPUT -i lo -j ACCEPT
-	-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
-	-A INPUT -m state --state NEW -m tcp -p tcp --dport 25565 -j ACCEPT
-	-A INPUT -j REJECT --reject-with icmp-host-prohibited
-	-A FORWARD -j REJECT --reject-with icmp-host-prohibited
-	COMMIT
-	EOF
-
-    iptables-restore < /etc/iptables/iptables.rules
-fi
+# Open port 25565
+ufw allow 22
+ufw allow 25565
+ufw enable
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt -y update || exit 1
-apt -y install curl || exit 1
-apt -y install jq || exit 1
+apt -y update
+apt -y install curl
+apt -y install jq
 # Install the Java for running Minecraft server
-apt -y install openjdk-8-jre-headless || exit 1
+apt -y install openjdk-8-jre-headless
 # Install the Screen as a background task executor
-apt -y install screen || exit 1
+apt -y install screen
 
 # Create daemon service
 cat <<EOF >/etc/systemd/system/minecraft.service
