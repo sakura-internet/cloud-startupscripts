@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# @sacloud-name "Minecraft Java Server for Ubuntu"
+# @sacloud-name "Minecraft Java Server"
 # @sacloud-once
 #
 # @sacloud-desc-begin
@@ -14,8 +14,8 @@
 #
 # @sacloud-checkbox required EULA_ACCEPTED "Minecraft使用許諾契約 (EULA) に同意して利用する"
 #
-# @sacloud-require-archive distro-ubuntu distro-ver-18.04.*
-# @sacloud-require-archive distro-ubuntu distro-ver-20.04.*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.04
+# @sacloud-require-archive distro-ubuntu distro-ver-20.04
 
 _motd() {
 	log=$(ls /root/.sacloud-api/notes/*log)
