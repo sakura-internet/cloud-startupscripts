@@ -53,6 +53,7 @@ set -eux
 # Open port 25565
 ufw allow 22
 ufw allow 25565
+ufw default deny
 ufw enable
 
 export DEBIAN_FRONTEND=noninteractive
