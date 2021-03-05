@@ -86,7 +86,7 @@ mkdir /opt/minecraft
 # Generate a server start script
 cat <<EOF >/opt/minecraft/start_server.sh
 #!/bin/bash
-/opt/minecraft/update_server.sh ; cd /opt/minecraft && java -Xms1024M -Xmx1024M -jar server.jar nogui
+/opt/minecraft/update_server.sh ; cd /opt/minecraft && java -jar server.jar nogui
 EOF
 chmod +x /opt/minecraft/start_server.sh
 
