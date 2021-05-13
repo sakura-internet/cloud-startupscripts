@@ -3,8 +3,9 @@
 # @sacloud-name "Rancher2セットアップ"
 # @sacloud-once
 #
-# @sacloud-require-archive distro-centos distro-ver-7
-# 
+# @sacloud-require-archive distro-centos distro-ver-7*
+# @sacloud-require-archive distro-centos distro-ver-8*
+#
 # 動作環境 https://rancher.com/docs/rancher/v2.x/en/installation/requirements/#cpu-and-memory
 # @sacloud-tag @require-memory-gib>=4
 #
@@ -16,7 +17,7 @@
 #   (ユーザー名: admin, パスワード: 入力したRancher管理ユーザーのパスワード)
 #
 #   ※ セットアップには5分程度時間がかかります。
-#   （このスクリプトは、CentOS7.Xでのみ動作します）
+#   （このスクリプトは、CentOS7.X/CentOS8.X/CentOS8Streamでのみ動作します）
 #   ※ 事前に「作成・削除」の権限を持つAPIキーの登録が必要です。
 # @sacloud-desc-end
 #
@@ -27,6 +28,7 @@
 #  is1a "is1a"
 #  is1b "is1b"
 #  tk1a "tk1a"
+#  tk1b "tk1b"
 # @sacloud-select-end
 # @sacloud-apikey required permission=create AK "APIキー"
 
@@ -60,8 +62,11 @@ DEFAULT_DISK_SIZE=40
 DEFAULT_OS_TYPE=rancheros
 
 # 必要なミドルウェアを全てインストール
-yum makecache fast || _motd fail
-yum -y install curl docker jq || _motd fail
+yum makecache || _motd fail
+yum install -y yum-utils || _motd fail
+yum-config-manager -y --add-repo https://download.docker.com/linux/centos/docker-ce.repo || _motd fail
+yum -y install curl docker-ce docker-ce-cli containerd.io jq || _motd fail
+
 systemctl enable docker.service || _motd fail
 systemctl start docker.service || _motd fail
 
