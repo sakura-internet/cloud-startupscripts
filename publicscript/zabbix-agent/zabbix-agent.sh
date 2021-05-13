@@ -1,18 +1,13 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # @sacloud-name "zabbix-agent"
 # @sacloud-once
-# @sacloud-desc このスクリプトはZabbix Agentをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
-# @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
-#
-# @sacloud-select-begin required default=4.0 ZV "Zabbix Version"
-#  4.0 "4.0"
-#  3.4 "3.4"
-#  3.0 "3.0"
-#  2.2 "2.2"
-# @sacloud-select-end
+# @sacloud-desc-begin
+#   さくらのクラウド上で Zabbix Agent を 自動的にセットアップするスクリプトです。
+#   このスクリプトは、CentOS8.X/CentOS8Streamでのみ動作します
+# @sacloud-desc-end
 # @sacloud-textarea heredoc ADDR "登録するZabbixサーバのIPアドレス(ipv4)を1行に1つ入力してください。" ex="127.0.0.1"
-# @sacloud-require-archive distro-centos distro-ver-7
+# @sacloud-require-archive distro-centos distro-ver-8
 
 #---------UPDATE /etc/motd----------#
 _motd() {
@@ -36,20 +31,18 @@ trap '_motd fail' ERR
 _motd start
 
 #---------SET sacloud values---------#
-ZABBIX_VERSION=@@@ZV@@@
+ZABBIX_VERSION=5.0
 IPLIST=/tmp/ip.list
 cat > ${IPLIST} @@@ADDR@@@
 
-if [ -z "${ZABBIX_VERSION}" ]
+if [ $(grep -c "CentOS Stream release 8" /etc/redhat-release) -eq 1 ]
 then
-	ZABBIX_VERSION=4.0
+	sleep 30
 fi
-
 #---------START OF zabbix-agent---------#
-RPM_URL1=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.noarch.rpm
-RPM_URL2=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.centos.noarch.rpm
-rpm -ivh ${RPM_URL1} || rpm -ivh ${RPM_URL2}
-yum -y install zabbix-agent zabbix-sender
+RPM_URL=https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/8/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el8.noarch.rpm
+rpm -ivh ${RPM_URL}
+dnf -y install zabbix-agent zabbix-sender
 
 ZBX_SERVERS=127.0.0.1
 for IPADDR in $(egrep "([0-9]+\.){3}[0-9]+$" ${IPLIST})
@@ -76,4 +69,3 @@ firewall-cmd --reload
 #---------END OF firewalld---------#
 
 _motd end
-

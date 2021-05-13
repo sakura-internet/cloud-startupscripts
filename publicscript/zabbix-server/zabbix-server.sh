@@ -1,19 +1,20 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # @sacloud-name "zabbix-server"
 # @sacloud-once
-# @sacloud-desc このスクリプトはZabbix Serverをセットアップします。(このスクリプトは、CentOS7.Xでのみ動作します。)
-# @sacloud-desc ZabbixのURLは http://IP Address/zabbix です。
+# @sacloud-desc-begin
+#   さくらのクラウド上で Zabbix Server 5.0 を 自動的にセットアップするスクリプトです。
+#   このスクリプトは、CentOS8.X/CentOS8Streamでのみ動作します
+#   ※ セットアップには5分程度時間がかかります。
 #
-# @sacloud-select-begin required default=4.0 ZV "Zabbix Version"
-#  4.0 "4.0"
-#  3.4 "3.4"
-#  3.0 "3.0"
-#  2.2 "2.2"
+#   URL http://サーバのIPアドレス/zabbix/
+#   デフォルトのログイン情報 ユーザー名: Admin, パスワード: zabbix
+# @sacloud-desc-end
+#
 # @sacloud-select-end
 # @sacloud-password ZP "Zabbix WebのAdminアカウントのパスワード変更"
 # @sacloud-text integer min=1024 max=65534 HPORT "httpdのport番号変更(1024以上、65534以下を指定してください)"
-# @sacloud-require-archive distro-centos distro-ver-7
+# @sacloud-require-archive distro-centos distro-ver-8
 
 #---------UPDATE /etc/motd----------#
 _motd() {
@@ -37,21 +38,22 @@ trap '_motd fail' ERR
 _motd start
 
 #---------SET sacloud values---------#
-ZABBIX_VERSION=@@@ZV@@@
 ZABBIX_PASSWORD=@@@ZP@@@
 HTTPD_PORT=@@@HPORT@@@
+ZABBIX_VERSION=5.0
 
-if [ -z "${ZABBIX_VERSION}" ]
+if [ $(grep -c "CentOS Stream release 8" /etc/redhat-release) -eq 1 ]
 then
-	ZABBIX_VERSION=4.0
+	sleep 30
 fi
-
 #---------START OF mysql-server---------#
-yum -y install expect mariadb-server
-systemctl enable mariadb
-systemctl start mariadb
+dnf -y install mysql-server expect
+systemctl enable mysqld
+systemctl start mysqld
 
 PASSWORD=$(mkpasswd -l 12 -d 3 -c 3 -C 3 -s 0)
+
+(mysqld --initialize-insecure || true)
 mysqladmin -u root password "${PASSWORD}"
 
 cat <<_EOL_> /root/.my.cnf
@@ -64,34 +66,38 @@ _EOL_
 chmod 600 /root/.my.cnf
 export HOME=/root
 
-mysql -e "DELETE FROM mysql.user WHERE User='';"
-mysql -e "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1');"
-mysql -e "DROP DATABASE test;"
-mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
-mysql -e "FLUSH PRIVILEGES;"
+#-- validate_passwordのコンポーネントをインストール
+mysql --user=root --password=${PASSWORD} -e "INSTALL COMPONENT 'file://component_validate_password';"
+
+cat <<_EOL_>> /etc/my.cnf.d/mysql-server.cnf
+
+default_authentication_plugin=mysql_native_password
+default_password_lifetime=0
+validate_password.length=4
+validate_password.mixed_case_count=0
+validate_password.number_count=0
+validate_password.special_char_count=0
+validate_password.policy=LOW
+_EOL_
+
+systemctl restart mysqld
+mysql -e "create database zabbix character set utf8 collate utf8_bin;"
+mysql -e "create user zabbix@localhost identified by 'zabbix';"
+mysql -e "grant all privileges on zabbix.* to zabbix@localhost ;"
+mysql -e "flush privileges;"
+
 #---------END OF mysql-server---------#
 #---------START OF zabbix-server---------#
-RPM_URL1=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.noarch.rpm
-RPM_URL2=http://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/7/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el7.centos.noarch.rpm
-rpm -ivh ${RPM_URL1} || rpm -ivh ${RPM_URL2}
-yum -y install zabbix-server zabbix-server-mysql zabbix-web-mysql zabbix-web-japanese zabbix-agent zabbix-get zabbix-sender
+RPM_URL=https://repo.zabbix.com/zabbix/${ZABBIX_VERSION}/rhel/8/x86_64/zabbix-release-${ZABBIX_VERSION}-1.el8.noarch.rpm
+rpm -ivh ${RPM_URL}
+dnf -y install zabbix-server zabbix-server-mysql zabbix-web-mysql zabbix-web-japanese zabbix-agent zabbix-get zabbix-sender zabbix-apache-conf
 
-mysql -e "create database zabbix character set utf8 collate utf8_bin;"
-mysql -e "grant all on zabbix.* to zabbix@localhost identified by 'zabbix';"
-mysql -e "FLUSH PRIVILEGES;"
-
-if [ $(echo ${ZABBIX_VERSION} | egrep -c "^[34]") -eq 1 ]
-then
-	zcat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create.sql.gz | mysql -u zabbix -pzabbix zabbix
-else
-	cat /usr/share/doc/zabbix-server-mysql-${ZABBIX_VERSION}.*/create/{schema,images,data}.sql | mysql -u zabbix -pzabbix zabbix
-fi
+zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -u zabbix -pzabbix zabbix
+cat /usr/share/doc/zabbix-server-mysql/double.sql | mysql -u zabbix -pzabbix zabbix
 sed -i "/^# DBPassword=/a DBPassword=zabbix" /etc/zabbix/zabbix_server.conf
 
-systemctl enable zabbix-server
-systemctl start zabbix-server
-systemctl enable zabbix-agent
-systemctl start zabbix-agent
+systemctl enable zabbix-server zabbix-agent
+systemctl start zabbix-server zabbix-agent
 
 cat <<'_EOL_'> /etc/zabbix/web/zabbix.conf.php
 <?php
@@ -148,4 +154,3 @@ firewall-cmd --reload
 #---------END OF firewalld---------#
 
 _motd end
-
