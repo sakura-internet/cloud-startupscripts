@@ -21,7 +21,7 @@
 
 | 分類 | 名前 | 説明 |
 | --- | --- | :--- |
-| メール | [メールシステム](./publicscript/mailsystem/mailsystem.sh) | スタートアップスクリプトを実行するだけで、メールサーバやWeb UIのセットアップ、DNS設定、メールアドレス発行を自動的に行えるスクリプトです。詳しくは [ドキュメント](./publicscript/mailsystem/README.md) をご覧ください。 <br />※CentOS 7でのみ動作します |
+| メール | [メールシステム](./publicscript/mailsystem/mailsystem.sh) | スタートアップスクリプトを実行するだけで、メールサーバやWeb UIのセットアップ、DNS設定、メールアドレス発行を自動的に行えるスクリプトです。詳しくは [ドキュメント](./publicscript/mailsystem/README.md) をご覧ください。 <br />※AlmaLinux 8.x でのみ動作します |
 | Wiki | [Crowi](./publicscript/crowi/crowi.sh) | Markdown形式で記述可能な組織用コミュニケーションツール[Crowi](https://site.crowi.wiki/)をセットアップするスクリプトです。サーバ作成後はブラウザから `http://サーバのIPアドレス/installer` にアクセスすることで設定が行えます。<br />※Ubuntu 18.04 でのみ動作します |
 | Wiki | [Restyaboard](./publicscript/restyaboard/restyaboard.sh) |オープンソースのカンバンボードであるRestyaboard をセットアップします<br />サーバ作成後はブラウザより `http://サーバIPアドレス/` にアクセスすることで設定が行えます。<br />※CentOS7系のみで動作します |
 | CMS | [Drupal for Ubuntu](./publicscript/drupal_for_ubuntu/drupal_for_ubuntu.sh) | 高機能CMSであるDrupalをインストールします。<br />※Ubuntu 18.04 でのみ動作します |
