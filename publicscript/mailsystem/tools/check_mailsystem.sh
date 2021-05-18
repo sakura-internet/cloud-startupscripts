@@ -15,6 +15,9 @@ check_version() {
 		slapd)
 			VERSION=$(/usr/sbin/slapd -V 2>&1 | awk '/^@/{print $4}')
 			;;
+		389ds)
+			VERSION=$(/usr/sbin/ns-slapd -v 2>&1 | awk -F[/\ ] '/389-Directory/{print $2}')
+			;;
 		opendkim)
 			VERSION=$(/usr/sbin/opendkim -V | awk '/^opendkim/{print $NF}')
 			;;
@@ -34,10 +37,10 @@ check_version() {
 			VERSION=$(/usr/sbin/postconf | awk '/^mail_version/{print $NF}')
 			;;
 		mysql)
-			VERSION=$(/usr/bin/mysql --version | sed -e 's/, .*//' -e 's/^.*Ver/Ver/')
+			VERSION=$(/usr/bin/mysql --version | awk '{print $3}')
 			;;
 		php-fpm)
-			VERSION=$(/opt/remi/php73/root/usr/sbin/php-fpm -v | awk '/^PHP/{print $2}')
+			VERSION=$(php-fpm -v | awk '/^PHP/{print $2}')
 			;;
 		nginx)
 			VERSION=$(/usr/sbin/nginx -v 2>&1 | awk -F\/ '{print $NF}')
@@ -73,7 +76,7 @@ check_version() {
 check_proc() {
 	PROC=$1
 	USER=$2
-	if [ $(ps -eo user,cmd | grep "^${USER} " | grep ${PROC} | grep -vc grep ) -eq 0 ]
+	if [ $(ps -eo user,cmd | grep "^${USER} " | sed "s/${USER}//" | grep ${PROC} | grep -vc grep) -eq 0 ]
 	then
 		echo "ERROR: ${PROC}"
 	elif [ "${PROC}" = "master" ]
@@ -107,8 +110,16 @@ check_cert() {
 	fi
 }
 
+echo "-- Application Version --"
+for x in os 389ds dovecot clamd rspamd redis postfix mysql php-fpm nginx roundcube phpldapadmin
+do
+	check_version ${x}
+done
+
+echo
+
 echo "-- Process Check --"
-check_proc slapd ldap
+check_proc ns-slapd dirsrv 
 check_proc dovecot dovecot
 check_proc clamd clamscan
 check_proc rspamd _rspamd
@@ -120,14 +131,6 @@ check_proc nginx nginx
 
 echo
 
-echo "-- Application Version --"
-for x in os slapd dovecot clamd rspamd redis postfix mysql php-fpm nginx roundcube phpldapadmin
-do
-	check_version ${x}
-done
-
-echo
-
 for x in ${DOMAIN_LIST}
 do
 	HOST=$(hostname | sed "s/${FIRST_DOMAIN}/${x}/")
@@ -135,10 +138,12 @@ do
 	check_dns ${x} A
 	check_dns ${x} MX
 	check_dns ${x} TXT
-	check_dns ${HOST} A
 	if [ "${FIRST_DOMAIN}" = "${x}" ]
 	then
+		check_dns ${HOST} A
 		check_dns autoconfig.${x} A
+	else
+		check_dns autoconfig.${x} CNAME
 	fi
 	check_dns _dmarc.${x} TXT
 	check_dns _adsp._domainkey.${x} TXT

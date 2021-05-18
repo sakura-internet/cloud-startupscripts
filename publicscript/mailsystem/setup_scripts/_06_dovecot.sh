@@ -3,17 +3,8 @@
 source $(dirname $0)/../config.source
 echo "---- $0 ----"
 
-#-- リポジトリの設定と dovecot のインストール
-cat <<_EOL_> /etc/yum.repos.d/dovecot.repo
-[dovecot-2.3-latest]
-name=Dovecot 2.3 CentOS $releasever - \$basearch
-baseurl=http://repo.dovecot.org/ce-2.3-latest/centos/\$releasever/RPMS/\$basearch
-gpgkey=https://repo.dovecot.org/DOVECOT-REPO-GPG
-gpgcheck=1
-enabled=1
-_EOL_
-yum install -y dovecot dovecot-pigeonhole 
-yum install -y openldap-devel expat-devel bzip2-devel zlib-devel
+#-- dovecot のインストール
+dnf install -y dovecot dovecot-pigeonhole openldap-devel expat-devel bzip2-devel zlib-devel
 
 #-- dovecot の設定
 cat <<_EOL_> /etc/dovecot/local.conf
@@ -69,37 +60,54 @@ ssl_cert =
 ssl_key =
 lmtp_save_to_detail_mailbox = yes
 lda_mailbox_autocreate = yes
-_EOL_
-
-cp -p /etc/dovecot/conf.d/10-auth.conf{,.org}
-cp -p /etc/dovecot/conf.d/auth-static.conf.ext{,.org}
-sed -i 's/auth-system.conf.ext/auth-static.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
-cat <<_EOL_>/etc/dovecot/conf.d/auth-static.conf.ext
 passdb {
   driver = static
   args = nopassword=y
 }
 userdb {
-  driver = ldap
-  args = /etc/dovecot/dovecot-ldap.conf.ext
+  args = uid=dovecot gid=dovecot home=/var/dovecot/%Ld/%Ln allow_all_users=yes
+  driver = static
 }
 _EOL_
 
-cat <<_EOL_>/etc/dovecot/dovecot-ldap.conf.ext
+cnt=1
+for base in $(for domain in ${DOMAIN_LIST}
+  do
+    tmpdc=""
+    for dc in $(echo ${domain} | sed 's/\./ /g')
+    do
+      tmpdc="${tmpdc}dc=${dc},"
+    done
+    echo ${tmpdc}
+  done | sed 's/,$//')
+do
+cat <<_EOL_>>/etc/dovecot/local.conf
+userdb {
+  args = /etc/dovecot/dovecot-ldap${cnt}.conf.ext
+  driver = ldap
+}
+_EOL_
+
+cat <<_EOL_>/etc/dovecot/dovecot-ldap${cnt}.conf.ext
 hosts = ${LDAP_SERVER}
 auth_bind = yes
-base = ""
+base = ${base}
 pass_attrs=mailRoutingAddress=User,userPassword=password
-pass_filter = (&(objectClass=inetLocalMailRecipient)(mailRoutingAddress=%u))
-iterate_attrs = mailRoutingAddress=user
-iterate_filter = (&(objectClass=inetLocalMailRecipient)(mailRoutingAddress=*))
-user_filter = (&(objectClass=inetLocalMailRecipient)(mailRoutingAddress=%u))
+pass_filter = (mailRoutingAddress=%u)
 user_attrs = \
   =uid=dovecot, \
   =gid=dovecot, \
   =mail=maildir:/var/dovecot/%Ld/%Ln, \
   =home=/var/dovecot/%Ld/%Ln
+user_filter = (mailRoutingAddress=%u)
+iterate_attrs = mailRoutingAddress=user
+iterate_filter = (mailRoutingAddress=*)
 _EOL_
+
+  cnt=$(($cnt + 1))
+done
+
+sed -i 's/^\!include auth-system.conf.ext/#\|include auth-system.conf.ext/' /etc/dovecot/conf.d/10-auth.conf
 
 mkdir /var/dovecot
 chown dovecot. /var/dovecot

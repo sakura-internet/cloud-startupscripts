@@ -4,10 +4,14 @@ source $(dirname $0)/../config.source
 echo "---- $0 ----"
 
 #-- clamav のインストール
-yum install -y clamav clamav-server-systemd clamav-update
+dnf install -y clamd clamav clamav-update
 
 #-- virus database の更新
 freshclam
+
+mkdir /var/log/clamd
+chown clamscan. /var/log/clamd
+chmod 775 /var/log/clamd
 
 #-- clamd の設定ファイルの作成
 cp -p /etc/clamd.d/scan.conf{,.org}
@@ -30,17 +34,10 @@ ScanELF yes
 ScanOLE2 yes
 ScanMail yes
 ScanArchive yes
-ArchiveBlockEncrypted no
+AlertEncrypted yes
+StreamMaxLength 128M
 _EOL_
 
-mkdir /var/log/clamd
-chown clamscan /var/log/clamd
-
-#-- clamd の起動
-systemctl enable clamd@scan 
-
-#-- clamd の起動に 90秒以上かかる為、systemd のタイムアウトを 5分に変更する
-grep ^TimeoutSec /lib/systemd/system/clamd@.service >/dev/null || echo "TimeoutSec = 5min" >> /lib/systemd/system/clamd@.service
-systemctl daemon-reload
-
+#-- clamd の起動設定
+systemctl enable clamd@scan clamav-freshclam
 systemctl start clamd@scan
