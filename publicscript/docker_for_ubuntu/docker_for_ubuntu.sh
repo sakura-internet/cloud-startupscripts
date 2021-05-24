@@ -33,14 +33,14 @@ cd /root
 # Install Docker Engine.
 # Reference: https://docs.docker.com/engine/install/ubuntu/
 echo "* Uninstall old packages and install required tools"
-apt-get remove docker docker-engine docker.io containerd runc
+apt-get remove docker docker-engine docker.io containerd runc || true
 apt-get update
-apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg \
+        lsb-release
 
 echo "* Add Docker's offical GPG key"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
@@ -51,7 +51,7 @@ echo \
 
 echo "* Install Docker Engine"
 apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
+apt-get install -y docker-ce docker-ce-cli containerd.io
 
 echo "* Start Docker service and setup to start it automatically at boot"
 systemctl start docker
