@@ -21,7 +21,7 @@
 - メール参照(POP/IMAPサーバ)
   - POP over TLS(995/tcp)
   - IMAP over TLS(993/tcp)
-- Spam Filter Systemp
+- Spam Filter System
   - Rspamd 
 - Webmail
   - Roundcube
