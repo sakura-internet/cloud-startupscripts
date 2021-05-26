@@ -2,8 +2,10 @@
 DOMAIN_LIST=example.com
 FIRST_DOMAIN=example.com
 FIRST_ADDRESS=foo@example.com
+MIN_DOMAIN_LEVEL=2
+MAX_DOMAIN_LEVEL=3
 ### ldap
-ROOT_DN="cn=config"
+ROOT_DN="cn=manager"
 ROOT_PASSWORD=dummy
 LDAP_MASTER=127.0.0.1
 LDAP_SERVER=127.0.0.1

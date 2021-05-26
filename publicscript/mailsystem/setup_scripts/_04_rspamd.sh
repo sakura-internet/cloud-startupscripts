@@ -4,9 +4,11 @@ source $(dirname $0)/../config.source
 echo "---- $0 ----"
 
 #-- リポジトリの設定と rspamd, redis のインストール
-curl https://rspamd.com/rpm-stable/centos-7/rspamd.repo > /etc/yum.repos.d/rspamd.repo
-rpm --import https://rspamd.com/rpm-stable/gpg.key
-yum install -y rspamd redis
+curl -L -o /etc/yum.repos.d/rspamd.repo https://rspamd.com/rpm-stable/centos-8/rspamd.repo 
+sed -i 's/http:/https:/' /etc/yum.repos.d/rspamd.repo
+rpm --import https://rspamd.com/rpm/gpg.key || true
+(dnf install -y rspamd || true)
+dnf install -y redis
 
 mkdir /etc/rspamd/local.d/keys
 
@@ -14,6 +16,7 @@ mkdir /etc/rspamd/local.d/keys
 cat <<'_EOL_'> /etc/rspamd/local.d/options.inc
 filters = "chartable,dkim,spf,surbl,regexp,fuzzy_check";
 check_all_filters = true;
+max_message = 128Mb
 _EOL_
 
 cat <<'_EOL_'> /etc/rspamd/local.d/milter_headers.conf
@@ -28,7 +31,7 @@ _EOL_
 
 cat <<'_EOL_'> /etc/rspamd/local.d/actions.conf
 reject = null;
-add_header = 2.0 ;
+add_header = 6 ;
 greylist = null;
 _EOL_
 
@@ -98,8 +101,8 @@ _EOL_
 mkdir -p ${WORKDIR}/keys
 for domain in ${DOMAIN_LIST}
 do
-  rspamadm dkim_keygen -d ${domain} -s default -b 1024 > ${WORKDIR}/keys/${domain}.keys
-  head -16 ${WORKDIR}/keys/${domain}.keys > /etc/rspamd/local.d/keys/default.${domain}.key
+  rspamadm dkim_keygen -d ${domain} -s default -b 2048 > ${WORKDIR}/keys/${domain}.keys
+  head -28 ${WORKDIR}/keys/${domain}.keys > /etc/rspamd/local.d/keys/default.${domain}.key
   chmod 600 /etc/rspamd/local.d/keys/default.${domain}.key
   chown _rspamd. /etc/rspamd/local.d/keys/default.${domain}.key
 done
@@ -109,9 +112,8 @@ cat <<'_EOL_'> /etc/rspamd/local.d/dkim_signing.conf
 allow_hdrfrom_mismatch = true;
 sign_local = true;
 
-# subdomain の sign 対応
 use_esld = false;
-try_fallback = false;
+try_fallback = true;
 
 _EOL_
 
@@ -138,9 +140,8 @@ allow_hdrfrom_mismatch = true;
 sign_local = true;
 use_domain = "envelope";
 
-# subdomain の sign 対応
 use_esld = false;
-try_fallback = false;
+try_fallback = true;
 
 _EOL_
 
@@ -223,3 +224,11 @@ cat <<'_EOL_' > /etc/nginx/conf.d/https.d/rspamd.conf
     }
   }
 _EOL_
+
+#-- dkim record 追加
+for domain in ${DOMAIN_LIST}
+do
+  record=$(cat ${WORKDIR}/keys/${domain}.keys | tr -d '[\n\t]' | sed -e 's/"//g' -e 's/.* TXT ( //' -e 's/) ; $//')
+  usacloud dns record-add -y --name default._domainkey --type TXT --value "${record}" ${domain}
+done
+
