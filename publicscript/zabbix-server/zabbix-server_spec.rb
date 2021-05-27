@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-services = %w(httpd mariadb zabbix-agent zabbix-server)
+services = %w(httpd mysqld zabbix-agent zabbix-server)
 processes = %w(httpd mysqld zabbix_agentd zabbix_server)
 ports = %w(80 3306 10050 10051)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'

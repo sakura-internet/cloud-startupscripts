@@ -4,10 +4,10 @@
 # @sacloud-once
 # @sacloud-desc-begin
 #   さくらのクラウド上で Zabbix Agent を 自動的にセットアップするスクリプトです。
-#   このスクリプトは、CentOS8.X/CentOS8Streamでのみ動作します
+#   このスクリプトは、AlmaLinux 8.X でのみ動作します
 # @sacloud-desc-end
 # @sacloud-textarea heredoc ADDR "登録するZabbixサーバのIPアドレス(ipv4)を1行に1つ入力してください。" ex="127.0.0.1"
-# @sacloud-require-archive distro-centos distro-ver-8
+# @sacloud-require-archive distro-alma distro-ver-8.*
 
 #---------UPDATE /etc/motd----------#
 _motd() {
