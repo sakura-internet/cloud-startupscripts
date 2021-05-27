@@ -1,5 +1,4 @@
 #!/bin/bash -x
-
 # @sacloud-name "zabbix-agent"
 # @sacloud-once
 # @sacloud-desc-begin
