@@ -3,7 +3,7 @@
 # @sacloud-name "zabbix-agent"
 # @sacloud-once
 # @sacloud-desc-begin
-#   さくらのクラウド上で Zabbix Agent を 自動的にセットアップするスクリプトです。
+#   さくらのクラウド上で Zabbix Agent を 自動的にセットアップするスクリプトです
 #   このスクリプトは、AlmaLinux 8.X でのみ動作します
 # @sacloud-desc-end
 # @sacloud-textarea heredoc ADDR "登録するZabbixサーバのIPアドレス(ipv4)を1行に1つ入力してください。" ex="127.0.0.1"
