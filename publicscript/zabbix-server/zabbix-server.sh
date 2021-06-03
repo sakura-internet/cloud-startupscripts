@@ -3,9 +3,9 @@
 # @sacloud-name "zabbix-server"
 # @sacloud-once
 # @sacloud-desc-begin
-#   さくらのクラウド上で Zabbix Server 5.0 を 自動的にセットアップするスクリプトです。
-#   このスクリプトは、CentOS8.X/CentOS8Streamでのみ動作します
-#   ※ セットアップには5分程度時間がかかります。
+#   さくらのクラウド上で Zabbix Server 5.0 を 自動的にセットアップするスクリプトです
+#   このスクリプトは、AlmaLinux 8.X でのみ動作します
+#   セットアップには5分程度時間がかかります
 #
 #   URL http://サーバのIPアドレス/zabbix/
 #   デフォルトのログイン情報 ユーザー名: Admin, パスワード: zabbix
@@ -14,7 +14,7 @@
 # @sacloud-select-end
 # @sacloud-password ZP "Zabbix WebのAdminアカウントのパスワード変更"
 # @sacloud-text integer min=1024 max=65534 HPORT "httpdのport番号変更(1024以上、65534以下を指定してください)"
-# @sacloud-require-archive distro-centos distro-ver-8
+# @sacloud-require-archive distro-alma distro-ver-8.*
 
 #---------UPDATE /etc/motd----------#
 _motd() {
