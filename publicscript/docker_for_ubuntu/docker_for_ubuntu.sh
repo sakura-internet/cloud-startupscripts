@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 # @sacloud-once
-# @sacloud-name "Docker Engine CE for Ubuntu"
-# @sacloud-desc Docker Engine Community Edition の最新安定版をインストールします。
+# @sacloud-name "Docker Engine for Ubuntu"
+# @sacloud-desc Docker Engine の最新安定版をインストールします。
 #
 # @sacloud-require-archive distro-ubuntu
 
