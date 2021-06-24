@@ -45,13 +45,13 @@ function is_valid_prefix() {
 	fi
 
 	# $prefix < 1
-	if [ $prefix -lt 1 ]; then
+	if [ "$prefix" -lt 1 ]; then
 		echo "invalid"
     return
 	fi
 
 	# $prefix > 32
-	if [ $prefix -gt 32 ]; then
+	if [ "$prefix" -gt 32 ]; then
 		echo "invalid"
     return
 	fi
@@ -71,12 +71,12 @@ function is_valid_ip_octet() {
 	fi
 
 	# $octet < 0
-	if [ $octet -lt 0 ]; then
+	if [ "$octet" -lt 0 ]; then
     echo "invalid"
 		return
 	fi
 	# $octet > 255
-	if [ $octet -gt 255 ]; then
+	if [ "$octet" -gt 255 ]; then
     echo "invalid"
 		return
 	fi
@@ -88,8 +88,10 @@ function is_valid_ip(){
 	ipprefix=$1
 
 	# ipaddress/prefixを分割
-	octets=(`echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./\n/g" | xargs`)
-	prefix=`echo "$ipprefix" | awk -F '/' '{print $2}'`
+	read -r -a octets <<EOF
+$(echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./\n/g")
+EOF
+	prefix=$(echo "$ipprefix" | awk -F '/' '{print $2}')
 
 	# プレフィクスが1~32かどうかチェックする
 	ret=$(is_valid_prefix "$prefix")
@@ -125,7 +127,7 @@ _motd start
  
 CONFIG_FILE_NAME=10-ipsetting-generated-by-startupscript.yaml
 CONFIG_FILE_PATH=/etc/netplan/$CONFIG_FILE_NAME
-ADDRESSES=`cat @@@addresses@@@`
+ADDRESSES=$(cat @@@addresses@@@)
 
 cat <<EOF > $CONFIG_FILE_PATH
 network:
@@ -135,7 +137,7 @@ network:
 EOF
 
 COUNT=1
-echo "$ADDRESSES" | while read address;
+echo "$ADDRESSES" | while read -r address;
 do
   ETH="eth$COUNT"
   COUNT=$(( COUNT + 1 ))
