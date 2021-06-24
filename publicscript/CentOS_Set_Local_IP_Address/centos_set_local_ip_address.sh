@@ -1,10 +1,23 @@
 #!/bin/bash
 # @sacloud-once
 # @sacloud-name "IPアドレス設定スクリプト"
-# @sacloud-desc 説明文
+# @sacloud-desc-begin
+# サーバのNICにIPアドレスを割り当てるスクリプトです。
+# このスクリプトは、CentOS Stream 8 のみ動作します。
 #
-# @sacloud-text required ETH1_IP_ADDRESS "eth1に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.0.1/24"
-# @sacloud-text ETH2_IP_ADDRESS "eth2に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.1.1/24"
+# サーバが起動されましたら以下の作業を行って頂く必要がございます。
+#   1. サーバをシャットダウンする
+#   2. サーバにNICを追加する
+#   3. 追加したNICにスイッチと接続する。（スイッチは予めご用意ください。）
+#   4. サーバを起動する
+#   5. 疎通確認を行う。（pingコマンド等）
+# 
+# 注意
+#   ・hogehoge
+# @sacloud-desc-end
+#
+# @sacloud-text required ETH1_IP_ADDRESS "eth1に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.1.1/24"
+# @sacloud-text ETH2_IP_ADDRESS "eth2に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.2.1/24"
 # @sacloud-require-archive distro-centos distro-ver-8.*
 
 _motd() {
