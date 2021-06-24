@@ -5,8 +5,8 @@
 # @sacloud-text required URL "登録先のリポジトリ、またはオーガニゼーション"
 # @sacloud-text required TOKEN "トークン"
 # @sacloud-text NAME "Runnerの名前"
-# @sacloud-require-archive distro-ubuntu-18.*
-# @sacloud-require-archive distro-ubuntu-20.*
+# @sacloud-require-archive distro-ubuntu distro-ver-18.*
+# @sacloud-require-archive distro-ubuntu distro-ver-20.*
 
 _motd() {
  LOG=$(ls /root/.sacloud-api/notes/*log)
