@@ -6,8 +6,25 @@
 # @sacloud-text required ETH1_IP_ADDRESS "eth1に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.0.1/24"
 # @sacloud-text ETH2_IP_ADDRESS "eth2に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.1.1/24"
 
+_motd() {
+ LOG=$(ls /root/.sacloud-api/notes/*log)
+ case $1 in
+  start)
+   echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+  ;;
+  fail)
+   echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+   exit 1
+  ;;
+  end)
+   cp -f /dev/null /etc/motd
+  ;;
+ esac
+}
 
+_motd start
 set -eux
+trap '_motd fail' ERR
 
 # パラメータ
 ETH1_IP_ADDRESS=@@@ETH1_IP_ADDRESS@@@
@@ -29,3 +46,5 @@ fi
 
 # 設定完了を表示
 echo "* 設定完了"
+
+_motd end
