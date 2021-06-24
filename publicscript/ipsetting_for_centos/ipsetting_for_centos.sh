@@ -11,7 +11,7 @@
 #   3. 追加したNICにスイッチと接続する。（スイッチは予めご用意ください。）
 #   4. サーバを起動する
 #   5. 疎通確認を行う。（pingコマンド等）
-# 
+#
 # 注意
 #   ・hogehoge
 # @sacloud-desc-end
@@ -46,17 +46,38 @@ ETH2_IP_ADDRESS=@@@ETH2_IP_ADDRESS@@@
 
 # eth1のIPアドレスの割り当て
 echo "* eth1のIPアドレスの割り当て"
-nmcli connection add type ethernet con-name "System eth1" ifname eth1
-nmcli connection modify "System eth1" connection.autoconnect yes ipv4.method manual ipv4.addresses "${ETH1_IP_ADDRESS}"
-nmcli connection up "System eth1"
+
+ETH1_IP=`echo "$ETH1_IP_ADDRESS" | awk -F '/' '{print $1}'`
+ETH1_PREFIX=`echo "$ETH1_IP_ADDRESS" | awk -F '/' '{print $2}'`
+
+cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-eth1
+DEVICE=eth1
+BOOTPROTO=static
+ONBOOT=yes
+TYPE="Ethernet"
+IPADDR=$ETH1_IP
+PREFIX=$ETH1_PREFIX
+EOF
 
 # eth2のIPアドレスの割り当て
 if [ -n "$ETH2_IP_ADDRESS" ]; then
-    echo "* eth2のIPアドレスの割り当て"
-    nmcli connection add type ethernet con-name "System eth2" ifname eth2
-    nmcli connection modify "System eth2" connection.autoconnect yes ipv4.method manual ipv4.addresses "${ETH2_IP_ADDRESS}"
-    nmcli connection up "System eth2"
+  echo "* eth2のIPアドレスの割り当て"
+
+  ETH2_IP=`echo "$ETH2_IP_ADDRESS" | awk -F '/' '{print $1}'`
+  ETH2_PREFIX=`echo "$ETH2_IP_ADDRESS" | awk -F '/' '{print $2}'`
+
+  cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-eth2
+DEVICE=eth2
+BOOTPROTO=static
+ONBOOT=yes
+TYPE="Ethernet"
+IPADDR=$ETH2_IP
+PREFIX=$ETH2_PREFIX
+EOF
 fi
+
+# 設定の反映
+systemctl restart NetworkManager
 
 # 設定完了を表示
 echo "* 設定完了"
