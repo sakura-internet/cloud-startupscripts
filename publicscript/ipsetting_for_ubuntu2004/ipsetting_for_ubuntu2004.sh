@@ -14,18 +14,18 @@
 # @sacloud-textarea heredoc required addresses "IPアドレス/プレフィクス"
 
 _motd() {
- LOG=$(ls /root/.sacloud-api/notes/*log)
- case $1 in
-  start)
-   echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-  ;;
-  fail)
-   echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
-   exit 1
-  ;;
-  end)
-   cp -f /dev/null /etc/motd
-  ;;
+  LOG=$(ls /root/.sacloud-api/notes/*log)
+  case $1 in
+    start)
+      echo -e "\n#-- Startup-script is \\033[0;32mrunning\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+    ;;
+    fail)
+      echo -e "\n#-- Startup-script \\033[0;31mfailed\\033[0;39m. --#\n\nPlease check the log file: ${LOG}\n" > /etc/motd
+      exit 1
+    ;;
+    end)
+      cp -f /dev/null /etc/motd
+    ;;
  esac
 }
 
@@ -50,15 +50,15 @@ EOF
 COUNT=1
 echo "$ADDRESSES" | while read address;
 do
-	ETH="eth$COUNT"
-	COUNT=$(( COUNT + 1 ))
-	if [ "$address" = "" ]; then
-		echo "skip: $ETH"
-		continue
-	fi
-	# TODO: $addressがinvalidなIPのチェック
+  ETH="eth$COUNT"
+  COUNT=$(( COUNT + 1 ))
+  if [ "$address" = "" ]; then
+    echo "skip: $ETH"
+    continue
+  fi
+  # TODO: $addressがinvalidなIPのチェック
 
-	cat <<EOF >> $CONFIG_FILE_PATH
+  cat <<EOF >> $CONFIG_FILE_PATH
     $ETH:
       addresses:
         - $address
