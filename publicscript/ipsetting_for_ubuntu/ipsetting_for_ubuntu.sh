@@ -89,7 +89,7 @@ function is_valid_ip(){
 
 	# ipaddress/prefixを分割
 	read -r -a octets <<EOF
-$(echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./\n/g")
+$(echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./ /g")
 EOF
 	prefix=$(echo "$ipprefix" | awk -F '/' '{print $2}')
 
@@ -105,7 +105,7 @@ EOF
 	for octet in "${octets[@]}"
 	do
 		ret=$(is_valid_ip_octet "$octet")
-		if [ "$ret" = "1" ]; then
+		if [ "$ret" = "invalid" ]; then
       echo "invalid"
 			return
 		fi
