@@ -45,19 +45,26 @@ network:
   ethernets:
 EOF
 
+# TODO: eth0もスイッチに繋ぐ場合は0からにする
+#	グローバルorスイッチの選択をできるようにする
 COUNT=1
 echo "$ADDRESSES" | while read address;
 do
-	# TODO: $addressが空白またはinvalidなIPのチェック
+	ETH="eth$COUNT"
+	COUNT=$(( COUNT + 1 ))
+	if [ "$address" = "" ]; then
+		echo "skip: $ETH"
+		continue
+	fi
+	# TODO: $addressがinvalidなIPのチェック
 
 	cat <<EOF >> $CONFIG_FILE_PATH
-    eth$COUNT:
+    $ETH:
       addresses:
         - $address
       dhcp4: 'no'
       dhcp6: 'no'
 EOF
-	COUNT=$(( COUNT + 1 ))
 done
 
 netplan apply
