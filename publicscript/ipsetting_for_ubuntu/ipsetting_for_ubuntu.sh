@@ -1,5 +1,6 @@
 #!/bin/bash
 # @sacloud-name "IPアドレス設定スクリプト for Ubuntu"
+# @sacloud-require-archive distro-ubuntu distro-ver-20.04.*
 # @sacloud-once
 # @sacloud-desc-begin
 # IPアドレス/プレフィクスを1行ずつ記入してください。
