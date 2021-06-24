@@ -16,7 +16,7 @@
 #
 # @sacloud-text required ETH1_IP_ADDRESS "eth1に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.1.1/24"
 # @sacloud-text ETH2_IP_ADDRESS "eth2に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.2.1/24"
-# @sacloud-require-archive distro-centos distro-ver-8.*
+# @sacloud-require-archive distro-centos distro-ver-8
 
 _motd() {
  LOG=$(ls /root/.sacloud-api/notes/*log)
