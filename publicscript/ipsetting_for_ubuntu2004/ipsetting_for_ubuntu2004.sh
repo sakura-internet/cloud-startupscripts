@@ -1,4 +1,5 @@
 #!/bin/bash
+# @sacloud-name "IPアドレス設定スクリプト for Ubuntu"
 # @sacloud-once
 # @sacloud-desc-begin
 # IPアドレス/プレフィクスを1行ずつ記入してください。
