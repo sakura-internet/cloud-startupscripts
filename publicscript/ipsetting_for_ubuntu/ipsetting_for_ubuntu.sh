@@ -34,6 +34,93 @@ _motd() {
 set -eux
 trap "_motd fail" ERR
 
+# 1 <= $prefix <= 32 であるか
+function is_valid_prefix() {
+	prefix=$1
+
+	# 数値かどうか
+	if [[ ! "$prefix" =~ ^[0-9]+$ ]]; then
+		echo "invalid"
+    return
+	fi
+
+	# $prefix < 1
+	if [ $prefix -lt 1 ]; then
+		echo "invalid"
+    return
+	fi
+
+	# $prefix > 32
+	if [ $prefix -gt 32 ]; then
+		echo "invalid"
+    return
+	fi
+
+  echo "valid"
+  return
+}
+
+# 0 <= $octet <= 255 であるか
+function is_valid_ip_octet() {
+	octet=$1
+
+	# 数値かどうか
+	if [[ ! "$octet" =~ ^[0-9]+$ ]]; then
+    echo "invalid"
+		return
+	fi
+
+	# $octet < 0
+	if [ $octet -lt 0 ]; then
+    echo "invalid"
+		return
+	fi
+	# $octet > 255
+	if [ $octet -gt 255 ]; then
+    echo "invalid"
+		return
+	fi
+  echo "valid"
+	return
+}
+
+function is_valid_ip(){
+	ipprefix=$1
+
+	# ipaddress/prefixを分割
+	octets=(`echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./\n/g" | xargs`)
+	prefix=`echo "$ipprefix" | awk -F '/' '{print $2}'`
+
+	# プレフィクスが1~32かどうかチェックする
+	ret=$(is_valid_prefix "$prefix")
+	if [ "$ret" = "invalid" ]; then
+		echo "invalid"
+    return
+	fi
+
+	count=0
+	# 各オクテットが0~255の数値かどうかをチェックする
+	for octet in "${octets[@]}"
+	do
+		ret=$(is_valid_ip_octet "$octet")
+		if [ "$ret" = "1" ]; then
+      echo "invalid"
+			return
+		fi
+		count=$(( count + 1 ))
+	done
+
+	# 4オクテットなら成功
+	if [ "$count" = "4" ]; then
+    echo "valid"
+		return
+	fi
+
+	# 4オクテットではないので失敗
+  echo "invalid"
+	return
+}
+
 _motd start
  
 CONFIG_FILE_NAME=10-ipsetting-generated-by-startupscript.yaml
@@ -47,18 +134,17 @@ network:
   ethernets:
 EOF
 
-# TODO: eth0もスイッチに繋ぐ場合は0からにする
-#	グローバルorスイッチの選択をできるようにする
 COUNT=1
 echo "$ADDRESSES" | while read address;
 do
   ETH="eth$COUNT"
   COUNT=$(( COUNT + 1 ))
-  if [ "$address" = "" ]; then
-    echo "skip: $ETH"
+
+  ret=$(is_valid_ip "$address")
+  if [ "$ret" = "invalid" ]; then
+    echo "$ETH: skip. $address"
     continue
   fi
-  # TODO: $addressがinvalidなIPのチェック
 
   cat <<EOF >> $CONFIG_FILE_PATH
     $ETH:
