@@ -14,8 +14,7 @@
 #
 # @sacloud-desc-end
 #
-# @sacloud-text required ETH1_IP_ADDRESS "eth1に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.1.1/24"
-# @sacloud-text ETH2_IP_ADDRESS "eth2に割り当てるローカルIPアドレス/プレフィックス" ex="192.168.2.1/24"
+# @sacloud-textarea heredoc required addresses "IPアドレス/プレフィクス"
 # @sacloud-require-archive distro-centos distro-ver-8
 
 _motd() {
@@ -39,40 +38,28 @@ set -eux
 trap '_motd fail' ERR
 
 # パラメータ
-ETH1_IP_ADDRESS=@@@ETH1_IP_ADDRESS@@@
-ETH2_IP_ADDRESS=@@@ETH2_IP_ADDRESS@@@
+ADDRESSES=$(cat @@@addresses@@@)
 
-# eth1のIPアドレスの割り当て
-echo "* eth1のIPアドレスの割り当て"
+# 各NICにIPアドレス割り当て
+COUNT=1
+echo "$ADDRESSES" | while read -r address;
+do
+  ETH="eth$COUNT"
+  COUNT=$(( COUNT + 1 ))
 
-ETH1_IP=`echo "$ETH1_IP_ADDRESS" | awk -F '/' '{print $1}'`
-ETH1_PREFIX=`echo "$ETH1_IP_ADDRESS" | awk -F '/' '{print $2}'`
+  IP=`echo "$address" | awk -F '/' '{print $1}'`
+  PREFIX=`echo "$address" | awk -F '/' '{print $2}'`
 
-cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-eth1
-DEVICE=eth1
+  # 各NICの設定コンフィグ作成
+  cat <<EOF > "/etc/sysconfig/network-scripts/ifcfg-$ETH"
+DEVICE=$ETH
 BOOTPROTO=static
 ONBOOT=yes
 TYPE="Ethernet"
-IPADDR=$ETH1_IP
-PREFIX=$ETH1_PREFIX
+IPADDR=$IP
+PREFIX=$PREFIX
 EOF
-
-# eth2のIPアドレスの割り当て
-if [ -n "$ETH2_IP_ADDRESS" ]; then
-  echo "* eth2のIPアドレスの割り当て"
-
-  ETH2_IP=`echo "$ETH2_IP_ADDRESS" | awk -F '/' '{print $1}'`
-  ETH2_PREFIX=`echo "$ETH2_IP_ADDRESS" | awk -F '/' '{print $2}'`
-
-  cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-eth2
-DEVICE=eth2
-BOOTPROTO=static
-ONBOOT=yes
-TYPE="Ethernet"
-IPADDR=$ETH2_IP
-PREFIX=$ETH2_PREFIX
-EOF
-fi
+done
 
 # 設定の反映
 systemctl restart NetworkManager
