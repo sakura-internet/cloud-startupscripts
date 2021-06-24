@@ -89,9 +89,9 @@ function is_valid_ip(){
 
 	# ipaddress/prefixを分割
 	read -r -a octets <<EOF
-$(echo "$ipprefix" | awk -F '/' '{print $1}' | sed -e "s/\./ /g")
+$(echo "$ipprefix" | awk -F '/' '{printf $1}' | sed -e "s/\./ /g")
 EOF
-	prefix=$(echo "$ipprefix" | awk -F '/' '{print $2}')
+	prefix=$(echo "$ipprefix" | awk -F '/' '{printf $2}')
 
 	# プレフィクスが1~32かどうかチェックする
 	ret=$(is_valid_prefix "$prefix")
