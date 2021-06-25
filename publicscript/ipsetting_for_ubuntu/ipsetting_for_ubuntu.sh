@@ -129,12 +129,15 @@ CONFIG_FILE_NAME=10-ipsetting-generated-by-startupscript.yaml
 CONFIG_FILE_PATH=/etc/netplan/$CONFIG_FILE_NAME
 ADDRESSES=$(cat @@@addresses@@@)
 
-cat <<EOF > $CONFIG_FILE_PATH
+HEAD=$(cat <<EOF
 network:
   renderer: networkd
   version: 2
   ethernets:
 EOF
+)
+
+echo "$HEAD" > $CONFIG_FILE_PATH
 
 COUNT=1
 echo "$ADDRESSES" | while read -r address;
@@ -156,6 +159,15 @@ do
       dhcp6: 'no'
 EOF
 done
+
+if diff <(echo "$HEAD") <(cat $CONFIG_FILE_PATH) ; then
+  # 入力されたがinvalidな値だった場合
+  # netplan applyが失敗するファイルが残ってしまうので削除して異常終了
+  echo "no config"
+  rm $CONFIG_FILE_PATH
+  _motd fail
+  exit 1
+fi
 
 netplan apply
 
