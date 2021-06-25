@@ -10,7 +10,7 @@
 #   * OS起動時、リンクアップ
 #   * ゲートウェイ指定なし
 #
-# このスクリプトは、CentOS Stream 8 のみ動作します。
+# このスクリプトは、CentOS 7, CentOS 8, CentOS Stream 8 で動作します。
 #
 #
 # 以下の入力欄には、IPアドレス/プレフィックスを1行ずつ記入してください。
@@ -35,6 +35,8 @@
 #
 # @sacloud-textarea heredoc required addresses "IPアドレス/プレフィックス" ex="192.168.1.1/24"
 #
+# @sacloud-require-archive distro-centos distro-ver-7.*
+# @sacloud-require-archive distro-centos distro-ver-8.*
 # @sacloud-require-archive distro-centos distro-ver-8
 #
 
