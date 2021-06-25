@@ -177,6 +177,7 @@ TYPE="Ethernet"
 IPADDR=$IP
 PREFIX=$PREFIX
 EOF
+    ifup $DEVICE
 done
 
 # 設定完了を表示
