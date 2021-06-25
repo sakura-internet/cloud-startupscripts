@@ -3,7 +3,18 @@
 # @sacloud-require-archive distro-ubuntu distro-ver-20.04.*
 # @sacloud-once
 # @sacloud-desc-begin
-# IPアドレス/プレフィクスを1行ずつ記入してください。
+# サーバのNICにIPアドレスを設定するスクリプトです。
+# 以下の内容で設定されます
+#  * netplanの設定ファイルを生成します。
+#    * /etc/netplan/10-ipsetting-generated-by-startupscript.yaml
+#    * アドレスの設定のみ
+#    * dhcpはオフ
+#  * netplan applyを実行します。
+# 
+# このスクリプトは、Ubuntu 20.04 で動作します。
+# 
+# 
+# 以下の入力欄に、IPアドレス/プレフィクスを1行ずつ記入してください。
 # 1行目がeth1、2行目がeth2、...というように設定されます。
 # 空白行や不正な値の場合は、そのインターフェースの設定は行われません。
 # 以下の場合はeth1, eth2, eth4にIPアドレスが設定されeth3は設定されません。
@@ -12,6 +23,13 @@
 # 192.168.20.1/24
 #
 # 192.168.40.1/24
+#
+# 以下の手順でご利用ください。
+#   1. 「作成後すぐに起動」のチェックを外して作成する
+#   2. サーバにNICを追加する
+#   3. 追加したNICにスイッチを接続する
+#   4. サーバを起動する
+#   5. IPアドレスが設定されていることを確認する
 # @sacloud-desc-end
 # @sacloud-textarea heredoc required addresses "IPアドレス/プレフィクス"
 
