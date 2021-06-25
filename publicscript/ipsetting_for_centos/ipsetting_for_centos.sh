@@ -177,9 +177,6 @@ PREFIX=$PREFIX
 EOF
 done
 
-# 設定の反映
-systemctl restart NetworkManager
-
 # 設定完了を表示
 echo "* 設定完了"
 
