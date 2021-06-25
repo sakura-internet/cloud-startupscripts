@@ -154,12 +154,12 @@ ADDRESSES=$(cat @@@addresses@@@)
 COUNT=1
 echo "$ADDRESSES" | while read -r address;
 do
-  ETH="eth$COUNT"
+  DEVICE="eth$COUNT"
   COUNT=$(( COUNT + 1 ))
 
   ret=$(is_valid_ip "$address")
   if [ "$ret" = "invalid" ]; then
-    echo "$ETH: skip. $address"
+    echo "$DEVICE: skip. $address"
     continue
   fi
 
@@ -167,8 +167,8 @@ do
   PREFIX=`echo "$address" | awk -F '/' '{print $2}'`
 
   # 各NICのconfigファイル作成
-  cat <<EOF > "/etc/sysconfig/network-scripts/ifcfg-$ETH"
-DEVICE=$ETH
+  cat <<EOF > "/etc/sysconfig/network-scripts/ifcfg-$DEVICE"
+DEVICE=$DEVICE
 BOOTPROTO=static
 ONBOOT=yes
 TYPE="Ethernet"
