@@ -2,8 +2,8 @@
 # @sacloud-once
 # @sacloud-name "GithubActions SelfHostedRunner"
 # @sacloud-desc GithubActions SelfHostedRunnerをセットアップします。
-# @sacloud-password required URL "登録先のリポジトリ、またはオーガニゼーション"
-# @sacloud-text required TOKEN "トークン"
+# @sacloud-text required URL "登録先のリポジトリ、またはオーガニゼーション"
+# @sacloud-password required TOKEN "トークン"
 # @sacloud-text NAME "Runnerの名前(省略可、全角不可)"
 # @sacloud-require-archive distro-ubuntu distro-ver-18.*
 # @sacloud-require-archive distro-ubuntu distro-ver-20.*
