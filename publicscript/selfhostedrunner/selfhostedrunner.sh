@@ -1,7 +1,7 @@
 #!/bin/bash
 # @sacloud-once
-# @sacloud-name "GithubActions SelfHostedRunner"
-# @sacloud-desc GithubActions SelfHostedRunnerをセットアップします。
+# @sacloud-name "SelfHostedRunner"
+# @sacloud-desc SelfHostedRunnerをセットアップします。
 # @sacloud-text required URL "登録先のリポジトリ、またはオーガニゼーション"
 # @sacloud-password required TOKEN "トークン"
 # @sacloud-text NAME "Runnerの名前(省略可、全角不可)"
