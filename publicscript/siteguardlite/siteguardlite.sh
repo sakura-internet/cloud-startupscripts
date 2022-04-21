@@ -4,10 +4,11 @@
 # @sacloud-desc WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。
 # @sacloud-desc さくらのクラウドではEGセキュアソリューションズ株式会社が開発する純国産のホスト型WAF製品「SiteGuard Server Edition」をさくらのクラウド向け特別版として無料で提供しています。
 # @sacloud-desc 完了後自動再起動します。
-# @sacloud-desc （このスクリプトは CentOS 7.X, 8.X で動作します）
+# @sacloud-desc （このスクリプトは CentOS 7.X, 8.X, AlmaLinux 8.X で動作します）
 # @sacloud-desc セットアップ完了後、ご利用ガイド、管理者用ガイドを参照し初期設定を実施してください。
 # @sacloud-require-archive distro-centos distro-ver-7.*
 # @sacloud-require-archive distro-centos distro-ver-8.*
+# @sacloud-require-archive distro-alma distro-ver-8.*
 ## ScriptName : CentOS_SiteGuardServerEdition-Apache
 #===== Startup Script Motd Monitor =====#
 _motd() {
@@ -36,7 +37,7 @@ firewall-cmd --add-port=9443/tcp --zone=public --permanent
 firewall-cmd --reload
 
 yum install -y httpd glibc perl wget unzip openssl make file java mod_ssl expect
-file_name="siteguard-server-edition-5.00-0.apache.x86_64.rpm"
+file_name="siteguard-server-edition-5.00-1.apache.x86_64.rpm"
 wget -q "http://progeny.sakura.ad.jp/siteguard/5.0.0/apache/${file_name}" -P /root/.sakuracloud
 rpm -Uvh "/root/.sakuracloud/${file_name}"
 
