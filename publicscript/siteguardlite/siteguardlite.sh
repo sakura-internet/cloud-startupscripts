@@ -1,5 +1,5 @@
 #!/bin/bash
-# @sacloud-name "SiteGuard Server Edition for CentOS"
+# @sacloud-name "SiteGuard Server Edition"
 # @sacloud-once
 # @sacloud-desc WAF(Web Application Firewall)は、これまでのL3ファイアウォールでは防御することが難しかった、Web上で動作するアプリケーションなどのL7への攻撃検知・防御や、アクセス制御機構などを提供するものです。
 # @sacloud-desc さくらのクラウドではEGセキュアソリューションズ株式会社が開発する純国産のホスト型WAF製品「SiteGuard Server Edition」をさくらのクラウド向け特別版として無料で提供しています。
