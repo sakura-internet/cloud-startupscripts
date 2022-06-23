@@ -18,7 +18,7 @@
 # @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと Let's Encrypt の証明書をセットアップします) (ドメインを設定する場合は必須)"
 # @sacloud-text DOMAIN_ZONE "さくらのクラウドDNSで管理しているDNSゾーン名 (ドメインを設定する場合は必須)" ex="example.com"
 # @sacloud-text SUBDOMAIN "サブドメイン(未入力の場合はDNSゾーン名でセットアップします。) (ドメインを設定する場合は必須)" ex="code"
-# @sacloud-text shellarg maxlen=128 ex=example@sakura.ne.jp EMAIL "Let's Encryptの証明書発行で利用するメールアドレス (HTTPS接続の場合は必須)"
+# @sacloud-text shellarg maxlen=128 ex=example@sakura.ne.jp EMAIL "Let's Encryptの証明書発行で利用するメールアドレス (ドメインを設定する場合は必須)"
 # @sacloud-password required shellarg maxlen=128 ex=test123# PASSWORD "code serverで利用するパスワード"
 _motd() {
   LOG=$(ls /root/.sacloud-api/notes/*log)
