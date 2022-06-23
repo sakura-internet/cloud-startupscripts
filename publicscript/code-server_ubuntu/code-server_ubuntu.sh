@@ -35,7 +35,7 @@ _motd() {
   esac
 }
 
-set -eux
+set -ex
 trap '_motd fail' ERR
 
 _motd start
@@ -75,9 +75,9 @@ if [ -n "${DOMAIN_ZONE}" ]; then
   IS_DOMAIN_ZONE=1
 fi
 
-SERVER_NAME=""
+SERVER_NAME='~^(.+)$'
 if [ "$SSL" = 1 -a "$IS_DOMAIN_ZONE" = 1 ]; then
-  SERVER_NAME="server_name $DOMAIN;"
+  SERVER_NAME="$DOMAIN;"
 fi
 
 apt -y install nginx python3-certbot-nginx
@@ -85,7 +85,8 @@ cat <<EOF >/etc/nginx/sites-available/code-server
 server {
     listen 80;
     listen [::]:80;
-    $SERVER_NAME
+    server_name $SERVER_NAME;
+
     location / {
       proxy_pass http://localhost:8080/;
       proxy_set_header Host \$host;
