@@ -11,13 +11,14 @@
 #   https://ドメイン名/
 #   ※ セットアップには5分程度時間がかかります。
 #   （このスクリプトは、Ubuntu 22.04 でのみ動作します）
+#   ※ インストールされるcode-serverは最新版となります。
 # @sacloud-desc-end
 #
 # code server の管理ユーザーの入力フォームの設定
 # @sacloud-apikey permission=create AK "APIキー(DNSのAレコードと Let's Encrypt の証明書をセットアップします)"
-# @sacloud-text DOMAIN_ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須です)" ex="example.com"
-# @sacloud-text SUBDOMAIN "サブドメイン(上記で指定したDNSゾーン名に追加するサブドメイン。未入力の場合はDNSゾーン名でセットアップします)" ex="code"
-# @sacloud-text shellarg maxlen=128 ex=Admin EMAIL "Let's Encryptの証明書発行で利用するメールアドレス"
+# @sacloud-text DOMAIN_ZONE "さくらのクラウドDNSで管理しているDNSゾーン名 (HTTPS接続の場合は必須)" ex="example.com"
+# @sacloud-text SUBDOMAIN "サブドメイン(未入力の場合はDNSゾーン名でセットアップします。) (HTTPS接続の場合は必須)" ex="code"
+# @sacloud-text shellarg maxlen=128 ex=example@sakura.ne.jp EMAIL "Let's Encryptの証明書発行で利用するメールアドレス (HTTPS接続の場合は必須)"
 # @sacloud-password required shellarg maxlen=128 ex=test123# PASSWORD "code serverで利用するパスワード"
 _motd() {
   LOG=$(ls /root/.sacloud-api/notes/*log)
