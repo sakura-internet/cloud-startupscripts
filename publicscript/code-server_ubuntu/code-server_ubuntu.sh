@@ -76,17 +76,19 @@ if [ -n "${DOMAIN_ZONE}" ]; then
   IS_DOMAIN_ZONE=1
 fi
 
-SERVER_NAME='~^(.+)$'
+SERVER_NAME=''
 if [ "$SSL" = 1 -a "$IS_DOMAIN_ZONE" = 1 ]; then
-  SERVER_NAME="$DOMAIN"
+  SERVER_NAME="server_name $DOMAIN;"
 fi
 
 apt -y install nginx python3-certbot-nginx
+rm /etc/nginx/sites-available/default
+rm /etc/nginx/sites-enabled/default
 cat <<EOF >/etc/nginx/sites-available/code-server
 server {
     listen 80;
     listen [::]:80;
-    server_name $SERVER_NAME;
+    $SERVER_NAME
 
     location / {
       proxy_pass http://localhost:8080/;
