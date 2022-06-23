@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-services = %w(nginx code-server)
-processes = %w(nginx code-server)
+services = %w(nginx code-server@ubuntu)
+processes = %w(nginx node)
 ports = %w(22 80 443)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
 
