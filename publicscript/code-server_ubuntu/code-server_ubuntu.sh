@@ -61,12 +61,31 @@ ufw allow 80/tcp
 ufw allow 443/tcp
 ufw enable
 # nginx install and configuration
+
+# check ssl required
+KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
+SSL=1
+if [ "${KEY}" = ":" ]; then
+  SSL=0
+fi
+
+# exist check
+IS_DOMAIN_ZONE=0
+if [ -n "${DOMAIN_ZONE}" ]; then
+  IS_DOMAIN_ZONE=1
+fi
+
+SERVER_NAME=""
+if [ "$SSL" = 1 -a "$IS_DOMAIN_ZONE" = 1 ]; then
+  SERVER_NAME="server_name $DOMAIN;"
+fi
+
 apt -y install nginx python3-certbot-nginx
 cat <<EOF >/etc/nginx/sites-available/code-server
 server {
     listen 80;
     listen [::]:80;
-    server_name $DOMAIN;
+    $SERVER_NAME
     location / {
       proxy_pass http://localhost:8080/;
       proxy_set_header Host \$host;
@@ -94,12 +113,7 @@ EOF
 chown -R $DEFAULT_USER:$DEFAULT_USER /home/$DEFAULT_USER/.config
 systemctl enable --now code-server@$DEFAULT_USER
 #systemctl restart code-server@$DEFAULT_USER
-# check ssl required
-KEY="${SACLOUD_APIKEY_ACCESS_TOKEN}:${SACLOUD_APIKEY_ACCESS_TOKEN_SECRET}"
-SSL=1
-if [ "${KEY}" = ":" ]; then
-  SSL=0
-fi
+
 # enable let's encrypt
 IPADDR=$(hostname -i | awk '{ print  $1 }')
 if [ ${SSL} -eq 1 ]; then
