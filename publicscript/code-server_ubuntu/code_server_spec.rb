@@ -2,8 +2,12 @@ require 'spec_helper'
 
 services = %w(nginx code-server@ubuntu)
 processes = %w(nginx node)
-ports = %w(22 80 443)
+ports = %w(22 80)
 logchk = 'ls /root/.sacloud-api/notes/[0-9]*.done'
+
+if Dir.exists?("/etc/letsencrypt/live")
+  ports = %w(22 80 443)
+end
 
 services.each do |service_name|
   describe service(service_name) do
