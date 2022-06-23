@@ -18,7 +18,7 @@
 # @sacloud-text DOMAIN_ZONE "さくらのクラウドDNSで管理しているDNSゾーン名(APIキーの入力が必須です)" ex="example.com"
 # @sacloud-text SUBDOMAIN "サブドメイン(上記で指定したDNSゾーン名に追加するサブドメイン。未入力の場合はDNSゾーン名でセットアップします)" ex="code"
 # @sacloud-text shellarg maxlen=128 ex=Admin EMAIL "Let's Encryptの証明書発行で利用するメールアドレス"
-# @sacloud-text required shellarg maxlen=128 ex=test123# PASSWORD "code serverで利用するパスワード"
+# @sacloud-password required shellarg maxlen=128 ex=test123# PASSWORD "code serverで利用するパスワード"
 _motd() {
   LOG=$(ls /root/.sacloud-api/notes/*log)
   case $1 in
