@@ -77,7 +77,7 @@ fi
 
 SERVER_NAME='~^(.+)$'
 if [ "$SSL" = 1 -a "$IS_DOMAIN_ZONE" = 1 ]; then
-  SERVER_NAME="$DOMAIN;"
+  SERVER_NAME="$DOMAIN"
 fi
 
 apt -y install nginx python3-certbot-nginx
