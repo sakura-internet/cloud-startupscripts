@@ -54,8 +54,8 @@ PASSWORD=@@@PASSWORD@@@
 DEFAULT_USER=$(ls /home)
 shopt -s expand_aliases
 # update
-apt -y update
-apt -y upgrade
+apt-get -y update
+apt-get -y upgrade
 # firewall
 ufw allow 22/tcp
 ufw allow 80/tcp
@@ -81,7 +81,7 @@ if [ "$SSL" = 1 -a "$IS_DOMAIN_ZONE" = 1 ]; then
   SERVER_NAME="server_name $DOMAIN;"
 fi
 
-apt -y install nginx python3-certbot-nginx
+apt-get -y install nginx python3-certbot-nginx
 rm /etc/nginx/sites-available/default
 rm /etc/nginx/sites-enabled/default
 cat <<EOF >/etc/nginx/sites-available/code-server
@@ -122,7 +122,7 @@ systemctl enable --now code-server@$DEFAULT_USER
 IPADDR=$(hostname -i | awk '{ print  $1 }')
 if [ ${SSL} -eq 1 ]; then
   NAME="@"
-  apt -y install certbot jq
+  apt-get -y install certbot jq
   if [ -n "${DOMAIN}" ]; then
     if [ $(echo ${DOMAIN} | grep -c "\.${DOMAIN_ZONE}$") -eq 1 ]; then
       NAME=$(echo ${DOMAIN} | sed "s/\.${DOMAIN_ZONE}$//")
